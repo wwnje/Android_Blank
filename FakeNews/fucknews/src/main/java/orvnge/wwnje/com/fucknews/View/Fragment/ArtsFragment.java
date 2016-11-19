@@ -55,7 +55,7 @@ public class ArtsFragment extends Fragment {
     private int offset = 0;
     private int limit = 100;
     /*服务器地址*/
-    public static final String GET_NEWS_URL = "http://115.159.149.175/FakeNews/getNewsJSON_Arts.php";
+    public static final String GET_NEWS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Arts.php";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,10 +98,7 @@ public class ArtsFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
                 int lastposition = manager.findLastVisibleItemPosition();//获取最后一个位置
-
-
             }
         });
     }
@@ -115,8 +112,6 @@ public class ArtsFragment extends Fragment {
             public void run() {
                 mIsRefreshing = true;
                 swipeRefreshLayout.setRefreshing(true);
-
-//                offset = 0;
                 get(offset,limit);
             }
         });
@@ -125,9 +120,8 @@ public class ArtsFragment extends Fragment {
             @Override
             public void onRefresh() {
                 mIsRefreshing = true;
-
-//                offset = 0;//下拉时清零
                 adapter.clear();
+                adapter.notifyDataSetChanged();
                 get(offset,limit);
 
             }

@@ -29,7 +29,7 @@ public class TagsFragment extends Fragment {
     private LinearLayoutManager manager;
 
     /*服务器地址*/
-    public static final String GET_NEWS_URL = "http://115.159.149.175/FakeNews/getNewsJSON.php";
+    public static final String GET_NEWS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON.php";
 
     public TagsFragment() {
         // Required empty public constructor

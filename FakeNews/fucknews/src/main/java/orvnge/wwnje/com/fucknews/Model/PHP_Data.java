@@ -7,5 +7,5 @@ package orvnge.wwnje.com.fucknews.Model;
 
 
 public class PHP_Data {
-    public static  String Register_Url = "http://115.159.149.175/FakeNews/insert.php";//帐号注册
+    public static  String Register_Url = "http://www.wwnje.com/FakeNews/insert.php";//帐号注册
 }

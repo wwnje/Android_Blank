@@ -53,7 +53,7 @@ public class WorldlFragment extends Fragment {
     private int offset = 0;
     private int limit = 100;
     /*服务器地址*/
-    public static final String GET_NEWS_URL = "http://115.159.149.175/FakeNews/getNewsJSON_World.php";
+    public static final String GET_NEWS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_World.php";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,12 +63,12 @@ public class WorldlFragment extends Fragment {
         initView();
         return view;
     }
-
+    RecyclerView recyclerView;
     private void initView() {
 
         swipeRefresh();
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.lvNews);
+        recyclerView = (RecyclerView) view.findViewById(R.id.lvNews);
         adapter = new HomeTagsAdapter(getActivity());
         final LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(manager);
@@ -112,7 +112,6 @@ public class WorldlFragment extends Fragment {
             public void run() {
                 swipeRefreshLayout.setRefreshing(true);
                 mIsRefreshing = true;
-
                 get(offset,limit);
             }
         });
@@ -121,10 +120,9 @@ public class WorldlFragment extends Fragment {
             @Override
             public void onRefresh() {
                 mIsRefreshing = true;
-
                 adapter.clear();
+                adapter.notifyDataSetChanged();
                 get(offset,limit);
-
             }
         });
     }

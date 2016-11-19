@@ -37,6 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.Adapter.HomeTagsNameAdapter;
 import orvnge.wwnje.com.fucknews.Model.PHP_Data;
 import orvnge.wwnje.com.fucknews.R;
@@ -52,47 +54,35 @@ import orvnge.wwnje.com.fucknews.View.Fragment.WorldlFragment;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    NavigationView navigationView;//侧边栏
-    DrawerLayout drawer;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.nav_view) NavigationView navigationView;//侧边栏
+
+    @Bind(R.id.drawer_layout) DrawerLayout drawer;
     ActionBarDrawerToggle mDrawerToggle;
 
     ViewPager viewPager;
-    TabLayout tabs;
+    @Bind(R.id.tabs) TabLayout tabs;
     Snackbar snackbar;
-    Toolbar toolbar;
 
     public FragmentManager fm = getSupportFragmentManager();
 
-    View View_Desc;
-    EditText edit_name;
-    EditText edit_password;
-    TextView show_if_success;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
 
-        View view = View.inflate(this, R.layout.activity_home, null);
-        setContentView(view);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
-/*        //渐变展示启动屏
-        AlphaAnimation aa = new AlphaAnimation(0,1.0f);
-        aa.setDuration(2000);
-        view.startAnimation(aa);*/
-
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         // 打開 up button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        // 實作 drawer toggle 並放入 toolbar
+
         mDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawerToggle.syncState();
         drawer.setDrawerListener(mDrawerToggle);
-
-        tabs = (TabLayout) findViewById(R.id.tabs);//Tabs滑动
 
         List<Fragment> fragments = new ArrayList<>();
         Fragment fragment1 = new BlankFragment();
@@ -125,15 +115,12 @@ public class HomeActivity extends AppCompatActivity
                 tabs.setupWithViewPager(viewPager);
             }
         });
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -143,34 +130,11 @@ public class HomeActivity extends AppCompatActivity
 
 
     public boolean onNavigationItemSelected(final MenuItem item) {
-
         item.setChecked(true);
-
         switch (item.getItemId()) {
-            /*case R.id.nav_home:
-                break;
-            case R.id.nav_tags:
-                toolbar.setTitle("Like");
-                drawer.closeDrawer(navigationView);
-                fm.beginTransaction().replace(R.id.content_frame, new TagsFragment()).commit();
-                Log.d(TAG, "onNavigationItemSelected: tags");
-                break;
-            case R.id.nav_manage:
-                String read = FileUtil2.readString(android.os.Environment.getExternalStorageDirectory() + "/aa.txt", "utf-8");
-                Log.d("Log", "read" + read);
-                break;
-*/
-           /* case R.id.nav_talk:
-                toolbar.setTitle("Talk");
-                drawer.closeDrawer(navigationView);
-                startActivity(new Intent(HomeActivity.this, TalkActivity.class));
-                break;*/
-
             //若没有登陆则显示登陆界面
             case R.id.nav_me:
-
                 login_InitView();
-
                 new AlertDialog.Builder(this).setTitle("hello 发现者")
                         .setView(View_Desc)
                         .setNegativeButton("cancel", null)
@@ -302,7 +266,10 @@ public class HomeActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
+    View View_Desc;
+    EditText edit_name;
+    EditText edit_password;
+    TextView show_if_success;
     private void login_InitView() {
         //login界面数据
         View_Desc = getLayoutInflater().inflate(R.layout.dialog_login, null);

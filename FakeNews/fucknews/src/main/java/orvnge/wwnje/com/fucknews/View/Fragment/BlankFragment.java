@@ -9,10 +9,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -37,6 +39,7 @@ import orvnge.wwnje.com.fucknews.Utils.MyApplication;
  */
 public class BlankFragment extends Fragment {
 
+    private static final String TAG = "BlankFragment";
     private boolean mIsRefreshing = true;
 
 
@@ -55,8 +58,8 @@ public class BlankFragment extends Fragment {
     private int offset = 0;
     private int limit = 20;
     /*服务器地址*/
-    public static final String GET_NEWS_URL = "http://115.159.149.175/FakeNews2/getNewsJSON.php";
-
+    public static final String GET_NEWS_URL = "http://www.wwnje.com/FakeNews2/getNewsJSON.php";
+    RecyclerView recyclerView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,7 +73,7 @@ public class BlankFragment extends Fragment {
 
         swipeRefresh();
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.lvNews);
+        recyclerView = (RecyclerView) view.findViewById(R.id.lvNews);
         adapter = new HomeTagsAdapter(getActivity());
         final LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(manager);
@@ -81,13 +84,15 @@ public class BlankFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (mIsRefreshing) {
+                    Log.d(TAG, "onTouch: " + mIsRefreshing + "不能动");
+                    Toast.makeText(getActivity(), "不能动", Toast.LENGTH_SHORT).show();
                     return true;//不能动
                 } else {
+                    Log.d(TAG, "onTouch: " + mIsRefreshing + "正在动");
                     return false;
                 }
             }
         });
-
 
         //滑动事件监听
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -98,15 +103,11 @@ public class BlankFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
                 int lastposition = manager.findLastVisibleItemPosition();//获取最后一个位置
-
                 if( lastposition + 1 == adapter.getItemCount() )//最后一个位置是否等于已有
                 {
                     offset += limit; //起始位置改变
-//                    swipeRefresh();
                     swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
-
                     swipeRefreshLayout.post(new Runnable() {
                         @Override
                         public void run() {
@@ -128,6 +129,7 @@ public class BlankFragment extends Fragment {
             public void run() {
                 swipeRefreshLayout.setRefreshing(true);
                 mIsRefreshing = true;
+                Log.d(TAG, "run: ");
                 offset = 0;
                 get(offset,limit);
             }
@@ -136,11 +138,13 @@ public class BlankFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.d(TAG, "onRefresh: ");
                 mIsRefreshing = true;
                 offset = 0;//下拉时清零
                 adapter.clear();
+                adapter.notifyDataSetChanged();
                 get(offset,limit);
-
+               // recyclerView.getRecycledViewPool().clear();
             }
         });
     }
@@ -152,53 +156,55 @@ public class BlankFragment extends Fragment {
     * limit最多条数
      */
     public void get(int offset, int limit) {//传递进来
+
         Map<String, String> params = new HashMap<String, String>();
         params.put("limit", String.valueOf(limit));
         params.put("offset", String.valueOf(offset));
         JSONObject paramJsonObject = new JSONObject(params);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.POST,
-                GET_NEWS_URL,
-                paramJsonObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        adapter.notifyDataSetChanged();
-                        try {
-                            JSONArray array = response.getJSONArray("user");
-                            for (int j = 0; j < array.length(); j++)
-                            {
-                                add(array.getJSONObject(j));
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.POST,
+                    GET_NEWS_URL,
+                    paramJsonObject,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            adapter.notifyDataSetChanged();
+                            try {
+                                JSONArray array = response.getJSONArray("user");
+                                for (int j = 0; j < array.length(); j++) {
+                                    add(array.getJSONObject(j));
+                                    Log.d(TAG, "onResponse: add");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            swipeRefreshLayout.setRefreshing(false);
+                            mIsRefreshing = false;
                         }
-                        swipeRefreshLayout.setRefreshing(false);
-                        mIsRefreshing = false;
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Snackbar.make(swipeRefreshLayout, "刷新出错", Snackbar.LENGTH_LONG).setAction("刷新", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            swipeRefresh();
+                        }
+                    }).show();
+                    Log.d(TAG, "onErrorResponse: ");
+                    swipeRefreshLayout.setRefreshing(false);
+                    mIsRefreshing = false;
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type", "application/json; charset=utf-8");
+                    return headers;
+                }
+            };
+            MyApplication.getRequestQueue().add(jsonObjectRequest);
+            Log.d(TAG, "get: " + mIsRefreshing);
 
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Snackbar.make(swipeRefreshLayout, "刷新出错" , Snackbar.LENGTH_LONG).setAction("刷新", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        swipeRefresh();
-                    }
-                }).show();
-                swipeRefreshLayout.setRefreshing(false);
-                mIsRefreshing = false;
-
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> headers  = new HashMap<>();
-                headers.put("Content-Type","application/json; charset=utf-8");
-                return headers;
-            }
-        };
-        MyApplication.getRequestQueue().add(jsonObjectRequest);
     }
 
     private void add(JSONObject jsonObject) {

@@ -54,7 +54,7 @@ public class MovieFragment extends Fragment {
     private int offset = 0;
     private int limit = 100;
     /*服务器地址*/
-    public static final String GET_NEWS_URL = "http://115.159.149.175/FakeNews/getNewsJSON_Movie.php";
+    public static final String GET_NEWS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Movie.php";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -125,6 +125,8 @@ public class MovieFragment extends Fragment {
                 mIsRefreshing = true;
 
                 adapter.clear();
+                adapter.notifyDataSetChanged();
+
                 get(offset,limit);
 
             }
