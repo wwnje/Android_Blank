@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">fakenews beta v1.2</string>
+    <string name="app_tags">Tags</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
+    <string name="title_activity_talk">TalkActivity</string>
+
+
+    <string name="no_mail_app">没有安装邮件类App</string>
+    <string name="sdk_version">SDK版本:</string>
+    <string name="device_model">设备型号:</string>
+    <string name="mail_subject">FakeNews使用反馈于建议</string>
+    <string name="mail_account">mailto:wwnje@wwnje.com</string>
+
+    <string name="got_it">好的</string>
+    <string name="action_copyright">声明</string>t
+
+    <string name="copyright_content">
+        fakenews所使用资源若有侵权可告知以便及时删除\n
+        Beta版本问题较多若发现Bug可在侧栏about\n
+        提交建议\n
+        主要包括网络和图片的缓存优化和文章定制等\n
+        感谢你的使用\n\nAndroid 5.0以下在浏览新闻时\n
+        可能界面有不稳定的现象
+    </string>
+
+    <string name="loading">加载中…</string>
+
+    <!-- browserActivity-->
+    <string name="share_to">Share to</string>
+    <string name="what_1">文章缺失</string>
+    <string name="what_2">文章排版有错</string>
+    <string name="article">文章：</string>
+    <string name="title">标题：</string>
+
+
+    <!--nav-->
+    <string name="no_market_app">没有安装市场类App</string>
+    <string name="versionName">版本: v 1.2 beta</string>
+    <string name="v_score">评分建议</string>
+    <string name="v_bug">提交 bug</string>
+
+</resources>

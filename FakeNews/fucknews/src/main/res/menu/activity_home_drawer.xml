@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+    </group>
+    <item android:title="发现者">
+        <menu>
+            <item
+                android:id="@+id/nav_me"
+                android:title="your name" />
+            <item
+                android:id="@+id/nav_tags"
+                android:title="订阅" />
+        </menu>
+
+    </item>
+
+
+    <item android:title="联系">
+        <menu >
+            <item
+                android:id="@+id/nav_about"
+                android:title="@string/v_bug" />
+            <item
+                android:id="@+id/v_score"
+                android:title="@string/versionName" />
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <EditText
+        android:id="@+id/login_name_dialog_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="name"
+        android:singleLine="true"
+        android:gravity="top"
+        android:paddingLeft="25dp"/>
+
+    <EditText
+        android:id="@+id/login_pwd_dialog_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="password"
+        android:singleLine="true"
+        android:gravity="top"
+        android:paddingLeft="25dp"/>
+
+    <TextView
+        android:id="@+id/login_show_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
