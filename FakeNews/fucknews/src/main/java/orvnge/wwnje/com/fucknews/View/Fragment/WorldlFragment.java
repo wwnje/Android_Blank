@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import orvnge.wwnje.com.fucknews.Adapter.HomeTagsAdapter;
+import orvnge.wwnje.com.fucknews.Model.MyAPI;
 import orvnge.wwnje.com.fucknews.Model.Tags;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.Utils.MyApplication;
@@ -53,7 +54,6 @@ public class WorldlFragment extends Fragment {
     private int offset = 0;
     private int limit = 100;
     /*服务器地址*/
-    public static final String GET_NEWS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_World.php";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,7 +140,7 @@ public class WorldlFragment extends Fragment {
         JSONObject paramJsonObject = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                GET_NEWS_URL,
+                MyAPI.GET_WORLD_URL,
                 paramJsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override

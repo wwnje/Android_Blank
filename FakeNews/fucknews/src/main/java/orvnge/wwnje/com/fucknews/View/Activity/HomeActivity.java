@@ -40,7 +40,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.Adapter.HomeTagsNameAdapter;
-import orvnge.wwnje.com.fucknews.Model.PHP_Data;
+import orvnge.wwnje.com.fucknews.Model.MyAPI;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.View.Fragment.ArtsFragment;
 import orvnge.wwnje.com.fucknews.View.Fragment.BlankFragment;
@@ -142,11 +142,11 @@ public class HomeActivity extends AppCompatActivity
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //注册操作
-//                                if (!edit_name.getText().toString().equals("") && !edit_password.getText().toString().equals("")) {
-//                                    register(edit_name.getText().toString(), edit_password.getText().toString());
-//                                } else {
-//                                    Toast.makeText(HomeActivity.this, "不能为空", Toast.LENGTH_SHORT).show();
-//                                }
+                                if (!edit_name.getText().toString().equals("") && !edit_password.getText().toString().equals("")) {
+                                    register(edit_name.getText().toString(), edit_password.getText().toString());
+                                } else {
+                                    Toast.makeText(HomeActivity.this, "不能为空", Toast.LENGTH_SHORT).show();
+                                }
                                 Toast.makeText(HomeActivity.this, "手机端现不支持", Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -204,7 +204,7 @@ public class HomeActivity extends AppCompatActivity
 
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = PHP_Data.Register_Url;
+        String url = MyAPI.Register_Url;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, listener, errorListener) {
@@ -219,8 +219,6 @@ public class HomeActivity extends AppCompatActivity
         //把StringRequest对象加到请求队列里来
         requestQueue.add(stringRequest);
         Toast.makeText(HomeActivity.this, "注册操作" + "name:" + name + " pwd:" + password, Toast.LENGTH_SHORT).show();
-
-
     }
 
     Response.Listener listener = new Response.Listener() {
@@ -259,8 +257,7 @@ public class HomeActivity extends AppCompatActivity
                     }).show();
             return true;
         } else if (id == R.id.action_add_news) {
-            Toast.makeText(HomeActivity.this, "手机端现不支持", Toast.LENGTH_SHORT).show();
-            //startActivity(new Intent(HomeActivity.this, AddNewsActivity.class));
+            startActivity(new Intent(HomeActivity.this, AddNewsActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
