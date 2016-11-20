@@ -7,15 +7,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,170 +29,212 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import orvnge.wwnje.com.fucknews.adapter.HomeTagsNameAdapter;
-import orvnge.wwnje.com.fucknews.model.MyAPI;
+import orvnge.wwnje.com.fucknews.AppConstants;
+import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.view.Fragment.ArtsFragment;
+import orvnge.wwnje.com.fucknews.SharedPreferencesUtil;
+import orvnge.wwnje.com.fucknews.model.MyAPI;
 import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
-import orvnge.wwnje.com.fucknews.view.Fragment.BookFragment;
-import orvnge.wwnje.com.fucknews.view.Fragment.DesignFragment;
-import orvnge.wwnje.com.fucknews.view.Fragment.GameFragment;
-import orvnge.wwnje.com.fucknews.view.Fragment.LifeFragment;
-import orvnge.wwnje.com.fucknews.view.Fragment.MovieFragment;
-import orvnge.wwnje.com.fucknews.view.Fragment.WorldlFragment;
 
-public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends BaseActivity{
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.nav_view) NavigationView navigationView;//侧边栏
-
-    @Bind(R.id.drawer_layout) DrawerLayout drawer;
-    ActionBarDrawerToggle mDrawerToggle;
-
-    ViewPager viewPager;
-    @Bind(R.id.tabs) TabLayout tabs;
-    Snackbar snackbar;
-
-    public FragmentManager fm = getSupportFragmentManager();
-
-
-
+    private Snackbar snackbar;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private NavigationView navigationView;
+    private Fragment currentFragment;
+    private int currentIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-
-        // 打開 up button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        mDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.drawer_open, R.string.drawer_close);
-        mDrawerToggle.syncState();
-        drawer.setDrawerListener(mDrawerToggle);
-
-        List<Fragment> fragments = new ArrayList<>();
-        Fragment fragment1 = new BlankFragment();
-        Fragment fragment2 = new WorldlFragment();
-        Fragment fragment3 = new LifeFragment();
-        //Fragment fragment4 = new CodeFragment();
-        Fragment fragment5 = new GameFragment();
-        Fragment fragment6 = new MovieFragment();
-        //Fragment fragment7 = new TechnologyFragment();
-        Fragment fragment8 = new DesignFragment();
-        Fragment fragment9 = new ArtsFragment();
-        Fragment fragment10 = new BookFragment();
-
-        fragments.add(fragment1);
-        fragments.add(fragment2);
-        fragments.add(fragment3);
-        //fragments.add(fragment4);
-        fragments.add(fragment5);
-        fragments.add(fragment6);
-        //fragments.add(fragment7);
-        fragments.add(fragment8);
-        fragments.add(fragment9);
-        fragments.add(fragment10);
-
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPager.setAdapter(new HomeTagsNameAdapter(getSupportFragmentManager(), fragments));
-        tabs.post(new Runnable() {
-            @Override
-            public void run() {
-                tabs.setupWithViewPager(viewPager);
-            }
-        });
-        navigationView.setNavigationItemSelectedListener(this);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        initNavigationViewHeader();
+        initFragment(savedInstanceState);
     }
 
+    private void initFragment(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            currentFragment = new BlankFragment();
+            switchContent(currentFragment);
+        } else {
+            //activity销毁后记住销毁前所在页面，用于夜间模式切换
+            currentIndex = savedInstanceState.getInt(AppConstants.CURRENT_INDEX);
+            switch (this.currentIndex) {
+                case 0:
+                    currentFragment = new BlankFragment();
+                    switchContent(currentFragment);
+                    break;
+                case 1:
+                   /* currentFragment = new WorldlFragment();
+                    switchContent(currentFragment);*/
+                    break;
+                case 2:
+                    /*currentFragment = new LifeFragment();
+                    switchContent(currentFragment);*/
+                    break;
+            }
+        }
+    }
+
+    public void switchContent(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.contentLayout, fragment).commit();
+        invalidateOptionsMenu();
+    }
+
+
+
+    private void initNavigationViewHeader() {
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //设置头像，布局app:headerLayout="@layout/drawer_header"所指定的头布局
+        View view = navigationView.inflateHeaderView(R.layout.activity_home_nav_header_home);
+
+        //View mNavigationViewHeader = View.inflate(HomeActivity.this, R.layout.drawer_header, null);
+        //navigationView.addHeaderView(mNavigationViewHeader);//此方法在魅族note 1，头像显示不全
+        //菜单点击事件
+        navigationView.setNavigationItemSelectedListener(new NavigationItemSelected());
+    }
+
+
+    class NavigationItemSelected implements NavigationView.OnNavigationItemSelectedListener {
+        @Override
+        public boolean onNavigationItemSelected(final MenuItem menuItem) {
+            mDrawerLayout.closeDrawers();
+            switch (menuItem.getItemId()) {
+                case R.id.nav_me:
+                    login_InitView();
+                    new AlertDialog.Builder(HomeActivity.this).setTitle("hello 发现者")
+                            .setView(View_Desc)
+                            .setNegativeButton("cancel", null)
+                            .setNeutralButton("注册", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //注册操作
+                                    if (!edit_name.getText().toString().equals("") && !edit_password.getText().toString().equals("")) {
+                                        register(edit_name.getText().toString(), edit_password.getText().toString());
+                                    } else {
+                                        Toast.makeText(HomeActivity.this, "不能为空", Toast.LENGTH_SHORT).show();
+                                    }
+                                    Toast.makeText(HomeActivity.this, "手机端现不支持", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .setPositiveButton("登陆", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    menuItem.setTitle(edit_name.getText());
+                                    //登陆操作
+                                }
+                            }).show();
+                    break;
+
+                case R.id.nav_about:
+                    snackbar =
+                            Snackbar.make(mDrawerLayout, "By wwnje", Snackbar.LENGTH_LONG)
+                                    .setAction("提交Bug", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {//提交Bug
+                                            try {
+                                                Uri uri = Uri.parse(getString(R.string.mail_account));
+                                                Intent intent = new Intent(Intent.ACTION_SENDTO, uri); //邮箱账号
+                                                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject)); //主题
+                                                intent.putExtra(Intent.EXTRA_TEXT,
+                                                        getString(R.string.device_model) + Build.MODEL   //设备
+                                                                + "\n" + getString(R.string.sdk_version)    //手机版本
+                                                                + Build.VERSION.RELEASE + "\n");
+                                                startActivity(intent);
+                                            } catch (android.content.ActivityNotFoundException ex) {
+                                                Snackbar.make(mDrawerLayout, R.string.no_mail_app, Snackbar.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                    snackbar.show();
+                    break;
+
+                case R.id.v_score: //评分
+                    try {
+                        Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    } catch (android.content.ActivityNotFoundException ex) {
+                        Snackbar.make(mDrawerLayout, R.string.no_market_app, Snackbar.LENGTH_SHORT).show();
+                    }
+                    break;
+
+                case R.id.navigation_item_night:
+                    SharedPreferencesUtil.setBoolean(mActivity, AppConstants.ISNIGHT, true);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    recreate();
+                    return true;
+                case R.id.navigation_item_day:
+                    SharedPreferencesUtil.setBoolean(mActivity, AppConstants.ISNIGHT, false);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    recreate();
+                    return true;
+                /*case R.id.navigation_item_1:
+                    currentIndex = 0;
+                    menuItem.setChecked(true);
+                    currentFragment = new FristFragment();
+                    switchContent(currentFragment);
+                    return true;
+                case R.id.navigation_item_2:
+                    currentIndex = 2;
+                    menuItem.setChecked(true);
+                    currentFragment = new ThirdFragment();
+                    switchContent(currentFragment);
+                    return true;
+                case R.id.navigation_item_3:
+                    currentIndex = 1;
+                    menuItem.setChecked(true);
+                    currentFragment = new SecondFragment();
+                    switchContent(currentFragment);
+                    return true;
+                case R.id.navigation_item_night:
+                    SharedPreferencesUtil.setBoolean(mActivity, AppConstants.ISNIGHT, true);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    recreate();
+                    return true;
+                case R.id.navigation_item_day:
+                    SharedPreferencesUtil.setBoolean(mActivity, AppConstants.ISNIGHT, false);
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    recreate();
+                    return true;*/
+                default:
+                    return true;
+            }
+            return true;
+        }
+    }
 
     @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+    protected void onSaveInstanceState(Bundle outState) {
+        LogUtil.d("onSaveInstanceState=" + currentIndex);
+        outState.putInt(AppConstants.CURRENT_INDEX, currentIndex);
+        super.onSaveInstanceState(outState);
     }
 
-
-    public boolean onNavigationItemSelected(final MenuItem item) {
-        item.setChecked(true);
-        switch (item.getItemId()) {
-            //若没有登陆则显示登陆界面
-            case R.id.nav_me:
-                login_InitView();
-                new AlertDialog.Builder(this).setTitle("hello 发现者")
-                        .setView(View_Desc)
-                        .setNegativeButton("cancel", null)
-                        .setNeutralButton("注册", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //注册操作
-                                if (!edit_name.getText().toString().equals("") && !edit_password.getText().toString().equals("")) {
-                                    register(edit_name.getText().toString(), edit_password.getText().toString());
-                                } else {
-                                    Toast.makeText(HomeActivity.this, "不能为空", Toast.LENGTH_SHORT).show();
-                                }
-                                Toast.makeText(HomeActivity.this, "手机端现不支持", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .setPositiveButton("登陆", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                item.setTitle(edit_name.getText());
-                                //登陆操作
-                            }
-                        }).show();
-                break;
-
-            case R.id.nav_about:
-                snackbar =
-                        Snackbar.make(drawer, "By wwnje", Snackbar.LENGTH_LONG)
-                                .setAction("提交Bug", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {//提交Bug
-                                        try {
-                                            Uri uri = Uri.parse(getString(R.string.mail_account));
-                                            Intent intent = new Intent(Intent.ACTION_SENDTO, uri); //邮箱账号
-                                            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject)); //主题
-                                            intent.putExtra(Intent.EXTRA_TEXT,
-                                                    getString(R.string.device_model) + Build.MODEL   //设备
-                                                            + "\n" + getString(R.string.sdk_version)    //手机版本
-                                                            + Build.VERSION.RELEASE + "\n");
-                                            startActivity(intent);
-                                        } catch (android.content.ActivityNotFoundException ex) {
-                                            Snackbar.make(drawer, R.string.no_mail_app, Snackbar.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-                snackbar.show();
-                break;
-
-            case R.id.v_score: //评分
-                try {
-                    Uri uri = Uri.parse("market://details?id=" + getPackageName());
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Snackbar.make(drawer, R.string.no_market_app, Snackbar.LENGTH_SHORT).show();
+    public void initDrawer(Toolbar toolbar) {
+        if (toolbar != null) {
+            mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open, R.string.close) {
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                    super.onDrawerOpened(drawerView);
                 }
-                break;
-            default:
-                break;
+
+                @Override
+                public void onDrawerClosed(View drawerView) {
+                    super.onDrawerClosed(drawerView);
+                }
+            };
+            mDrawerToggle.syncState();
+            mDrawerLayout.addDrawerListener(mDrawerToggle);
         }
-        return true;
     }
 
     //注册方法
@@ -247,20 +286,25 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_copyright) {
-            new AlertDialog.Builder(this).setTitle("标题")
-                    .setMessage(R.string.copyright_content)
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    }).show();
-            return true;
-        } else if (id == R.id.action_add_news) {
-            startActivity(new Intent(HomeActivity.this, AddNewsActivity.class));
-        }
 
-        return super.onOptionsItemSelected(item);
+        switch (id) {
+            case R.id.action_copyright:
+                new AlertDialog.Builder(this).setTitle("标题")
+                        .setMessage(R.string.copyright_content)
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
+                break;
+            case R.id.action_add_news:
+                startActivity(new Intent(HomeActivity.this, AddNewsActivity.class));
+                break;
+            default:
+                //对没有处理的事件，交给父类来处理
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 
     View View_Desc;

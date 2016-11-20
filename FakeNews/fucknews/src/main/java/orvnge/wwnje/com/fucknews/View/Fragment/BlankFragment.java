@@ -1,231 +1,207 @@
 package orvnge.wwnje.com.fucknews.view.Fragment;
 
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import orvnge.wwnje.com.fucknews.adapter.HomeTagsAdapter;
-import orvnge.wwnje.com.fucknews.model.MyAPI;
-import orvnge.wwnje.com.fucknews.model.Tags;
+import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.utils.MyApplication;
+import orvnge.wwnje.com.fucknews.model.MyAPI;
+import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BlankFragment extends Fragment {
+public class BlankFragment extends BaseFragment {
+    private Toolbar mToolbar;
 
-    private static final String TAG = "BlankFragment";
-    private boolean mIsRefreshing = true;
-
-
-    @SuppressLint("ValidFragment")
-    public BlankFragment(String title) {
-        mTitle = title;
-    }
-
-    public BlankFragment() {
-    }
-
-    String mTitle;
-    View view;
-    private HomeTagsAdapter adapter;
-    private SwipeRefreshLayout swipeRefreshLayout;//下拉
-    private int offset = 0;
-    private int limit = 20;
-    /*服务器地址*/
-    RecyclerView recyclerView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_blank, container, false);
-
-        initView();
-        return view;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_blank, container, false);
     }
 
-    private void initView() {
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        mToolbar.setTitle(R.string.app_name);
 
-        swipeRefresh();
+        //设置标题居中
+        //mToolbar.setTitle("");
+        //TextView toolbarTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+        //toolbarTitle.setText("首页");
+        ((HomeActivity) getActivity()).initDrawer(mToolbar);
+        initTabLayout(view);
+        inflateMenu();
+        initSearchView();
+    }
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.lvNews);
-        adapter = new HomeTagsAdapter(getActivity());
-        final LinearLayoutManager manager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-
-        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+    private void initSearchView() {
+        final SearchView searchView = (SearchView) mToolbar.getMenu()
+                .findItem(R.id.menu_search).getActionView();
+        searchView.setQueryHint("搜索…");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (mIsRefreshing) {
-                    Log.d(TAG, "onTouch: " + mIsRefreshing + "不能动");
-                    Toast.makeText(getActivity(), "不能动", Toast.LENGTH_SHORT).show();
-                    return true;//不能动
-                } else {
-                    Log.d(TAG, "onTouch: " + mIsRefreshing + "正在动");
-                    return false;
-                }
+            public boolean onQueryTextSubmit(String query) {
+                showToast("query=" + query);
+                return false;
             }
-        });
 
-        //滑动事件监听
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int lastposition = manager.findLastVisibleItemPosition();//获取最后一个位置
-                if( lastposition + 1 == adapter.getItemCount() )//最后一个位置是否等于已有
-                {
-                    offset += limit; //起始位置改变
-                    swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
-                    swipeRefreshLayout.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            swipeRefreshLayout.setRefreshing(true);
-                            get(offset,limit);
-                        }
-                    });
-                }
+            public boolean onQueryTextChange(String s) {
+                LogUtil.d("onQueryTextChange=" + s);
+                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+                return false;
             }
         });
     }
 
-    //下拉刷新
-    private void swipeRefresh() {
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
-
-        swipeRefreshLayout.post(new Runnable() {
+    private void inflateMenu() {
+        mToolbar.inflateMenu(R.menu.home);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                mIsRefreshing = true;
-                Log.d(TAG, "run: ");
-                offset = 0;
-                get(offset,limit);
-            }
-        });
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Log.d(TAG, "onRefresh: ");
-                mIsRefreshing = true;
-                offset = 0;//下拉时清零
-                adapter.clear();
-                adapter.notifyDataSetChanged();
-                get(offset,limit);
-               // recyclerView.getRecycledViewPool().clear();
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_copyright:
+                        Toast.makeText(mActivity, "BlanFragment", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
             }
         });
     }
 
-    //Volley请求
-    /*
-    * POST
-    * offset起始点
-    * limit最多条数
-     */
-    public void get(int offset, int limit) {//传递进来
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("limit", String.valueOf(limit));
-        params.put("offset", String.valueOf(offset));
-        JSONObject paramJsonObject = new JSONObject(params);
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                    Request.Method.POST,
-                    MyAPI.GET_NEWS_URL,
-                    paramJsonObject,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            adapter.notifyDataSetChanged();
-                            try {
-                                JSONArray array = response.getJSONArray("user");
-                                for (int j = 0; j < array.length(); j++) {
-                                    add(array.getJSONObject(j));
-                                    Log.d(TAG, "onResponse: add");
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            swipeRefreshLayout.setRefreshing(false);
-                            mIsRefreshing = false;
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Snackbar.make(swipeRefreshLayout, "刷新出错", Snackbar.LENGTH_LONG).setAction("刷新", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            swipeRefresh();
-                        }
-                    }).show();
-                    Log.d(TAG, "onErrorResponse: ");
-                    swipeRefreshLayout.setRefreshing(false);
-                    mIsRefreshing = false;
-                }
-            }) {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Content-Type", "application/json; charset=utf-8");
-                    return headers;
-                }
-            };
-            MyApplication.getRequestQueue().add(jsonObjectRequest);
-            Log.d(TAG, "get: " + mIsRefreshing);
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    }
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
 
-    private void add(JSONObject jsonObject) {
-        try {
-            String title = jsonObject.getString("title");
-            String desc = jsonObject.getString("desc");
-            String time = jsonObject.getString("time");
-            String content_url = jsonObject.getString("content_url");
-            String pic_url = jsonObject.getString("pic_url");
-            String type = jsonObject.getString("type");
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
 
-            Tags data = new Tags();
-            data.setTitle(title);
-            data.setDesc(desc);
-            data.setTime(time);
-            data.setContent_url(content_url);
-            data.setPic_url(pic_url);
-            data.setType(type);
-            adapter.add(data);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFrag(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
         }
     }
+
+    private void initTabLayout(View view) {
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        setupViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(viewPager.getAdapter().getCount());
+        // 设置ViewPager的数据等
+        tabLayout.setupWithViewPager(viewPager);
+        //适合很多tab
+        //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        //tab均分,适合少的tab
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        //tab均分,适合少的tab,TabLayout.GRAVITY_CENTER
+        //tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        Fragment newfragment = new ContentFragment();
+        Bundle data = new Bundle();
+        data.putInt("id", 0);
+        data.putString("title", "Blank");
+        data.putString("url", MyAPI.GET_NEWS_URL);
+        newfragment.setArguments(data);
+        adapter.addFrag(newfragment, "Blank");
+
+        newfragment = new ContentFragment();
+        data = new Bundle();
+        data.putInt("id", 1);
+        data.putString("title", "World");
+        data.putString("url", MyAPI.GET_WORLD_URL);
+        newfragment.setArguments(data);
+        adapter.addFrag(newfragment, "World");
+
+
+        newfragment = new ContentFragment();
+        data = new Bundle();
+        data.putInt("id", 3);
+        data.putString("title", "Life");
+        data.putString("url", MyAPI.GET_LIFE_URL);
+        newfragment.setArguments(data);
+        adapter.addFrag(newfragment, "Life");
+
+        newfragment = new ContentFragment();
+        data = new Bundle();
+        data.putInt("id", 4);
+        data.putString("title", "Game");
+        data.putString("url", MyAPI.GET_GAME_URL);
+        newfragment.setArguments(data);
+        adapter.addFrag(newfragment, "Game");
+
+        newfragment = new ContentFragment();
+        data = new Bundle();
+        data.putInt("id", 5);
+        data.putString("title", "Design");
+        data.putString("url", MyAPI.GET_DESIGN_URL);
+        newfragment.setArguments(data);
+        adapter.addFrag(newfragment, "Design");
+
+        newfragment = new ContentFragment();
+        data = new Bundle();
+        data.putInt("id", 6);
+        data.putString("title", "Book");
+        data.putString("url", MyAPI.GET_BOOK_URL);
+        newfragment.setArguments(data);
+        adapter.addFrag(newfragment, "Book");
+
+        newfragment = new ContentFragment();
+        data = new Bundle();
+        data.putInt("id", 7);
+        data.putString("title", "Movie");
+        data.putString("url", MyAPI.GET_MOVIE_URL);
+        newfragment.setArguments(data);
+        adapter.addFrag(newfragment, "Movie");
+
+        newfragment = new ContentFragment();
+        data = new Bundle();
+        data.putInt("id", 8);
+        data.putString("title", "Arts");
+        data.putString("url", MyAPI.GET_ARTS_URL);
+        newfragment.setArguments(data);
+        adapter.addFrag(newfragment, "Arts");
+
+        viewPager.setAdapter(adapter);
+
+    }
+
 }
