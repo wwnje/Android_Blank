@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.View.Activity;
+package orvnge.wwnje.com.fucknews.view.Activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -26,7 +26,7 @@ public class BrowseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acitivy_browse);
+        setContentView(R.layout.actitivy_browse);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         title = getIntent().getStringExtra("title");

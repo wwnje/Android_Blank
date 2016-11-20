@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.Model;
+package orvnge.wwnje.com.fucknews.model;
 
 /**
  * Created by wwnje on 2016/5/22.

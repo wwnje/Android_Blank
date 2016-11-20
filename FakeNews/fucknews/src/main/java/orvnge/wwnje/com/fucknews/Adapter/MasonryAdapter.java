@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.Adapter;
+package orvnge.wwnje.com.fucknews.adapter;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -13,9 +13,9 @@ import android.widget.TextView;
 import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.View.Activity.LoveFragment;
-import orvnge.wwnje.com.fucknews.Model.Product;
-import orvnge.wwnje.com.fucknews.Utils.FileUtil;
+import orvnge.wwnje.com.fucknews.view.Activity.LoveFragment;
+import orvnge.wwnje.com.fucknews.model.Product;
+import orvnge.wwnje.com.fucknews.utils.FileUtil;
 
 /**
  * Created by wwnje on 2016/5/22.

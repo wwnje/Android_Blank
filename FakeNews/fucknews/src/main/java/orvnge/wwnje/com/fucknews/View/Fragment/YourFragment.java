@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.View.Fragment;
+package orvnge.wwnje.com.fucknews.view.Fragment;
 
 
 import android.annotation.SuppressLint;
@@ -16,10 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.SQLite.MyDatabaseHelper;
-import orvnge.wwnje.com.fucknews.Adapter.HomeTagsAdapter;
-import orvnge.wwnje.com.fucknews.Model.Tags;
-import orvnge.wwnje.com.fucknews.Utils.FileUtil;
+import orvnge.wwnje.com.fucknews.utils.MyDatabaseHelper;
+import orvnge.wwnje.com.fucknews.adapter.HomeTagsAdapter;
+import orvnge.wwnje.com.fucknews.model.Tags;
+import orvnge.wwnje.com.fucknews.utils.FileUtil;
 
 /**
  * A simple {@link Fragment} subclass.

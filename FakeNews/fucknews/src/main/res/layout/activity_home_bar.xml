@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context=".View.Activity.HomeActivity">
+    tools:context=".view.Activity.HomeActivity">
 
-    <include layout="@layout/tools_toolbar" />
-    <include layout="@layout/content_home" />
+    <include layout="@layout/activity_home_toolbar" />
+    <include layout="@layout/activity_home_content" />
 
 
 </android.support.design.widget.CoordinatorLayout>

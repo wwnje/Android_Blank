@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.View.Activity;
+package orvnge.wwnje.com.fucknews.view.Activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;

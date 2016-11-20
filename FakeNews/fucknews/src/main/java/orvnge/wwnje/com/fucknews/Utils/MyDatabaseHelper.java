@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.SQLite;
+package orvnge.wwnje.com.fucknews.utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

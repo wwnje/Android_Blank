@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.Utils;
+package orvnge.wwnje.com.fucknews.utils;
 
 import java.io.File;
 import java.io.FileInputStream;

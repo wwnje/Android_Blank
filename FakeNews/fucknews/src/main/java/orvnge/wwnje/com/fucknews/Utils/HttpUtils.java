@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.Utils;
+package orvnge.wwnje.com.fucknews.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import orvnge.wwnje.com.fucknews.View.Fragment.BlankFragment;
+import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
 
 /*
 	工具类

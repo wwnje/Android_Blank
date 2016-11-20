@@ -7,14 +7,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:name=".Utils.MyApplication"
+        android:name=".utils.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".View.Activity.HomeActivity"
+            android:name=".view.Activity.HomeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -25,17 +25,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".View.Activity.BrowseActivity"
+            android:name=".view.Activity.BrowseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".View.Activity.WelcomeActivity"
+            android:name=".view.Activity.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name=".View.Activity.AddNewsActivity"
+            android:name=".view.Activity.AddNewsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".View.Activity.MeActivity"></activity>
+        <activity android:name=".view.Activity.MeActivity"></activity>
     </application>
 
 </manifest>

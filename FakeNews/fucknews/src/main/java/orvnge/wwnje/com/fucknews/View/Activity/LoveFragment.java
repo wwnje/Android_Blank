@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.View.Activity;
+package orvnge.wwnje.com.fucknews.view.Activity;
 
 
 import android.content.Context;
@@ -17,10 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.Adapter.MasonryAdapter;
-import orvnge.wwnje.com.fucknews.Model.Product;
-import orvnge.wwnje.com.fucknews.Utils.SharedPreferencesUtils;
-import orvnge.wwnje.com.fucknews.Utils.SpacesItemDecoration;
+import orvnge.wwnje.com.fucknews.adapter.MasonryAdapter;
+import orvnge.wwnje.com.fucknews.model.Product;
+import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
+import orvnge.wwnje.com.fucknews.utils.SpacesItemDecoration;
 
 /**
  * A simple {@link Fragment} subclass.

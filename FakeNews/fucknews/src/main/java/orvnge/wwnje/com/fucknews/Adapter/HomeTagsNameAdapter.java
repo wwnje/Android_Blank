@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.Adapter;
+package orvnge.wwnje.com.fucknews.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

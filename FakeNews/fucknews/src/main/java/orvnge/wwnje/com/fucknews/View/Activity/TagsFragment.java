@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.View.Activity;
+package orvnge.wwnje.com.fucknews.view.Activity;
 
 
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import orvnge.wwnje.com.fucknews.Adapter.HomeTagsAdapter;
-import orvnge.wwnje.com.fucknews.Model.Tags;
+import orvnge.wwnje.com.fucknews.adapter.HomeTagsAdapter;
+import orvnge.wwnje.com.fucknews.model.Tags;
 import orvnge.wwnje.com.fucknews.R;
 
 /**

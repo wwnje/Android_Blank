@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.Utils;
+package orvnge.wwnje.com.fucknews.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

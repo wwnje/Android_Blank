@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.View.Activity;
+package orvnge.wwnje.com.fucknews.view.Activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,17 +39,17 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import orvnge.wwnje.com.fucknews.Adapter.HomeTagsNameAdapter;
-import orvnge.wwnje.com.fucknews.Model.MyAPI;
+import orvnge.wwnje.com.fucknews.adapter.HomeTagsNameAdapter;
+import orvnge.wwnje.com.fucknews.model.MyAPI;
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.View.Fragment.ArtsFragment;
-import orvnge.wwnje.com.fucknews.View.Fragment.BlankFragment;
-import orvnge.wwnje.com.fucknews.View.Fragment.BookFragment;
-import orvnge.wwnje.com.fucknews.View.Fragment.DesignFragment;
-import orvnge.wwnje.com.fucknews.View.Fragment.GameFragment;
-import orvnge.wwnje.com.fucknews.View.Fragment.LifeFragment;
-import orvnge.wwnje.com.fucknews.View.Fragment.MovieFragment;
-import orvnge.wwnje.com.fucknews.View.Fragment.WorldlFragment;
+import orvnge.wwnje.com.fucknews.view.Fragment.ArtsFragment;
+import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
+import orvnge.wwnje.com.fucknews.view.Fragment.BookFragment;
+import orvnge.wwnje.com.fucknews.view.Fragment.DesignFragment;
+import orvnge.wwnje.com.fucknews.view.Fragment.GameFragment;
+import orvnge.wwnje.com.fucknews.view.Fragment.LifeFragment;
+import orvnge.wwnje.com.fucknews.view.Fragment.MovieFragment;
+import orvnge.wwnje.com.fucknews.view.Fragment.WorldlFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

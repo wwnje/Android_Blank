@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.Adapter;
+package orvnge.wwnje.com.fucknews.adapter;
 
 
 import android.content.Context;
@@ -18,10 +18,10 @@ import com.android.volley.toolbox.NetworkImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-import orvnge.wwnje.com.fucknews.View.Activity.BrowseActivity;
-import orvnge.wwnje.com.fucknews.Model.Tags;
+import orvnge.wwnje.com.fucknews.view.Activity.BrowseActivity;
+import orvnge.wwnje.com.fucknews.model.Tags;
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.Utils.MyApplication;
+import orvnge.wwnje.com.fucknews.utils.MyApplication;
 
 /*
 *

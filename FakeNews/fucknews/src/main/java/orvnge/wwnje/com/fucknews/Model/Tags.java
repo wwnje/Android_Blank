@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.Model;
+package orvnge.wwnje.com.fucknews.model;
 
 public class Tags {
 
