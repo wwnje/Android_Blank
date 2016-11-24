@@ -36,7 +36,7 @@ import orvnge.wwnje.com.fucknews.AppConstants;
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.SharedPreferencesUtil;
-import orvnge.wwnje.com.fucknews.model.MyAPI;
+import orvnge.wwnje.com.fucknews.utils.API;
 import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
 
 public class HomeActivity extends BaseActivity{
@@ -87,8 +87,6 @@ public class HomeActivity extends BaseActivity{
         fragmentTransaction.replace(R.id.contentLayout, fragment).commit();
         invalidateOptionsMenu();
     }
-
-
 
     private void initNavigationViewHeader() {
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -243,7 +241,7 @@ public class HomeActivity extends BaseActivity{
 
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = MyAPI.Register_Url;
+        String url = API.Register_Url;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, listener, errorListener) {
@@ -289,16 +287,6 @@ public class HomeActivity extends BaseActivity{
 
         switch (id) {
             case R.id.action_copyright:
-                new AlertDialog.Builder(this).setTitle("标题")
-                        .setMessage(R.string.copyright_content)
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        }).show();
-                break;
-            case R.id.action_add_news:
-                startActivity(new Intent(HomeActivity.this, AddNewsActivity.class));
                 break;
             default:
                 //对没有处理的事件，交给父类来处理

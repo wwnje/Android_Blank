@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews.model;
+package orvnge.wwnje.com.fucknews.utils;
 
 /**
  * Created by wwnje on 2016/9/4.
@@ -6,7 +6,7 @@ package orvnge.wwnje.com.fucknews.model;
  */
 
 
-public class MyAPI {
+public class API {
     public static  String GET_NEWS_URL = "http://www.wwnje.com/FakeNews2/getNewsJSON.php";
     public static  String Register_Url = "http://www.wwnje.com/FakeNews/insert.php";//帐号注册
 
@@ -19,5 +19,13 @@ public class MyAPI {
     public static  String GET_MOVIE_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Movie.php";
     public static  String GET_TECHNOLOGY_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Technology.php";
     public static  String GET_WORLD_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_World.php";
+
+    //知乎
+    public static String BASE_URL = "https://zhuanlan.zhihu.com/api/columns/";
+    public static String POST_URL = "https://zhuanlan.zhihu.com/api/posts/";
+
+    //豆瓣
+    public static String DOUBAN_BOOK_URL = "https://api.douban.com/v2/book/1220562";
+    public static String DOUBAN_NOTE_URL = "https://api.douban.com/v2/note/561055453\n";
 
 }

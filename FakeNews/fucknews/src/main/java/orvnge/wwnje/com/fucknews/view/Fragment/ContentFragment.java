@@ -24,15 +24,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.RecyclerViewAdapter;
-import orvnge.wwnje.com.fucknews.model.Tags;
+import orvnge.wwnje.com.fucknews.adapter.RecyclerViewAdapter;
+import orvnge.wwnje.com.fucknews.bean.Tags;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ContentFragment extends Fragment {
-
 
     // 标志位，标志已经初始化完成，因为setUserVisibleHint是在onCreateView之前调用的，在视图未初始化的时候，在lazyLoad当中就使用的话，就会有空指针的异常
     private boolean isPrepared;

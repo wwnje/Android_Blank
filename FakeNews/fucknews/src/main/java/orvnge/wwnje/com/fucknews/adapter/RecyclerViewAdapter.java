@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews;
+package orvnge.wwnje.com.fucknews.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,8 @@ import com.android.volley.toolbox.NetworkImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-import orvnge.wwnje.com.fucknews.model.Tags;
+import orvnge.wwnje.com.fucknews.R;
+import orvnge.wwnje.com.fucknews.bean.Tags;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
 import orvnge.wwnje.com.fucknews.view.Activity.BrowseActivity;
 
@@ -25,13 +26,13 @@ import orvnge.wwnje.com.fucknews.view.Activity.BrowseActivity;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private List<Tags> list;
-    LayoutInflater inflater;
+    //LayoutInflater inflater;
     Context context;
 
     public RecyclerViewAdapter(Context context){
 
         list = new ArrayList<>();
-        inflater = LayoutInflater.from(MyApplication.getContext());
+        //inflater = LayoutInflater.from(MyApplication.getContext());
         this.context = context;
     }
 
@@ -44,15 +45,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void clear() {
         list.clear();
     }
-
-
-/*    private List<String> dataList;
-    private Activity mActivity;*/
-
-/*    RecyclerViewAdapter(Activity activity, List<String> dataList) {
-        this.dataList = dataList;
-        this.mActivity = activity;
-    }*/
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

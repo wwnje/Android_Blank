@@ -37,7 +37,13 @@
             android:screenOrientation="portrait" />
         <activity android:name=".view.Activity.MeActivity" />
         <activity android:name=".view.Activity.BaseActivity" />
-        <activity android:name=".view.Activity.DetailActivity"></activity>
+        <activity android:name=".view.Activity.DetailActivity" />
+        <activity android:name=".TestActivity" />
+        <activity android:name=".WebActivity" />
+        <activity
+            android:name=".view.Activity.TwentyActivity"
+            android:label="@string/title_activity_twenty"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

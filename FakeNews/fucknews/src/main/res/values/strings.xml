@@ -51,4 +51,6 @@
 
     <string name="open">open</string>
     <string name="close">close</string>
+    <string name="title_activity_twenty">TwentyActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

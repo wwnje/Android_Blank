@@ -1,6 +1,8 @@
 package orvnge.wwnje.com.fucknews.view.Fragment;
 
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -8,21 +10,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.model.MyAPI;
+import orvnge.wwnje.com.fucknews.TestActivity;
+import orvnge.wwnje.com.fucknews.utils.API;
+import orvnge.wwnje.com.fucknews.utils.CODE;
+import orvnge.wwnje.com.fucknews.view.Activity.AddNewsActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
+import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,7 +62,7 @@ public class BlankFragment extends BaseFragment {
     private void initSearchView() {
         final SearchView searchView = (SearchView) mToolbar.getMenu()
                 .findItem(R.id.menu_search).getActionView();
-        searchView.setQueryHint("搜索…");
+        searchView.setQueryHint("输入tips试试看…");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -66,8 +72,25 @@ public class BlankFragment extends BaseFragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
+                switch(s) {
+                    case CODE.TWENTY:
+                        startActivity(new Intent(getActivity(), TwentyActivity.class));
+                        break;
+                    case CODE.SHARE:
+                        startActivity(new Intent(getActivity(), AddNewsActivity.class));
+                        break;
+
+                    case CODE.TIPS:
+                        new AlertDialog.Builder(getActivity()).setTitle("标题")
+                                .setMessage(R.string.copyright_content)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                }).show();
+                        break;
+                }
                 LogUtil.d("onQueryTextChange=" + s);
-                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
                 return false;
             }
         });
@@ -80,7 +103,7 @@ public class BlankFragment extends BaseFragment {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_copyright:
-                        Toast.makeText(mActivity, "BlanFragment", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getActivity(), TestActivity.class));
                         break;
                 }
                 return true;
@@ -139,7 +162,7 @@ public class BlankFragment extends BaseFragment {
         Bundle data = new Bundle();
         data.putInt("id", 0);
         data.putString("title", "Blank");
-        data.putString("url", MyAPI.GET_NEWS_URL);
+        data.putString("url", API.GET_NEWS_URL);
         newfragment.setArguments(data);
         adapter.addFrag(newfragment, "Blank");
 
@@ -147,7 +170,7 @@ public class BlankFragment extends BaseFragment {
         data = new Bundle();
         data.putInt("id", 1);
         data.putString("title", "World");
-        data.putString("url", MyAPI.GET_WORLD_URL);
+        data.putString("url", API.GET_WORLD_URL);
         newfragment.setArguments(data);
         adapter.addFrag(newfragment, "World");
 
@@ -156,7 +179,7 @@ public class BlankFragment extends BaseFragment {
         data = new Bundle();
         data.putInt("id", 3);
         data.putString("title", "Life");
-        data.putString("url", MyAPI.GET_LIFE_URL);
+        data.putString("url", API.GET_LIFE_URL);
         newfragment.setArguments(data);
         adapter.addFrag(newfragment, "Life");
 
@@ -164,7 +187,7 @@ public class BlankFragment extends BaseFragment {
         data = new Bundle();
         data.putInt("id", 4);
         data.putString("title", "Game");
-        data.putString("url", MyAPI.GET_GAME_URL);
+        data.putString("url", API.GET_GAME_URL);
         newfragment.setArguments(data);
         adapter.addFrag(newfragment, "Game");
 
@@ -172,7 +195,7 @@ public class BlankFragment extends BaseFragment {
         data = new Bundle();
         data.putInt("id", 5);
         data.putString("title", "Design");
-        data.putString("url", MyAPI.GET_DESIGN_URL);
+        data.putString("url", API.GET_DESIGN_URL);
         newfragment.setArguments(data);
         adapter.addFrag(newfragment, "Design");
 
@@ -180,7 +203,7 @@ public class BlankFragment extends BaseFragment {
         data = new Bundle();
         data.putInt("id", 6);
         data.putString("title", "Book");
-        data.putString("url", MyAPI.GET_BOOK_URL);
+        data.putString("url", API.GET_BOOK_URL);
         newfragment.setArguments(data);
         adapter.addFrag(newfragment, "Book");
 
@@ -188,7 +211,7 @@ public class BlankFragment extends BaseFragment {
         data = new Bundle();
         data.putInt("id", 7);
         data.putString("title", "Movie");
-        data.putString("url", MyAPI.GET_MOVIE_URL);
+        data.putString("url", API.GET_MOVIE_URL);
         newfragment.setArguments(data);
         adapter.addFrag(newfragment, "Movie");
 
@@ -196,7 +219,7 @@ public class BlankFragment extends BaseFragment {
         data = new Bundle();
         data.putInt("id", 8);
         data.putString("title", "Arts");
-        data.putString("url", MyAPI.GET_ARTS_URL);
+        data.putString("url", API.GET_ARTS_URL);
         newfragment.setArguments(data);
         adapter.addFrag(newfragment, "Arts");
 

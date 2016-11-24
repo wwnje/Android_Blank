@@ -10,13 +10,6 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/action_add_news"
-        android:orderInCategory="90"
-        android:title=""
-        android:icon="@drawable/ic_subject_white_24dp"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/action_copyright"
         android:orderInCategory="100"
         android:title="@string/action_copyright"
