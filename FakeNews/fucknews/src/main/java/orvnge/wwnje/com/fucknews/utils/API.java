@@ -7,7 +7,9 @@ package orvnge.wwnje.com.fucknews.utils;
 
 public class API {
     public static  String GET_NEWS_URL = "http://www.wwnje.com/FakeNews2/getNewsJSON.php";
-    public static  String Register_Url = "http://www.wwnje.com/FakeNews/insert.php";//帐号注册
+
+    public static  String Register_Url = "http://www.wwnje.com/FakeNews/Android_Register.php";//帐号注册
+    public static  String Login_Url = "http://www.wwnje.com/FakeNews/Android_Login.php";//帐号注册
 
     public static  String GET_ARTS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Arts.php";
     public static  String GET_BOOK_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Book.php";

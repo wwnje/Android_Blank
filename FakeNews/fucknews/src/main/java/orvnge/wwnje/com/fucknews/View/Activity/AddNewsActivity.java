@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -192,15 +191,15 @@ public class AddNewsActivity extends AppCompatActivity implements View.OnClickLi
                         }).show();
                 break;
 
-            case R.id.add_btn_shot:
+         /*   case R.id.add_btn_shot:
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
                 break;
             case R.id.add_btn_open:
                 Intent intent_open = new Intent(Intent.ACTION_GET_CONTENT);
-                intent_open.setType("image/*");
+                intent_open.setType("image*//*");
                 startActivityForResult(intent_open, GALLERY_REQUEST_CODE);
-                break;
+                break;*/
 
         }
     }

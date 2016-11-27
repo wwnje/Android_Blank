@@ -4,11 +4,11 @@
     <group android:checkableBehavior="single">
 
     </group>
-    <item android:title="发现者">
+    <item android:title="Finder">
         <menu>
             <item
                 android:id="@+id/nav_me"
-                android:title="your name" />
+                android:title="me" />
             <item
                 android:id="@+id/nav_tags"
                 android:title="订阅" />

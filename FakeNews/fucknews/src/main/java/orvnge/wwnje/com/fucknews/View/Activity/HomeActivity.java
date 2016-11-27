@@ -39,6 +39,8 @@ import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.SharedPreferencesUtil;
 import orvnge.wwnje.com.fucknews.utils.API;
+import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
+import orvnge.wwnje.com.fucknews.utils.myCheckTools;
 import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
 
 public class HomeActivity extends BaseActivity{
@@ -102,42 +104,59 @@ public class HomeActivity extends BaseActivity{
                 .error(R.drawable.nav1)
                 .placeholder(R.drawable.nav1)
                 .into(view2);
+
+        if((String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder") != null)
+            navigationView.getMenu().getItem(0).setTitle((String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "finder"));
+
         //View mNavigationViewHeader = View.inflate(HomeActivity.this, R.layout.drawer_header, null);
         //navigationView.addHeaderView(mNavigationViewHeader);//此方法在魅族note 1，头像显示不全
         //菜单点击事件
         navigationView.setNavigationItemSelectedListener(new NavigationItemSelected());
     }
 
-
     class NavigationItemSelected implements NavigationView.OnNavigationItemSelectedListener {
         @Override
         public boolean onNavigationItemSelected(final MenuItem menuItem) {
+
             mDrawerLayout.closeDrawers();
             switch (menuItem.getItemId()) {
                 case R.id.nav_me:
                     login_InitView();
-                    new AlertDialog.Builder(HomeActivity.this).setTitle("hello 发现者")
+                    if((String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder") != "Finder"){
+                        Toast.makeText(HomeActivity.this, (String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder"), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(HomeActivity.this, MeActivity.class));
+                    }else {
+                        new AlertDialog.Builder(HomeActivity.this).setTitle("hello 发现者")
                             .setView(View_Desc)
                             .setNegativeButton("cancel", null)
                             .setNeutralButton("注册", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     //注册操作
-                                    if (!edit_name.getText().toString().equals("") && !edit_password.getText().toString().equals("")) {
-                                        register(edit_name.getText().toString(), edit_password.getText().toString());
+                                    String name = edit_name.getText().toString();
+                                    String pwd = edit_password.getText().toString();
+
+                                    if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10)) {
+                                        register(name, pwd);
                                     } else {
-                                        Toast.makeText(HomeActivity.this, "不能为空", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(HomeActivity.this, "姓名和密码不能为空并且10位以内", Toast.LENGTH_SHORT).show();
                                     }
-                                    Toast.makeText(HomeActivity.this, "手机端现不支持", Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .setPositiveButton("登陆", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    menuItem.setTitle(edit_name.getText());
                                     //登陆操作
+                                    String name = edit_name.getText().toString();
+                                    String pwd = edit_password.getText().toString();
+
+                                    if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10)) {
+                                        login(name, pwd, menuItem);
+                                    } else {
+                                        Toast.makeText(HomeActivity.this, "格式不正确", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }).show();
+                            }).show();}
                     break;
 
                 case R.id.nav_about:
@@ -244,10 +263,53 @@ public class HomeActivity extends BaseActivity{
         }
     }
 
-    //注册方法
+    private void login(final String name, final String password, final MenuItem menuItem) {
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        String url = API.Login_Url;//帐号注册
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //成功时
+                String tip = response.toString();
+                if (tip.equals("0")) {
+                    Toast.makeText(HomeActivity.this, "没有此帐号", Toast.LENGTH_SHORT).show();
+                } else if (tip.equals("1")) {
+                    Toast.makeText(HomeActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                }
+                 else if (!tip.equals("0") && !tip.equals("1")) {
+                    Toast.makeText(HomeActivity.this, "finder:" + tip, Toast.LENGTH_SHORT).show();
+                    //保存信息
+                    SharedPreferencesUtils.setParam("me", getApplicationContext(), "name", name);
+                    SharedPreferencesUtils.setParam("me", getApplicationContext(), "password", password);
+                    menuItem.setTitle((String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder"));
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //失败时
+                Toast.makeText(HomeActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map getParams() throws AuthFailureError {
+                Map map = new HashMap();
+                map.put("username", name);
+                map.put("password", password);
+                return map;
+            }
+        };
+        //把StringRequest对象加到请求队列里来
+        requestQueue.add(stringRequest);
+    }
+
+
+    //注册操作
     private void register(final String name, final String password) {
         //判断注册信息是否正确
-
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String url = API.Register_Url;
@@ -264,7 +326,6 @@ public class HomeActivity extends BaseActivity{
         };
         //把StringRequest对象加到请求队列里来
         requestQueue.add(stringRequest);
-        Toast.makeText(HomeActivity.this, "注册操作" + "name:" + name + " pwd:" + password, Toast.LENGTH_SHORT).show();
     }
 
     Response.Listener listener = new Response.Listener() {
@@ -315,4 +376,14 @@ public class HomeActivity extends BaseActivity{
         edit_password = (EditText) View_Desc.findViewById(R.id.login_pwd_dialog_edit);
         show_if_success = (TextView) View_Desc.findViewById(R.id.login_show_dialog);
     }
+
+ /*   private void saveMyMessage() {
+        //保存信息
+        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "name", name);
+        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "password", topic);
+        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "name", name);
+        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "tel", tel);
+        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "email", email);
+        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "message", message);
+    }*/
 }

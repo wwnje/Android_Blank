@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context=".view.Activity.AddNewsActivity">
 
     <ImageView
         android:id="@+id/add_imageview"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
         android:background="@color/none"
         android:layout_marginBottom="30dp"/>
 
     <TextView
         android:id="@+id/add_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我是文章标题"
-        android:textColor="@color/black"
-        android:layout_marginLeft="50dp">
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="文章标题：少于 41字数"
+        android:textColor="@color/black">
 
     </TextView>
 
     <TextView
         android:id="@+id/add_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我是文章描述"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:text="文章描述:  少于 178字数"
         android:textColor="@color/black"
         android:layout_below="@id/add_title"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="50dp">
+        android:layout_marginTop="10dp">
 
     </TextView>
 
@@ -51,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="拍摄照片"
+        android:visibility="gone"
         android:layout_below="@+id/add_article"/>
 
     <Button
@@ -58,6 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="打开图片"
+        android:visibility="gone"
         android:layout_below="@+id/add_btn_shot"/>
 
     <EditText
@@ -68,9 +70,13 @@
         android:layout_below="@+id/add_btn_open"/>
 
     <Button
-        android:id="@+id/add_btn_title"
+    android:id="@+id/add_btn_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="添加文章url"/>
+    <Button
+        android:id="@+id/add_btn_pic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="打开标题"
-        android:layout_below="@+id/add_type"/>
-</RelativeLayout>
+        android:text="添加图片url"/>
+</LinearLayout>
