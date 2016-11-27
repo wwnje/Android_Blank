@@ -54,7 +54,6 @@ public class TwentyViewAdapter extends RecyclerView.Adapter<TwentyViewAdapter.Vi
                 Toast.makeText(context, "dddd", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override

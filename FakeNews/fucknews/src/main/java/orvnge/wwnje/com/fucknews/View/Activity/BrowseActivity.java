@@ -15,6 +15,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import java.lang.reflect.InvocationTargetException;
+
 import orvnge.wwnje.com.fucknews.R;
 
 public class BrowseActivity extends AppCompatActivity {
@@ -141,4 +143,32 @@ public class BrowseActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    protected void onPause() {
+        try {
+            webView.getClass().getMethod("onPause").invoke(webView,(Object[])null);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        try {
+            webView.getClass().getMethod("onResume").invoke(webView,(Object[])null);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        super.onResume();
+    }
+
 }

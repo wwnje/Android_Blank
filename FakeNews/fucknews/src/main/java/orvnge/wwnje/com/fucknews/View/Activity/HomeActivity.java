@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -93,6 +95,13 @@ public class HomeActivity extends BaseActivity{
         //设置头像，布局app:headerLayout="@layout/drawer_header"所指定的头布局
         View view = navigationView.inflateHeaderView(R.layout.activity_home_nav_header_home);
 
+        ImageView view2 = (ImageView) view.findViewById(R.id.imageView);
+        Glide
+                .with(getApplicationContext())
+                .load(R.drawable.testgif)
+                .error(R.drawable.nav1)
+                .placeholder(R.drawable.nav1)
+                .into(view2);
         //View mNavigationViewHeader = View.inflate(HomeActivity.this, R.layout.drawer_header, null);
         //navigationView.addHeaderView(mNavigationViewHeader);//此方法在魅族note 1，头像显示不全
         //菜单点击事件

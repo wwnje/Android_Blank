@@ -27,6 +27,7 @@ import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.adapter.RecyclerViewAdapter;
 import orvnge.wwnje.com.fucknews.bean.Tags;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
+import orvnge.wwnje.com.fucknews.utils.MyUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +44,7 @@ public class ContentFragment extends Fragment {
     private Handler handler;
     private Runnable runnable;
     private int page = 1;
-    private  String url;
+    private String url;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -145,7 +146,7 @@ public class ContentFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "刷新出错", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "刷新出错", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -185,9 +186,14 @@ public class ContentFragment extends Fragment {
             @Override
             public void run() {
                 int start = 20 * (page - 1);
-                get(start, page * 20);
+                if(MyUtils.isOpenNetwork(getActivity())) {
+                    get(start, page * 20);
+                }else {
+                    Toast.makeText(getActivity(), "没有网络连接", Toast.LENGTH_SHORT).show();
+                }
                 mRecyclerViewAdapter.notifyDataSetChanged();
                 mPullLoadMoreRecyclerView.setPullLoadMoreCompleted();
+
             }
         };
         handler = new Handler();

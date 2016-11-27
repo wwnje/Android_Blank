@@ -2,24 +2,21 @@ package orvnge.wwnje.com.fucknews.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.bean.Tags;
-import orvnge.wwnje.com.fucknews.utils.MyApplication;
 import orvnge.wwnje.com.fucknews.view.Activity.BrowseActivity;
 
 
@@ -52,7 +49,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new ViewHolder(view);
     }
 
-    class MovieImageCache implements ImageLoader.ImageCache {
+/*    class MovieImageCache implements ImageLoader.ImageCache {
 
         private LruCache<String, Bitmap> cache;
 
@@ -75,16 +72,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void putBitmap(String url, Bitmap bitmap) {
             cache.put(url, bitmap);
         }
-    }
+    }*/
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
         //init image
-        ImageLoader imageLoader = new ImageLoader(MyApplication.getRequestQueue(), new RecyclerViewAdapter.MovieImageCache());
+        /*ImageLoader imageLoader = new ImageLoader(MyApplication.getRequestQueue(), new RecyclerViewAdapter.MovieImageCache());
         holder.ivPic.setDefaultImageResId(R.drawable.img_loading);//loading图片
-        holder.ivPic.setErrorImageResId(R.drawable.img_error);//错误图片
-        holder.ivPic.setImageUrl(list.get(position).getPic_url(), imageLoader);
+        holder.ivPic.setErrorImageResId(R.drawable.img_error);//错误图片*/
+        Glide
+                .with(context)
+                .load(list.get(position).getPic_url())
+                .placeholder(R.drawable.img_loading)
+                .error(R.drawable.ic_error)
+                .centerCrop()
+                .into(holder.ivPic);
 
         //init others
         holder.tvType.setText(list.get(position).getType());
@@ -118,7 +121,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        NetworkImageView ivPic;
+        ImageView ivPic;
+
+        //NetworkImageView ivPic;
         TextView tvTitle;
         TextView tvType;
         TextView tvDesc;
@@ -129,7 +134,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
 
             tvType = (TextView) itemView.findViewById(R.id.tv_type);
-            ivPic = (NetworkImageView) itemView.findViewById(R.id.ivPic);
+            ivPic = (ImageView) itemView.findViewById(R.id.ivPic);
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
             tvDesc = (TextView) itemView.findViewById(R.id.tvDesc);
             tvTime = (TextView) itemView.findViewById(R.id.tvTime);

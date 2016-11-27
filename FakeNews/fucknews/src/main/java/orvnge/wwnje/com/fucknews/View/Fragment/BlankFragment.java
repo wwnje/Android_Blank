@@ -75,9 +75,14 @@ public class BlankFragment extends BaseFragment {
                 switch(s) {
                     case CODE.TWENTY:
                         startActivity(new Intent(getActivity(), TwentyActivity.class));
+                        searchView.clearFocus();
+                        mToolbar.collapseActionView();
+                        searchView.setQuery("", false);
                         break;
                     case CODE.SHARE:
                         startActivity(new Intent(getActivity(), AddNewsActivity.class));
+                        searchView.clearFocus();
+                        searchView.setQuery("", false);
                         break;
 
                     case CODE.TIPS:
@@ -88,6 +93,8 @@ public class BlankFragment extends BaseFragment {
                                     public void onClick(DialogInterface dialog, int which) {
                                     }
                                 }).show();
+                        searchView.clearFocus();
+                        searchView.setQuery("", false);
                         break;
                 }
                 LogUtil.d("onQueryTextChange=" + s);

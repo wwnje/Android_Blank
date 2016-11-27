@@ -5,7 +5,6 @@ package orvnge.wwnje.com.fucknews.utils;
  * 存储php端信息
  */
 
-
 public class API {
     public static  String GET_NEWS_URL = "http://www.wwnje.com/FakeNews2/getNewsJSON.php";
     public static  String Register_Url = "http://www.wwnje.com/FakeNews/insert.php";//帐号注册
