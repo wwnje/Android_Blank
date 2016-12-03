@@ -181,7 +181,9 @@ public class HomeActivity extends BaseActivity{
                                     });
                     snackbar.show();
                     break;
-
+                case R.id.nav_tags:
+                           startActivity(new Intent(HomeActivity.this, ZhiHuActivity.class));
+                    break;
                 case R.id.v_score: //评分
                     try {
                         Uri uri = Uri.parse("market://details?id=" + getPackageName());

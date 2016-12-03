@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".utils.MyApplication"
@@ -44,6 +44,10 @@
         <activity
             android:name=".view.Activity.TwentyActivity"
             android:label="@string/title_activity_twenty"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".view.Activity.ZhiHuActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="read"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
