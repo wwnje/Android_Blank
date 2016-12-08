@@ -109,8 +109,9 @@ public class BlankFragment extends BaseFragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_copyright:
-                        startActivity(new Intent(getActivity(), TestActivity.class));
+                   case R.id.action_copyright:
+                        showToast("测试使用");
+                       startActivity(new Intent(getActivity(), TestActivity.class));
                         break;
                 }
                 return true;

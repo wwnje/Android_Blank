@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,7 +36,6 @@ import java.util.Map;
 import orvnge.wwnje.com.fucknews.AppConstants;
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.SharedPreferencesUtil;
 import orvnge.wwnje.com.fucknews.utils.API;
 import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 import orvnge.wwnje.com.fucknews.utils.myCheckTools;
@@ -137,7 +135,8 @@ public class HomeActivity extends BaseActivity{
                                     String pwd = edit_password.getText().toString();
 
                                     if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10)) {
-                                        register(name, pwd);
+                                        //register(name, pwd);
+                                        Toast.makeText(mActivity, "暂未开放注册", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(HomeActivity.this, "姓名和密码不能为空并且10位以内", Toast.LENGTH_SHORT).show();
                                     }
@@ -182,6 +181,7 @@ public class HomeActivity extends BaseActivity{
                     snackbar.show();
                     break;
                 case R.id.nav_tags:
+                    Toast.makeText(mActivity, "转码测试", Toast.LENGTH_SHORT).show();
                            startActivity(new Intent(HomeActivity.this, ZhiHuActivity.class));
                     break;
                 case R.id.v_score: //评分
@@ -195,7 +195,7 @@ public class HomeActivity extends BaseActivity{
                     }
                     break;
 
-                case R.id.navigation_item_night:
+             /*   case R.id.navigation_item_night:
                     SharedPreferencesUtil.setBoolean(mActivity, AppConstants.ISNIGHT, true);
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     recreate();
@@ -204,7 +204,7 @@ public class HomeActivity extends BaseActivity{
                     SharedPreferencesUtil.setBoolean(mActivity, AppConstants.ISNIGHT, false);
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     recreate();
-                    return true;
+                    return true;*/
                 /*case R.id.navigation_item_1:
                     currentIndex = 0;
                     menuItem.setChecked(true);

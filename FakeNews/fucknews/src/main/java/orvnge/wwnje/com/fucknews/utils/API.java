@@ -23,7 +23,7 @@ public class API {
 
     //知乎
     public static String BASE_URL = "https://zhuanlan.zhihu.com/api/columns/";
-    public static String POST_URL = "https://zhuanlan.zhihu.com/api/posts/";
+    public static String ZHUHU_POST_URL = "https://zhuanlan.zhihu.com/api/posts/";
 
     //豆瓣
     public static String DOUBAN_BOOK_URL = "https://api.douban.com/v2/book/1220562";

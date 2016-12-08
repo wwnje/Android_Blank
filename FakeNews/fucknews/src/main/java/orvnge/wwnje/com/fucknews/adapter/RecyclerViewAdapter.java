@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,11 @@ import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.bean.Tags;
+import orvnge.wwnje.com.fucknews.utils.MyUtils;
 import orvnge.wwnje.com.fucknews.view.Activity.BrowseActivity;
+import orvnge.wwnje.com.fucknews.view.Activity.ZhiHuActivity;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
@@ -100,15 +105,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //DetailActivity.startActivity(context, getLayoutPosition(), showImage);
 
-                Intent intent = new Intent(context, BrowseActivity.class);
-                intent.putExtra("content_url", list.get(position).getContent_url());//参数给下一个activity
-                intent.putExtra("img", list.get(position).getPic_url());//参数给下一个activity
-                intent.putExtra("title", list.get(position).getTitle());//参数给下一个activity
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                if(MyUtils.WhichUrl(list.get(position).getContent_url()) != null){
+                    Log.d(TAG, "onClick: " + MyUtils.WhichUrl(list.get(position).getContent_url()));
+                    Intent intent = new Intent(context, ZhiHuActivity.class);
+                    intent.putExtra("img", list.get(position).getPic_url());//参数给下一个activity
+                    intent.putExtra("title", list.get(position).getTitle());//参数给下一个activity
+                    intent.putExtra("slug", MyUtils.WhichUrl(list.get(position).getContent_url()));//参数给下一个activity
+
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }else{
+                    Intent intent = new Intent(context, BrowseActivity.class);
+                    intent.putExtra("content_url", list.get(position).getContent_url());//参数给下一个activity
+                    intent.putExtra("img", list.get(position).getPic_url());//参数给下一个activity
+                    intent.putExtra("title", list.get(position).getTitle());//参数给下一个activity
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+
             }
         });
 

@@ -21,6 +21,23 @@ public class MyUtils {
         }
         return false;
     }
+
+    /**
+     * 检测是否是可以识别的网站
+     */
+
+    public static String WhichUrl(String url){
+
+        int index = url.indexOf(SubURL.ZHIHU);
+        if(index != -1){
+            //知乎
+            String[] u = url.split(SubURL.ZHIHU);
+            return  u[1];
+        }else {
+            return null;
+        }
+    }
+
 }
 
 

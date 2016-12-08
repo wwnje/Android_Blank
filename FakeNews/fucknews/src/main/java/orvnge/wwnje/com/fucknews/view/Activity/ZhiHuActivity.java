@@ -1,5 +1,6 @@
 package orvnge.wwnje.com.fucknews.view.Activity;
 
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -7,9 +8,9 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -27,9 +28,11 @@ import com.google.gson.Gson;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.VolleySingleton;
 import orvnge.wwnje.com.fucknews.bean.ZhuanLan;
+import orvnge.wwnje.com.fucknews.utils.API;
+
 
 public class ZhiHuActivity extends AppCompatActivity {
-
+    private static final String TAG = "ZhiHuActivity";
     private FloatingActionButton fab;
     private WebView wbMain;
     private ImageView ivHeader;
@@ -37,7 +40,7 @@ public class ZhiHuActivity extends AppCompatActivity {
 
     private MaterialDialog progressDialog;
 
-    private int slug;
+    private String slug;
     private String title;
 
     private Gson gson = new Gson();
@@ -54,13 +57,11 @@ public class ZhiHuActivity extends AppCompatActivity {
         initViews();
 
         Intent intent = getIntent();
+        String imgUrl = intent.getStringExtra("img");
+        //String imgUrl = "https://pic2.zhimg.com/v2-a02550a5969ef2d25ce28a44d9985f2d_b.jpg";
 
-        //String imgUrl = intent.getStringExtra("img_url");
-        String imgUrl = "https://pic2.zhimg.com/v2-a02550a5969ef2d25ce28a44d9985f2d_b.jpg";
-
-        //title = intent.getStringExtra("title");
-        //slug = intent.getIntExtra("slug", 0);
-        slug = 24100137;
+        title = intent.getStringExtra("title");
+        slug = intent.getStringExtra("slug");
 
         Toast.makeText(ZhiHuActivity.this, "slug" + slug, Toast.LENGTH_SHORT).show();
         setCollapsingToolbarLayoutTitle(title);
@@ -103,11 +104,14 @@ public class ZhiHuActivity extends AppCompatActivity {
             }
         });
 
-        StringRequest request = new StringRequest(Request.Method.GET, "https://zhuanlan.zhihu.com/api/posts/" + slug, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, API.ZHUHU_POST_URL + slug, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
 
                 detail = gson.fromJson(s, ZhuanLan.class);
+                Log.d(TAG, "onResponse: " + detail.getContent());
+
+                //设置CSS样式
 
                 String css = "<link rel=\"stylesheet\" href=\"file:///android_asset/master.css\" type=\"text/css\">";
                 String html = "<!DOCTYPE html>\n"
@@ -118,7 +122,6 @@ public class ZhiHuActivity extends AppCompatActivity {
                         + "\n<body>"
                         + detail.getContent()
                         + "</body>\n</html>";
-
                 wbMain.loadDataWithBaseURL(null,html,"text/html","utf-8",null);
 
                 likesCount = detail.getLikesCount();
@@ -134,7 +137,7 @@ public class ZhiHuActivity extends AppCompatActivity {
 
         VolleySingleton.getVolleySingleton(this).addToRequestQueue(request);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+ /*       fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent shareIntent = new Intent().setAction(Intent.ACTION_SEND).setType("text/plain");
@@ -142,12 +145,12 @@ public class ZhiHuActivity extends AppCompatActivity {
                 shareIntent.putExtra(Intent.EXTRA_TEXT,shareText);
                 startActivity(Intent.createChooser(shareIntent,getString(R.string.share_to)));
             }
-        });
+        });*/
     }
 
     private void initViews() {
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_zhuhu);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
@@ -162,16 +165,16 @@ public class ZhiHuActivity extends AppCompatActivity {
     // to change the title's font size of toolbar layout
     private void setCollapsingToolbarLayoutTitle(String title) {
         toolbarLayout.setTitle(title);
-//        toolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
-//        toolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
-//        toolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBarPlus1);
-//        toolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBarPlus1);
+       /* toolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+        toolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
+        toolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBarPlus1);
+        toolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBarPlus1);*/
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_read,menu);
+        getMenuInflater().inflate(R.menu.home,menu);
         return true;
     }
 
@@ -183,21 +186,22 @@ public class ZhiHuActivity extends AppCompatActivity {
             onBackPressed();
         }
 
-     /*   if (id == R.id.action_comments){
-            Intent intent = new Intent(ZhiHuActivity.this,CommentActivity.class);
-            intent.putExtra("id",slug);
-            intent.putExtra("commentsCount",Integer.valueOf(commentsCount));
-            startActivity(intent);
-        }*/
+//        if (id == R.id.action_comments){
+//
+//            Intent intent = new Intent(ZhuanlanPostDetailActivity.this,CommentActivity.class);
+//            intent.putExtra("id",slug);
+//            intent.putExtra("commentsCount",Integer.valueOf(commentsCount));
+//            startActivity(intent);
+//        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-       /* String temp = getResources().getString(R.string.likes) + ":" + likesCount;
-        menu.findItem(R.id.action_likes).setTitle(temp);
-        temp = getResources().getString(R.string.comments) + ":" + commentsCount;
-        menu.findItem(R.id.action_comments).setTitle(temp);*/
+//        String temp = getResources().getString(R.string.likes) + ":" + likesCount;
+//        menu.findItem(R.id.action_likes).setTitle(temp);
+//        temp = getResources().getString(R.string.comments) + ":" + commentsCount;
+//        menu.findItem(R.id.action_comments).setTitle(temp);
         return super.onPrepareOptionsMenu(menu);
     }
 

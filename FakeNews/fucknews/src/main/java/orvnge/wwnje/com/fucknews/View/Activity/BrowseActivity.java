@@ -35,7 +35,6 @@ public class BrowseActivity extends AppCompatActivity {
         toolbar.setTitle(title);
 
         setSupportActionBar(toolbar);
-
         //设置是否有返回箭头
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
