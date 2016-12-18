@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="tags">
+        <item>Blank</item>
+        <item>Book</item>
+        <item>Film</item>
+        <item>World</item>
+        <item>Life</item>
+    </string-array>
+</resources>

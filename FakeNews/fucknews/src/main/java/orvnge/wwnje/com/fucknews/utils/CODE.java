@@ -6,6 +6,5 @@ package orvnge.wwnje.com.fucknews.utils;
 
 public class CODE {
     public static final String TWENTY = "20";
-    public static final String SHARE = "share";
     public static final String TIPS = "tips";
 }

@@ -54,38 +54,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return new ViewHolder(view);
     }
 
-/*    class MovieImageCache implements ImageLoader.ImageCache {
-
-        private LruCache<String, Bitmap> cache;
-
-        public MovieImageCache() {
-            int maxSize = 10 * 1024 * 1024;
-            cache = new LruCache<String, Bitmap>(maxSize) {
-                @Override
-                protected int sizeOf(String key, Bitmap value) {
-                    return value.getRowBytes() * value.getHeight();
-                }
-            };
-        }
-
-        @Override
-        public Bitmap getBitmap(String url) {
-            return cache.get(url);
-        }
-
-        @Override
-        public void putBitmap(String url, Bitmap bitmap) {
-            cache.put(url, bitmap);
-        }
-    }*/
-
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        //init image
-        /*ImageLoader imageLoader = new ImageLoader(MyApplication.getRequestQueue(), new RecyclerViewAdapter.MovieImageCache());
-        holder.ivPic.setDefaultImageResId(R.drawable.img_loading);//loading图片
-        holder.ivPic.setErrorImageResId(R.drawable.img_error);//错误图片*/
         Glide
                 .with(context)
                 .load(list.get(position).getPic_url())
@@ -99,6 +70,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.tvTitle.setText(list.get(position).getTitle());
         holder.tvDesc.setText(list.get(position).getDesc());
         holder.tvTime.setText(list.get(position).getTime());
+        if(list.get(position).getFinder().toString().equals("null")){
+            holder.tvName.setText("admin");
+        }else {
+            holder.tvName.setText(list.get(position).getFinder());
+        }
 
         //set card view
         // 进入内容浏览器事件
@@ -140,6 +116,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         ImageView ivPic;
 
         //NetworkImageView ivPic;
+        TextView tvName;
         TextView tvTitle;
         TextView tvType;
         TextView tvDesc;
@@ -149,6 +126,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(View itemView) {
             super(itemView);
 
+            tvName = (TextView) itemView.findViewById(R.id.tvName);
             tvType = (TextView) itemView.findViewById(R.id.tv_type);
             ivPic = (ImageView) itemView.findViewById(R.id.ivPic);
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);

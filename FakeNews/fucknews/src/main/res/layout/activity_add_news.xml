@@ -21,20 +21,18 @@
         android:id="@+id/add_title"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:text="文章标题：少于 41字数"
+        android:hint="文章标题：少于 41字数,我们致力于解决“无聊”"
         android:textColor="@color/black">
-
     </TextView>
 
     <TextView
         android:id="@+id/add_desc"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:text="文章描述:  少于 178字数"
+        android:hint="文章描述:  少于 120字数,描述你分享的内容或者此刻的心情"
         android:textColor="@color/black"
         android:layout_below="@id/add_title"
         android:layout_marginTop="10dp">
-
     </TextView>
 
     <TextView
@@ -62,18 +60,12 @@
         android:visibility="gone"
         android:layout_below="@+id/add_btn_shot"/>
 
-    <EditText
-        android:id="@+id/add_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="类别"
-        android:layout_below="@+id/add_btn_open"/>
-
     <Button
-    android:id="@+id/add_btn_title"
+    android:id="@+id/add_btn_news_link"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="添加文章url"/>
+
     <Button
         android:id="@+id/add_btn_pic"
         android:layout_width="match_parent"

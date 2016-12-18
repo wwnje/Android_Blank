@@ -8,7 +8,15 @@ public class Tags {
 	private String content_url;
 	private String pic_url;
 	private String type;
+	private String finder;
 
+	public String getFinder() {
+		return finder;
+	}
+
+	public void setFinder(String finder) {
+		this.finder = finder;
+	}
 
 	public String getTitle() {
 		return title;

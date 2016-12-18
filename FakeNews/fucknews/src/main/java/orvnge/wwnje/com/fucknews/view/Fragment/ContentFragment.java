@@ -167,6 +167,7 @@ public class ContentFragment extends Fragment {
             String content_url = jsonObject.getString("content_url");
             String pic_url = jsonObject.getString("pic_url");
             String type = jsonObject.getString("type");
+            String finder = jsonObject.getString("finder");
 
             Tags data = new Tags();
             data.setTitle(title);
@@ -175,6 +176,8 @@ public class ContentFragment extends Fragment {
             data.setContent_url(content_url);
             data.setPic_url(pic_url);
             data.setType(type);
+            data.setFinder(finder);
+
             mRecyclerViewAdapter.add(data);
         } catch (JSONException e) {
             e.printStackTrace();

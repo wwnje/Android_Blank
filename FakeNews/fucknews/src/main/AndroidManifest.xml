@@ -35,7 +35,13 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name=".view.Activity.AddNewsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
         <activity android:name=".view.Activity.MeActivity" />
         <activity android:name=".view.Activity.BaseActivity" />
         <activity android:name=".view.Activity.DetailActivity" />

@@ -120,10 +120,10 @@ public class HomeActivity extends BaseActivity{
             switch (menuItem.getItemId()) {
                 case R.id.nav_me:
                     login_InitView();
-                    if((String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder") != "Finder"){
-                        Toast.makeText(HomeActivity.this, (String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder"), Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(HomeActivity.this, MeActivity.class));
-                    }else {
+//                    if((String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder") != "Finder"){
+//                        Toast.makeText(HomeActivity.this, (String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder"), Toast.LENGTH_SHORT).show();
+//                        startActivity(new Intent(HomeActivity.this, MeActivity.class));
+//                    }else {
                         new AlertDialog.Builder(HomeActivity.this).setTitle("hello 发现者")
                             .setView(View_Desc)
                             .setNegativeButton("cancel", null)
@@ -135,8 +135,8 @@ public class HomeActivity extends BaseActivity{
                                     String pwd = edit_password.getText().toString();
 
                                     if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10)) {
-                                        //register(name, pwd);
-                                        Toast.makeText(mActivity, "暂未开放注册", Toast.LENGTH_SHORT).show();
+                                        register(name, pwd);
+                                        //Toast.makeText(mActivity, "暂未开放注册", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(HomeActivity.this, "姓名和密码不能为空并且10位以内", Toast.LENGTH_SHORT).show();
                                     }
@@ -155,7 +155,8 @@ public class HomeActivity extends BaseActivity{
                                         Toast.makeText(HomeActivity.this, "格式不正确", Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                            }).show();}
+                            }).show();
+//            }
                     break;
 
                 case R.id.nav_about:
@@ -356,7 +357,6 @@ public class HomeActivity extends BaseActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         switch (id) {
             case R.id.action_copyright:
                 break;
@@ -379,13 +379,13 @@ public class HomeActivity extends BaseActivity{
         show_if_success = (TextView) View_Desc.findViewById(R.id.login_show_dialog);
     }
 
- /*   private void saveMyMessage() {
-        //保存信息
-        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "name", name);
-        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "password", topic);
-        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "name", name);
-        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "tel", tel);
-        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "email", email);
-        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "message", message);
-    }*/
+//    private void saveMyMessage() {
+//        //保存信息
+//        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "name", name);
+//        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "password", topic);
+//        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "name", name);
+//        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "tel", tel);
+//        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "email", email);
+//        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "message", message);
+//    }
 }
