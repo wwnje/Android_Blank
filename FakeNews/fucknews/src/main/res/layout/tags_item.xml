@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="2dp"
                     android:textSize="13sp"
-                    android:text="wwnje"
+                    android:text="@string/finder"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/black"/>
                 <TextView
@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
-                    android:text="10小时前"
+                    android:text="@string/date"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/black" />
             </LinearLayout>
@@ -71,24 +71,25 @@
             android:orientation="vertical"
             android:padding="0dp"
             android:background="@color/white">
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="false"
-                    android:paddingTop="2dp"
-                    android:textSize="17sp"
-                    android:text="关卡、难度与叙事：献给神秘海域的花束关卡、难度与叙事：献给神秘海域的花束不超过41"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:textColor="@color/black"/>
 
-                <TextView
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:paddingTop="2dp"
+                android:textSize="17sp"
+                android:text="@string/eg_title"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/black"/>
+
+            <TextView
                     android:id="@+id/tvDesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:text="“玛丽安，事情发生在我们真的非常老、我们的身体正在散架的时候，我觉得我很快会随你而去。如果你伸出双手，你会发现我就在你身后很近很近的地方，我想你能碰到我的手。你知道我一直爱着你，因为你的美貌，你的聪慧，我不需要说更多的了，因为你都知道。但是现在，我只想祝福你旅途愉快。再见亲爱的朋友。永无止尽的爱，我们在道路尽头见。”	字数不超过200“玛丽安，事情发生在我们真的非常老、我们的身体正在散架的时候，我觉得我很快会随你而去。如果你伸出双手，你会发现我就在你身后很近很近的地方，我想你能碰到我的手。你知道我一直爱着你，因为你的美貌，你的聪慧，我不需要说更多的了，因为你都知道。但是现在，我只想祝福你旅途愉快。再见亲爱的朋友。永无止尽的爱，我们在道路尽头见。”	字数不超过178把为什么会那么多呢"
+                    android:text="@string/desc"
                     android:layout_marginTop="3dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
@@ -99,19 +100,20 @@
                 android:layout_marginTop="5dp">
                 <TextView
                     android:id="@+id/tv_type"
-                    android:text="World"
+                    android:text="@string/type"
                     android:textColor="@color/green"
                     android:layout_alignParentLeft="true"
                     android:layout_width="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_height="wrap_content" />
-                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true" />
+                <Button
                     android:id="@+id/tvRead"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:singleLine="true"
-                    android:text="待阅读"
+                    android:text="@string/bookmark"
                     android:textColor="@color/black"
                     />
             </RelativeLayout>
