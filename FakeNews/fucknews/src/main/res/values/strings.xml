@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Blank</string>
-    <string name="app_tags">Tags</string>
+    <string name="app_tags">NewsTag</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -56,7 +56,8 @@
     <string name="section_format">Hello World from section: %1$d</string>
     
     <!--tags name-->
-    <string name="bookmark">待阅读</string>
+    <string name="bookmark">加入书签</string>
+    <string name="bookmarked">已加入书签</string>
     <string name="type">类别</string>
     <string name="finder">finder</string>
     <string name="desc">玛丽安，事情发生在我们真的非常老、我们的身体正在散架的时候，我觉得我很快会随你而去。如果你伸出双手，你会发现我就在你身后很近很近的地方，我想你能碰到我的手。你知道我一直爱着你，因为你的美貌，你的聪慧，我不需要说更多的了，因为你都知道。但是现在，我只想祝福你旅途愉快。再见亲爱的朋友。永无止尽的爱，我们在道路尽头见。”	字数不超过200“玛丽安，事情发生在我们真的非常老、我们的身体正在散架的时候，我觉得我很快会随你而去。如果你伸出双手，你会发现我就在你身后很近很近的地方，我想你能碰到我的手。你知道我一直爱着你，因为你的美貌，你的聪慧，我不需要说更多的了，因为你都知道。但是现在，我只想祝福你旅途愉快。再见亲爱的朋友。永无止尽的爱，我们在道路尽头见。”	字数不超过178把为什么会那么多呢</string>

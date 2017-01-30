@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.bean.Tags;
+import orvnge.wwnje.com.fucknews.bean.NewsTag;
 import orvnge.wwnje.com.fucknews.utils.MyUtils;
 import orvnge.wwnje.com.fucknews.view.Activity.BrowseActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.ZhiHuActivity;
@@ -27,9 +28,14 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private List<Tags> list;
-    //LayoutInflater inflater;
-    Context context;
+    private List<NewsTag> list;
+    private Context context;
+
+    private int pressed = R.drawable.btn_bookmark_style_pressed;
+    private int unpressed = R.drawable.btn_bookmark_style_unpressed;
+    private int index = unpressed;
+
+    private int bookmarkText = R.string.bookmark;
 
     public RecyclerViewAdapter(Context context){
 
@@ -38,9 +44,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.context = context;
     }
 
-    public void add(Tags Tags) {
+    public void add(NewsTag NewsTag) {
 
-        list.add(Tags);
+        list.add(NewsTag);
         notifyItemInserted(list.size() - 1);
     }
 
@@ -55,7 +61,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         Glide
                 .with(context)
@@ -75,6 +81,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }else {
             holder.tvName.setText(list.get(position).getFinder());
         }
+
+        //书签按钮事件加入数据库
+        holder.btn_bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(index == unpressed){
+                    index = pressed;
+                    bookmarkText = R.string.bookmarked;
+                }else if(index == pressed){
+                    index = unpressed;
+                    bookmarkText = R.string.bookmark;
+                }
+                holder.btn_bookmark.setBackgroundResource(index);
+                holder.btn_bookmark.setText(bookmarkText);
+            }
+        });
 
         //set card view
         // 进入内容浏览器事件
@@ -121,6 +143,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView tvType;
         TextView tvDesc;
         TextView tvTime;
+        Button btn_bookmark;
         CardView cardView;
 
         public ViewHolder(View itemView) {
@@ -132,6 +155,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
             tvDesc = (TextView) itemView.findViewById(R.id.tvDesc);
             tvTime = (TextView) itemView.findViewById(R.id.tvTime);
+            btn_bookmark = (Button) itemView.findViewById(R.id.btn_bookmark);
             cardView = (CardView) itemView.findViewById(R.id.fragment_movie_item);
         }
     }

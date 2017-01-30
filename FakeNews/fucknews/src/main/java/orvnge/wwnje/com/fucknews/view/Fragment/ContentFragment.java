@@ -25,7 +25,7 @@ import java.util.Map;
 
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.adapter.RecyclerViewAdapter;
-import orvnge.wwnje.com.fucknews.bean.Tags;
+import orvnge.wwnje.com.fucknews.bean.NewsTag;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
 import orvnge.wwnje.com.fucknews.utils.MyUtils;
 
@@ -169,7 +169,7 @@ public class ContentFragment extends Fragment {
             String type = jsonObject.getString("type");
             String finder = jsonObject.getString("finder");
 
-            Tags data = new Tags();
+            NewsTag data = new NewsTag();
             data.setTitle(title);
             data.setDesc(desc);
             data.setTime(time);

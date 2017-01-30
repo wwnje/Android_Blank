@@ -19,4 +19,13 @@
     <color name="greyBackground">#FFCFCFCF</color>
     <color name="none">#00000000</color>
 
+    <!--button bookmark-->
+    <color name="BookmarkBackground">#FFCFCFCF</color>
+    <color name="BookmarkPressed">#458B74</color>
+    <color name="bbutton_danger_pressed">#ffd2322d</color>
+    <color name="bbutton_danger_edge">#ffd43f3a</color>
+    <color name="bbutton_danger_disabled">#a5d9534f</color>
+    <color name="bbutton_danger_disabled_edge">#a5d43f3a</color>
+    <color name="bbutton_danger">#ffd9534f</color>
+    <color name="text_font_white">#FFFFFF</color>
 </resources>

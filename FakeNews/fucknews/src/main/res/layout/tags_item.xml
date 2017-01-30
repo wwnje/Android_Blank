@@ -94,6 +94,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:textColor="@color/black"/>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -106,18 +107,19 @@
                     android:layout_width="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true" />
+                    android:layout_centerVertical="true"/>
                 <Button
-                    android:id="@+id/tvRead"
+                    android:id="@+id/btn_bookmark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/btn_bookmark_style_bg"
                     android:layout_alignParentRight="true"
-                    android:singleLine="true"
+                    android:layout_marginRight="10dp"
                     android:text="@string/bookmark"
-                    android:textColor="@color/black"
-                    />
+                    android:textColor="@drawable/btn_bookmark_style_color"
+                    android:layout_centerVertical="true"/>
             </RelativeLayout>
-            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
 

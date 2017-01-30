@@ -16,4 +16,5 @@
     <dimen name="subheading">16sp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
 
+    <dimen name="bbuton_rounded_corner_radius">5dp</dimen>
 </resources>
