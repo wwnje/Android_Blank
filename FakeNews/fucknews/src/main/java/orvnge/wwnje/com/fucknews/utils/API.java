@@ -10,6 +10,7 @@ public class API {
     public static  String Register_Url = "http://www.wwnje.com/FakeNews/Android_Register.php";//帐号注册
     public static  String Login_Url = "http://www.wwnje.com/FakeNews/Android_Login.php";//帐号注册
     public static  String SHARE_NEWS = "http://www.wwnje.com/FakeNews/Android_Share_News.php";//分享文章
+    public static  String ADD_B = "http://www.wwnje.com/FakeNews/AndroidFinderAddBookmark.php";//添加书签
 
     public static  String GET_ARTS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Arts.php";
     public static  String GET_BOOK_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Book.php";

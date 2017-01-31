@@ -1,5 +1,6 @@
 package orvnge.wwnje.com.fucknews.view.Activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -37,6 +38,7 @@ import orvnge.wwnje.com.fucknews.AppConstants;
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.utils.API;
+import orvnge.wwnje.com.fucknews.utils.EventManager;
 import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 import orvnge.wwnje.com.fucknews.utils.myCheckTools;
 import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
@@ -133,10 +135,9 @@ public class HomeActivity extends BaseActivity{
                                     //注册操作
                                     String name = edit_name.getText().toString();
                                     String pwd = edit_password.getText().toString();
-
                                     if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10)) {
-                                        register(name, pwd);
-                                        //Toast.makeText(mActivity, "暂未开放注册", Toast.LENGTH_SHORT).show();
+                                        EventManager.Register(getApplicationContext(), show_if_success, name, pwd);
+                                        Toast.makeText(mActivity, "注册", Toast.LENGTH_SHORT).show();
                                     } else {
                                         Toast.makeText(HomeActivity.this, "姓名和密码不能为空并且10位以内", Toast.LENGTH_SHORT).show();
                                     }
@@ -148,9 +149,8 @@ public class HomeActivity extends BaseActivity{
                                     //登陆操作
                                     String name = edit_name.getText().toString();
                                     String pwd = edit_password.getText().toString();
-
                                     if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10)) {
-                                        login(name, pwd, menuItem);
+                                        EventManager.Login(getApplicationContext(),name, pwd, menuItem);
                                     } else {
                                         Toast.makeText(HomeActivity.this, "格式不正确", Toast.LENGTH_SHORT).show();
                                     }
@@ -265,87 +265,6 @@ public class HomeActivity extends BaseActivity{
             mDrawerLayout.addDrawerListener(mDrawerToggle);
         }
     }
-
-    private void login(final String name, final String password, final MenuItem menuItem) {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        String url = API.Login_Url;//帐号注册
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //成功时
-                String tip = response.toString();
-                if (tip.equals("0")) {
-                    Toast.makeText(HomeActivity.this, "没有此帐号", Toast.LENGTH_SHORT).show();
-                } else if (tip.equals("1")) {
-                    Toast.makeText(HomeActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
-                }
-                 else if (!tip.equals("0") && !tip.equals("1")) {
-                    Toast.makeText(HomeActivity.this, "finder:" + tip, Toast.LENGTH_SHORT).show();
-                    //保存信息
-                    SharedPreferencesUtils.setParam("me", getApplicationContext(), "name", name);
-                    SharedPreferencesUtils.setParam("me", getApplicationContext(), "password", password);
-                    menuItem.setTitle((String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder"));
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //失败时
-                Toast.makeText(HomeActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map getParams() throws AuthFailureError {
-                Map map = new HashMap();
-                map.put("username", name);
-                map.put("password", password);
-                return map;
-            }
-        };
-        //把StringRequest对象加到请求队列里来
-        requestQueue.add(stringRequest);
-    }
-
-
-    //注册操作
-    private void register(final String name, final String password) {
-        //判断注册信息是否正确
-        // Instantiate the RequestQueue.
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = API.Register_Url;
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, listener, errorListener) {
-            @Override
-            protected Map getParams() throws AuthFailureError {
-                Map map = new HashMap();
-                map.put("username", name);
-                map.put("password", password);
-                return map;
-            }
-        };
-        //把StringRequest对象加到请求队列里来
-        requestQueue.add(stringRequest);
-    }
-
-    Response.Listener listener = new Response.Listener() {
-        @Override
-        public void onResponse(Object response) {
-            show_if_success.setText(response.toString());
-        }
-    };
-
-
-    Response.ErrorListener errorListener = new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError volleyError) {
-            show_if_success.setText("error");
-        }
-    };
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
