@@ -54,7 +54,7 @@
     <string name="close">close</string>
     <string name="title_activity_twenty">TwentyActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    
+
     <!--tags name-->
     <string name="bookmark">加入书签</string>
     <string name="bookmarked">已加入书签</string>

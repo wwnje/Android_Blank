@@ -22,17 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import orvnge.wwnje.com.fucknews.AppConstants;
 import orvnge.wwnje.com.fucknews.LogUtil;
@@ -42,8 +32,9 @@ import orvnge.wwnje.com.fucknews.utils.EventManager;
 import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 import orvnge.wwnje.com.fucknews.utils.myCheckTools;
 import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
+import orvnge.wwnje.com.fucknews.view.Fragment.TwentyFragment;
 
-public class HomeActivity extends BaseActivity{
+public class HomeActivity extends BaseActivity {
 
     private Snackbar snackbar;
     private DrawerLayout mDrawerLayout;
@@ -75,8 +66,8 @@ public class HomeActivity extends BaseActivity{
                     switchContent(currentFragment);
                     break;
                 case 1:
-                   /* currentFragment = new WorldlFragment();
-                    switchContent(currentFragment);*/
+                    currentFragment = new TwentyFragment();
+                    switchContent(currentFragment);
                     break;
                 case 2:
                     /*currentFragment = new LifeFragment();
@@ -105,8 +96,8 @@ public class HomeActivity extends BaseActivity{
                 .placeholder(R.drawable.nav1)
                 .into(view2);
 
-        if((String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder") != null)
-            navigationView.getMenu().getItem(0).setTitle((String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "finder"));
+        if ((String) SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder") != null)
+            navigationView.getMenu().getItem(0).setTitle((String) SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "finder"));
 
         //View mNavigationViewHeader = View.inflate(HomeActivity.this, R.layout.drawer_header, null);
         //navigationView.addHeaderView(mNavigationViewHeader);//此方法在魅族note 1，头像显示不全
@@ -126,7 +117,7 @@ public class HomeActivity extends BaseActivity{
 //                        Toast.makeText(HomeActivity.this, (String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder"), Toast.LENGTH_SHORT).show();
 //                        startActivity(new Intent(HomeActivity.this, MeActivity.class));
 //                    }else {
-                        new AlertDialog.Builder(HomeActivity.this).setTitle("hello 发现者")
+                    new AlertDialog.Builder(HomeActivity.this).setTitle("hello 发现者")
                             .setView(View_Desc)
                             .setNegativeButton("cancel", null)
                             .setNeutralButton("注册", new DialogInterface.OnClickListener() {
@@ -150,7 +141,7 @@ public class HomeActivity extends BaseActivity{
                                     String name = edit_name.getText().toString();
                                     String pwd = edit_password.getText().toString();
                                     if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10)) {
-                                        EventManager.Login(getApplicationContext(),name, pwd, menuItem);
+                                        EventManager.Login(getApplicationContext(), name, pwd, menuItem);
                                     } else {
                                         Toast.makeText(HomeActivity.this, "格式不正确", Toast.LENGTH_SHORT).show();
                                     }
@@ -182,8 +173,7 @@ public class HomeActivity extends BaseActivity{
                     snackbar.show();
                     break;
                 case R.id.nav_tags:
-                    Toast.makeText(mActivity, "转码测试", Toast.LENGTH_SHORT).show();
-                           startActivity(new Intent(HomeActivity.this, ZhiHuActivity.class));
+                    startActivity(new Intent(HomeActivity.this, TwentyActivity.class));
                     break;
                 case R.id.v_score: //评分
                     try {
@@ -290,6 +280,7 @@ public class HomeActivity extends BaseActivity{
     EditText edit_name;
     EditText edit_password;
     TextView show_if_success;
+
     private void login_InitView() {
         //login界面数据
         View_Desc = getLayoutInflater().inflate(R.layout.dialog_login, null);

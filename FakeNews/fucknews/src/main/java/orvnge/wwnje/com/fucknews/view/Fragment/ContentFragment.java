@@ -177,7 +177,6 @@ public class ContentFragment extends Fragment {
             data.setPic_url(pic_url);
             data.setType(type);
             data.setFinder(finder);
-
             mRecyclerViewAdapter.add(data);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -35,10 +35,12 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name=".view.Activity.AddNewsActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
@@ -51,10 +53,12 @@
             android:name=".view.Activity.TwentyActivity"
             android:label="@string/title_activity_twenty"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.Activity.ZhiHuActivity"
+        <activity
+            android:name=".view.Activity.ZhiHuActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="read"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".view.Activity.TagsActivity"></activity>
     </application>
 
 </manifest>
