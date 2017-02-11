@@ -1,5 +1,6 @@
 package orvnge.wwnje.com.fucknews.view.Activity;
 
+import com.orvnge.xutils.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,7 +34,6 @@ import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 import orvnge.wwnje.com.fucknews.utils.myCheckTools;
 import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
 import orvnge.wwnje.com.fucknews.view.Fragment.TwentyFragment;
-
 public class HomeActivity extends BaseActivity {
 
     private Snackbar snackbar;
@@ -174,6 +174,10 @@ public class HomeActivity extends BaseActivity {
                     break;
                 case R.id.nav_tags:
                     startActivity(new Intent(HomeActivity.this, TwentyActivity.class));
+                    break;
+                case R.id.v_t:
+                    Toast.makeText(mActivity, test.get("hello"), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(HomeActivity.this, GitHubActivity.class));
                     break;
                 case R.id.v_score: //评分
                     try {

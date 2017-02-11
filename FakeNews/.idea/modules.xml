@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FakeNews.iml" filepath="$PROJECT_DIR$/FakeNews.iml" />
       <module fileurl="file://$PROJECT_DIR$/fucknews/fucknews.iml" filepath="$PROJECT_DIR$/fucknews/fucknews.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xutils/xutils.iml" filepath="$PROJECT_DIR$/xutils/xutils.iml" />
     </modules>
   </component>
 </project>

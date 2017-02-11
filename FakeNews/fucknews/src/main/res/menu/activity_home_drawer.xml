@@ -31,7 +31,9 @@
     <item android:title="其他">
 
         <menu>
-
+            <item
+                android:id="@+id/v_t"
+                android:title="test" />
           <!--  <item
                 android:id="@+id/navigation_item_night"
                 android:icon="@drawable/abc_btn_radio_material"
