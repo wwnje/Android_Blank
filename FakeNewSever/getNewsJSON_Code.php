@@ -69,7 +69,7 @@ $sql1 = "insert into user (name, password) values('$limit', '$offset') ";
 
 
 
-$sql ="select * from news where type = 'Code' order by id desc limit $limit offset $offset"; //SQL
+$sql ="select * from news where type = 'Code' order by news_id desc limit $limit offset $offset"; //SQL
 
 
 $result =mysql_query($sql);//执行SQL
@@ -100,7 +100,7 @@ $user->time = $row["time"];
 $user->content_url = $row["content_url"];
 $user->pic_url = $row["pic_url"];
 $user->type = $row["type"];
-    $user->finder = $row["finder"];
+    $user->finder = $row["finder_id"];
 
 
 $data[]=$user;

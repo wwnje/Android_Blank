@@ -69,7 +69,7 @@ $sql1 = "insert into user (name, password) values('$limit', '$offset') ";
 
 
 
-$sql ="select * from news where type = 'Book' order by news_id desc limit $limit offset $offset"; //SQL
+$sql ="select * from news where type = 'Game' order by id desc limit $limit offset $offset"; //SQL
 
 
 $result =mysql_query($sql);//执行SQL

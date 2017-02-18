@@ -8,11 +8,11 @@ $desc = $_POST['desc'];
 $content_url = $_POST['news_link'];
 $pic_url = $_POST['news_img_link'];
 $type = $_POST['tag'];
-$finder = $_POST['finder'];
+$finder_id = $_POST['finder'];
 
 
 //增加
-$sql="insert into `news`(`title`,`desc`,`content_url`,`pic_url`,`type`,`finder`)values('$title','$desc','$content_url','$pic_url','$type', '$finder')";
+$sql="insert into `news`(`title`,`desc`,`content_url`,`pic_url`,`type`,`finder_id`)values('$title','$desc','$content_url','$pic_url','$type', '$finder_id')";
 
 $set=mysql_query($sql);
 

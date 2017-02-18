@@ -7,6 +7,7 @@ require 'mysql_connect.php';
 	
 	$password = $_POST['password'];
 
+
 	//$sql = "insert into user (name, password) values('我heni', '222') ";
 	//$query = mysql_query($sql, $con);
 

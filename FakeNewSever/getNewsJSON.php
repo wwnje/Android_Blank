@@ -8,6 +8,29 @@
  
  require 'mysql_connect.php';
 
+//$limit = 3;
+
+//$offset = 1;
+
+
+//$json_string='{"id":1,"name":"foo","email":"foo@foobar.com","interest":["wordpress","php"]} ';
+
+//$json_string='{"limit":"3","offset":"1"} ';
+
+//$json_string=$_POST['obj'];
+
+
+
+//$return            = array();
+//$itemid            = intval($postDdata['itemid']);   
+
+
+//$json_string='{"offset":"1","limit":"3"}';
+
+//$obj=json_decode($json_string);
+
+
+
 $obj = file_get_contents('php://input');
 
 $obj=json_decode($obj);
@@ -15,9 +38,39 @@ $obj=json_decode($obj);
 $limit = $obj->limit;
 $offset = $obj ->offset;
 
-$sql ="select * from news order by id desc limit $limit offset $offset"; //SQL
+//$limit = $_POST;
+
+//echo $limit;
+
+//$offset = intval($obj['offset']);
+
+//$limit = intval($obj['limit']);
+
+
+
+//echo $offset;
+
+
+	//$sql1 = "insert into user (name, password) values('$_POST[limit]', '$offset') ";
+
+$sql1 = "insert into user (name, password) values('$limit', '$offset') ";
+
+	mysql_query($sql1, $con);
+
+
+	/*if(!mysql_query($sql1, $con)){
+		echo "添加数据失败！".mysql_error();
+	} else {
+		echo "successful添加数据成功！";
+	}*/
+
+
+//这里出错了
+$sql ="select * from news order by news_id desc limit $limit offset $offset"; //SQL
+
 
 $result =mysql_query($sql);//执行SQL
+
 
 $json ="";
 $data =array(); //定义好一个数组.PHP中array相当于一个数据字典.
@@ -31,7 +84,7 @@ public $time ;
 public $content_url ;
 public $pic_url ;
 public $type ;
- public $finder ;
+    public $finder ;
 
 }
 
@@ -45,7 +98,7 @@ $user->time = $row["time"];
 $user->content_url = $row["content_url"];
 $user->pic_url = $row["pic_url"];
 $user->type = $row["type"];
- $user->finder = $row["finder"];
+    $user->finder = $row["finder_id"];
 
 
 $data[]=$user;

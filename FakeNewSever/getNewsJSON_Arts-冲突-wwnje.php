@@ -69,7 +69,7 @@ $sql1 = "insert into user (name, password) values('$limit', '$offset') ";
 
 
 
-$sql ="select * from news where type = 'Book' order by news_id desc limit $limit offset $offset"; //SQL
+$sql ="select * from news where type = 'Arts' order by id desc limit $limit offset $offset"; //SQL
 
 
 $result =mysql_query($sql);//执行SQL
@@ -87,7 +87,7 @@ public $time ;
 public $content_url ;
 public $pic_url ;
 public $type ;
-    public $finder ;
+public $finder ;
 }
 
 //
@@ -100,10 +100,11 @@ $user->time = $row["time"];
 $user->content_url = $row["content_url"];
 $user->pic_url = $row["pic_url"];
 $user->type = $row["type"];
-    $user->finder = $row["finder_id"];
+$user->finder = $row["finder_id"];
 
 
-$data[]=$user;
+
+    $data[]=$user;
 }
 $json = json_encode($data);//把数据转换为JSON数据.
 echo "{".'"user"'.":".$json."}";
