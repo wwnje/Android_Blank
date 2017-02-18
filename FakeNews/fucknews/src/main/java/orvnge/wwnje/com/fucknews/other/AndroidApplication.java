@@ -1,7 +1,10 @@
-package orvnge.wwnje.com.fucknews;
+package orvnge.wwnje.com.fucknews.other;
 
 import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
+
+import orvnge.wwnje.com.fucknews.LogUtil;
+import orvnge.wwnje.com.fucknews.SharedPreferencesUtil;
 
 
 public class AndroidApplication extends Application {

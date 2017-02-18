@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews;
+package orvnge.wwnje.com.fucknews.other;
 
 /**
  * Created by wwnje on 2016/11/20.

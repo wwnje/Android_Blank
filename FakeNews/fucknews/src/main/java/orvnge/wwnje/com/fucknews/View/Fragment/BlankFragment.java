@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +38,9 @@ import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
  * A simple {@link Fragment} subclass.
  */
 public class BlankFragment extends BaseFragment {
+
+    private static final String TAG = "BlankFragment";
+
     private Toolbar mToolbar;
     @Bind(R.id.share_fab)
     FloatingActionButton btn_share;
@@ -171,72 +175,48 @@ public class BlankFragment extends BaseFragment {
         //tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
+    /**
+     * 设置首页展示标签的页面
+     * @param viewPager
+     */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        Fragment newfragment = new ContentFragment();
-        Bundle data = new Bundle();
-        data.putInt("id", 0);
-        data.putString("title", "Blank");
-        data.putString("url", API.GET_NEWS_URL);
-        newfragment.setArguments(data);
-        adapter.addFrag(newfragment, "Blank");
 
-        newfragment = new ContentFragment();
-        data = new Bundle();
-        data.putInt("id", 1);
-        data.putString("title", "World");
-        data.putString("url", API.GET_WORLD_URL);
-        newfragment.setArguments(data);
-        adapter.addFrag(newfragment, "World");
+        List<String> Frags = new ArrayList<>();
+        List<String> FragsURL = new ArrayList<>();
 
+        //存放订阅后的标签页
+        Frags.add("Blank");
+        Frags.add("World");
+        Frags.add("Life");
+        Frags.add("Game");
+        Frags.add("Design");
+        Frags.add("Book");
+        Frags.add("Movie");
+        Frags.add("Arts");
 
-        newfragment = new ContentFragment();
-        data = new Bundle();
-        data.putInt("id", 3);
-        data.putString("title", "Life");
-        data.putString("url", API.GET_LIFE_URL);
-        newfragment.setArguments(data);
-        adapter.addFrag(newfragment, "Life");
+        FragsURL.add(API.GET_NEWS_URL);
+        FragsURL.add(API.GET_WORLD_URL);
+        FragsURL.add(API.GET_LIFE_URL);
+        FragsURL.add(API.GET_GAME_URL);
+        FragsURL.add(API.GET_DESIGN_URL);
+        FragsURL.add(API.GET_BOOK_URL);
+        FragsURL.add(API.GET_MOVIE_URL);
+        FragsURL.add(API.GET_ARTS_URL);
 
-        newfragment = new ContentFragment();
-        data = new Bundle();
-        data.putInt("id", 4);
-        data.putString("title", "Game");
-        data.putString("url", API.GET_GAME_URL);
-        newfragment.setArguments(data);
-        adapter.addFrag(newfragment, "Game");
+        Fragment newfragment;
+        Bundle data;
 
-        newfragment = new ContentFragment();
-        data = new Bundle();
-        data.putInt("id", 5);
-        data.putString("title", "Design");
-        data.putString("url", API.GET_DESIGN_URL);
-        newfragment.setArguments(data);
-        adapter.addFrag(newfragment, "Design");
-
-        newfragment = new ContentFragment();
-        data = new Bundle();
-        data.putInt("id", 6);
-        data.putString("title", "Book");
-        data.putString("url", API.GET_BOOK_URL);
-        newfragment.setArguments(data);
-        adapter.addFrag(newfragment, "Book");
-
-        newfragment = new ContentFragment();
-        data = new Bundle();
-        data.putInt("id", 7);
-        data.putString("title", "Movie");
-        data.putString("url", API.GET_MOVIE_URL);
-        newfragment.setArguments(data);
-        adapter.addFrag(newfragment, "Movie");
-
-        newfragment = new ContentFragment();
-        data = new Bundle();
-        data.putInt("id", 8);
-        data.putString("title", "Arts");
-        data.putString("url", API.GET_ARTS_URL);
-        newfragment.setArguments(data);
-        adapter.addFrag(newfragment, "Arts");
+        for(int i = 0; i < 8; i++){
+            newfragment = new ContentFragment();
+            data = new Bundle();
+            data.putInt("id", i);
+            data.putString("title", Frags.get(i));
+            data.putString("url", FragsURL.get(i));
+            Log.d(TAG, "setupViewPager: " + Frags.get(i) + FragsURL.get(i));
+            newfragment.setArguments(data);
+            adapter.addFrag(newfragment, Frags.get(i));
+        }
 
         viewPager.setAdapter(adapter);
 

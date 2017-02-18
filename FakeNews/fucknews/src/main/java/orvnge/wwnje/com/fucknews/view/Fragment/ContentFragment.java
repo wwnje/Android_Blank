@@ -4,6 +4,7 @@ package orvnge.wwnje.com.fucknews.view.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +30,13 @@ import orvnge.wwnje.com.fucknews.bean.NewsTag;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
 import orvnge.wwnje.com.fucknews.utils.MyUtils;
 
+//TODO:列表显示的时候不转圈
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ContentFragment extends Fragment {
 
+    private static final String TAG = "ContentFragment";
     // 标志位，标志已经初始化完成，因为setUserVisibleHint是在onCreateView之前调用的，在视图未初始化的时候，在lazyLoad当中就使用的话，就会有空指针的异常
     private boolean isPrepared;
     //标志当前页面是否可见
@@ -59,6 +62,8 @@ public class ContentFragment extends Fragment {
 
         url = this.getArguments().getString("url");
         mTitle = this.getArguments().getString("title");
+
+
         mPullLoadMoreRecyclerView = (PullLoadMoreRecyclerView) view.findViewById(R.id.pullLoadMoreRecyclerView);
         mPullLoadMoreRecyclerView.setLinearLayout();
         mPullLoadMoreRecyclerView.setRefreshing(true);
@@ -137,6 +142,7 @@ public class ContentFragment extends Fragment {
                         try {
                             JSONArray array = response.getJSONArray("user");
                             for (int j = 0; j < array.length(); j++) {
+                                Log.d(TAG, "onResponse: ");
                                 add(array.getJSONObject(j));
                             }
                         } catch (JSONException e) {
@@ -161,6 +167,7 @@ public class ContentFragment extends Fragment {
 
     private void add(JSONObject jsonObject) {
         try {
+            Log.d(TAG, "add: ");
             String title = jsonObject.getString("title");
             String desc = jsonObject.getString("desc");
             String time = jsonObject.getString("time");

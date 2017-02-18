@@ -1,4 +1,4 @@
-package orvnge.wwnje.com.fucknews;
+package orvnge.wwnje.com.fucknews.other;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -18,6 +18,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+
+import orvnge.wwnje.com.fucknews.R;
 
 public class WebActivity extends Activity {
     private WebView webView;

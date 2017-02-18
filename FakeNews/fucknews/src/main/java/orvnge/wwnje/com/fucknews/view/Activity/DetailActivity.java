@@ -13,7 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
-import orvnge.wwnje.com.fucknews.AppConstants;
+import orvnge.wwnje.com.fucknews.other.AppConstants;
 import orvnge.wwnje.com.fucknews.R;
 
 public class DetailActivity extends BaseActivity {

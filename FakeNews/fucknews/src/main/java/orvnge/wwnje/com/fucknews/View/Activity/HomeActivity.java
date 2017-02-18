@@ -1,7 +1,7 @@
 package orvnge.wwnje.com.fucknews.view.Activity;
 
 import com.orvnge.xutils.*;
-import android.content.Context;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,11 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.orvnge.xutils.recyclevIew.RecycleViewActivity;
 
-import orvnge.wwnje.com.fucknews.AppConstants;
+import orvnge.wwnje.com.fucknews.other.AppConstants;
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.utils.API;
 import orvnge.wwnje.com.fucknews.utils.EventManager;
 import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 import orvnge.wwnje.com.fucknews.utils.myCheckTools;
@@ -175,10 +175,7 @@ public class HomeActivity extends BaseActivity {
                 case R.id.nav_tags:
                     startActivity(new Intent(HomeActivity.this, TwentyActivity.class));
                     break;
-                case R.id.v_t:
-                    Toast.makeText(mActivity, test.get("hello"), Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(HomeActivity.this, GitHubActivity.class));
-                    break;
+
                 case R.id.v_score: //评分
                     try {
                         Uri uri = Uri.parse("market://details?id=" + getPackageName());
@@ -188,6 +185,12 @@ public class HomeActivity extends BaseActivity {
                     } catch (android.content.ActivityNotFoundException ex) {
                         Snackbar.make(mDrawerLayout, R.string.no_market_app, Snackbar.LENGTH_SHORT).show();
                     }
+                    break;
+
+                case R.id.v_t:
+                    Toast.makeText(mActivity, test.get("hello"), Toast.LENGTH_SHORT).show();
+                    //startActivity(new Intent(HomeActivity.this, GitHubActivity.class));
+                    startActivity(new Intent(HomeActivity.this, RecycleViewActivity.class));
                     break;
 
              /*   case R.id.navigation_item_night:

@@ -26,7 +26,7 @@ import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
 
 public class EventManager {
 
-
+    //登录操作
     public static void Login(final Context context, final String name, final String password, final MenuItem menuItem) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 

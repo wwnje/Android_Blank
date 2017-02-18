@@ -11,9 +11,8 @@
                 android:title="me" />
             <item
                 android:id="@+id/nav_tags"
-                android:title="订阅" />
+                android:title="订阅页面" />
         </menu>
-
     </item>
 
 
@@ -33,7 +32,7 @@
         <menu>
             <item
                 android:id="@+id/v_t"
-                android:title="test" />
+                android:title="RecycleView测试" />
           <!--  <item
                 android:id="@+id/navigation_item_night"
                 android:icon="@drawable/abc_btn_radio_material"

@@ -48,7 +48,7 @@
         <activity android:name=".view.Activity.BaseActivity" />
         <activity android:name=".view.Activity.DetailActivity" />
         <activity android:name=".TestActivity" />
-        <activity android:name=".WebActivity" />
+        <activity android:name=".other.WebActivity" />
         <activity
             android:name=".view.Activity.TwentyActivity"
             android:label="@string/title_activity_twenty"
@@ -58,7 +58,10 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="read"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.Activity.TagsActivity"></activity>
+        <activity android:name=".view.Activity.TagsActivity" />
+
+        <!---->
+        <activity android:name="com.orvnge.xutils.recyclevIew.RecycleViewActivity"/>
     </application>
 
 </manifest>
