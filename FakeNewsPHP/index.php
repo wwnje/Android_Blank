@@ -16,16 +16,15 @@
 
 header("Content-type:text/html;charset=utf-8");
 
-session_start(); //开启session
-    //判断登录时的session是否存在 如果存在则表示已经登录
-    if(!$_SESSION['login']){
-        echo "none";
-    }
-	else{
-		echo "now:";
-		echo $_SESSION['login'];
-	}
-
+//session_start(); //开启session
+//    //判断登录时的session是否存在 如果存在则表示已经登录
+//    if(!$_SESSION['login']){
+//        echo "none";
+//    }
+//	else{
+//		echo "now:";
+//		echo $_SESSION['login'];
+//	}
 
 ?>
 <br><br>
@@ -35,7 +34,6 @@ session_start(); //开启session
 	<a href='login_out.php'>exit</a>;
 <center>
 
-    fasdfadsfsadfsadfs
 <table border="1" cellspacing="0" width='80%'">
 <caption>hello</caption>
 <tr><th>编号</th>
@@ -45,17 +43,26 @@ session_start(); //开启session
 <th>图片</th>
 <th>type</th></tr>
 
+
 <?php
 require 'config.php';
 
+$page = 1;
+
 /*传入页码*/
+/*判断页码是否存在*/
+if($_GET['p'] == null){
+    $page = 1;
+}else{
+    $page = $_GET['p'];
+}
 
-$page = $_GET['p'];
 
+echo "page is" + $page;
 
 //LIMIT起始位置，显示条数
 
-$q="select * from news order by id desc LIMIT ".($page - 1)*5 .",5";//设置查询指令
+$q="select * from news order by news_id desc LIMIT ".($page - 1)*5 .",5";//设置查询指令
 
 $result=mysql_query($q);//执行查询
 
