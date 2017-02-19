@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_tags"
     android:layout_width="match_parent"
@@ -10,4 +11,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="orvnge.wwnje.com.fucknews.view.Activity.TagsActivity">
 
-</RelativeLayout>
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="button"/>-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/tags_recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

@@ -1,6 +1,6 @@
 package orvnge.wwnje.com.fucknews.bean;
 
-public class NewsTag {
+public class NewsBean {
 
 	private String title;
 	private String desc;

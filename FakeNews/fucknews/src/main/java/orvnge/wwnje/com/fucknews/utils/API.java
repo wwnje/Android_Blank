@@ -6,12 +6,20 @@ package orvnge.wwnje.com.fucknews.utils;
  */
 
 public class API {
-    public static  String GET_NEWS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON.php";
+    /**
+     * 用户操作
+     */
     public static  String Register_Url = "http://www.wwnje.com/FakeNews/Android_Register.php";//帐号注册
     public static  String Login_Url = "http://www.wwnje.com/FakeNews/Android_Login.php";//帐号注册
     public static  String SHARE_NEWS = "http://www.wwnje.com/FakeNews/Android_Share_News.php";//分享文章
     public static  String ADD_B = "http://www.wwnje.com/FakeNews/AndroidFinderAddBookmark.php";//添加书签
 
+
+    public static  String GET_TAGS_URL = "http://www.wwnje.com/FakeNews/API_GetTags.php";//获取订阅标签
+    /**
+     * 获取新闻内容
+     */
+    public static  String GET_NEWS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON.php";
     public static  String GET_ARTS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Arts.php";
     public static  String GET_BOOK_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Book.php";
     public static  String GET_CODE_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Code.php";

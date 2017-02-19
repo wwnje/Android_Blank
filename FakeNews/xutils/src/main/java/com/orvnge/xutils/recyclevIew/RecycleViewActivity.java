@@ -23,7 +23,7 @@ import java.util.List;
 public class RecycleViewActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private RecycleViewAdapter mRecyclerAdapter;
+    private RecycleViewBaseAdapter mRecyclerAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     private List<String> mData = new ArrayList<String>();
@@ -74,9 +74,9 @@ public class RecycleViewActivity extends AppCompatActivity {
             }
         });
 
-        mRecyclerAdapter = new RecycleViewAdapter(mData);
+        mRecyclerAdapter = new RecycleViewBaseAdapter(mData);
         mRecyclerView.setAdapter(mRecyclerAdapter);
-        mRecyclerAdapter.setOnItemClickListener(new RecycleViewAdapter.OnItemClickListener() {
+        mRecyclerAdapter.setOnItemClickListener(new RecycleViewBaseAdapter.OnItemClickListener() {
             //此处实现onItemClick的接口
             @Override
             public void onItemClick(final View view, int position) {

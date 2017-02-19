@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,14 +14,15 @@ import java.util.List;
 
 
 /**
+ * 学习用
  * Created by wwnje on 2017/2/18.
  */
 
-public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder>{
+public class RecycleViewBaseAdapter extends RecyclerView.Adapter<RecycleViewBaseAdapter.ViewHolder>{
 
     private List<String> mData;
 
-    public RecycleViewAdapter(List<String> data) {
+    public RecycleViewBaseAdapter(List<String> data) {
         mData = data;
     }
 

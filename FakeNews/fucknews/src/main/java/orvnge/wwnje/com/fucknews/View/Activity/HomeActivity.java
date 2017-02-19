@@ -173,7 +173,7 @@ public class HomeActivity extends BaseActivity {
                     snackbar.show();
                     break;
                 case R.id.nav_tags:
-                    startActivity(new Intent(HomeActivity.this, TwentyActivity.class));
+                    startActivity(new Intent(HomeActivity.this, TagsActivity.class));
                     break;
 
                 case R.id.v_score: //评分

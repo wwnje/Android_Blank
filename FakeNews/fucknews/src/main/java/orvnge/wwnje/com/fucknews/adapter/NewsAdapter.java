@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.bean.NewsTag;
+import orvnge.wwnje.com.fucknews.bean.NewsBean;
 import orvnge.wwnje.com.fucknews.utils.MyUtils;
 import orvnge.wwnje.com.fucknews.view.Activity.BrowseActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.ZhiHuActivity;
@@ -26,9 +26,9 @@ import orvnge.wwnje.com.fucknews.view.Activity.ZhiHuActivity;
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private List<NewsTag> list;
+    private List<NewsBean> newsBeen;
     private Context context;
 
     private int pressed = R.drawable.btn_bookmark_style_pressed;
@@ -37,26 +37,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private int bookmarkText = R.string.bookmark;
 
-    public RecyclerViewAdapter(Context context){
-
-        list = new ArrayList<>();
+    public NewsAdapter(Context context){
+        newsBeen = new ArrayList<>();
         //inflater = LayoutInflater.from(MyApplication.getContext());
         this.context = context;
     }
 
-    public void add(NewsTag NewsTag) {
-
-        list.add(NewsTag);
-        notifyItemInserted(list.size() - 1);
+    public void add(NewsBean news) {
+        newsBeen.add(news);
+        notifyItemInserted(newsBeen.size() - 1);
     }
 
     public void clear() {
-        list.clear();
+        newsBeen.clear();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tags_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_news, parent, false);
         return new ViewHolder(view);
     }
 
@@ -65,21 +63,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Glide
                 .with(context)
-                .load(list.get(position).getPic_url())
+                .load(newsBeen.get(position).getPic_url())
                 .placeholder(R.drawable.img_loading)
                 .error(R.drawable.ic_error)
                 .centerCrop()
                 .into(holder.ivPic);
 
         //init others
-        holder.tvType.setText(list.get(position).getType());
-        holder.tvTitle.setText(list.get(position).getTitle());
-        holder.tvDesc.setText(list.get(position).getDesc());
-        holder.tvTime.setText(list.get(position).getTime());
-        if(list.get(position).getFinder().toString().equals("null")){
+        holder.tvType.setText(newsBeen.get(position).getType());
+        holder.tvTitle.setText(newsBeen.get(position).getTitle());
+        holder.tvDesc.setText(newsBeen.get(position).getDesc());
+        holder.tvTime.setText(newsBeen.get(position).getTime());
+        if(newsBeen.get(position).getFinder().toString().equals("null")){
             holder.tvName.setText("admin");
         }else {
-            holder.tvName.setText(list.get(position).getFinder());
+            holder.tvName.setText(newsBeen.get(position).getFinder());
         }
 
         //书签按钮事件加入数据库
@@ -105,20 +103,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View v) {
                 //DetailActivity.startActivity(context, getLayoutPosition(), showImage);
 
-                if(MyUtils.WhichUrl(list.get(position).getContent_url()) != null){
-                    Log.d(TAG, "onClick: " + MyUtils.WhichUrl(list.get(position).getContent_url()));
+                if(MyUtils.WhichUrl(newsBeen.get(position).getContent_url()) != null){
+                    Log.d(TAG, "onClick: " + MyUtils.WhichUrl(newsBeen.get(position).getContent_url()));
                     Intent intent = new Intent(context, ZhiHuActivity.class);
-                    intent.putExtra("img", list.get(position).getPic_url());//参数给下一个activity
-                    intent.putExtra("title", list.get(position).getTitle());//参数给下一个activity
-                    intent.putExtra("slug", MyUtils.WhichUrl(list.get(position).getContent_url()));//参数给下一个activity
+                    intent.putExtra("img", newsBeen.get(position).getPic_url());//参数给下一个activity
+                    intent.putExtra("title", newsBeen.get(position).getTitle());//参数给下一个activity
+                    intent.putExtra("slug", MyUtils.WhichUrl(newsBeen.get(position).getContent_url()));//参数给下一个activity
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }else{
                     Intent intent = new Intent(context, BrowseActivity.class);
-                    intent.putExtra("content_url", list.get(position).getContent_url());//参数给下一个activity
-                    intent.putExtra("img", list.get(position).getPic_url());//参数给下一个activity
-                    intent.putExtra("title", list.get(position).getTitle());//参数给下一个activity
+                    intent.putExtra("content_url", newsBeen.get(position).getContent_url());//参数给下一个activity
+                    intent.putExtra("img", newsBeen.get(position).getPic_url());//参数给下一个activity
+                    intent.putExtra("title", newsBeen.get(position).getTitle());//参数给下一个activity
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
@@ -130,7 +128,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return newsBeen.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

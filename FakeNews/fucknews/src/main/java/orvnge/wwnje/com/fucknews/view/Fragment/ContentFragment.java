@@ -25,8 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.adapter.RecyclerViewAdapter;
-import orvnge.wwnje.com.fucknews.bean.NewsTag;
+import orvnge.wwnje.com.fucknews.adapter.NewsAdapter;
+import orvnge.wwnje.com.fucknews.bean.NewsBean;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
 import orvnge.wwnje.com.fucknews.utils.MyUtils;
 
@@ -37,12 +37,13 @@ import orvnge.wwnje.com.fucknews.utils.MyUtils;
 public class ContentFragment extends Fragment {
 
     private static final String TAG = "ContentFragment";
+
     // 标志位，标志已经初始化完成，因为setUserVisibleHint是在onCreateView之前调用的，在视图未初始化的时候，在lazyLoad当中就使用的话，就会有空指针的异常
     private boolean isPrepared;
     //标志当前页面是否可见
     private boolean isVisible;
     private PullLoadMoreRecyclerView mPullLoadMoreRecyclerView;
-    private RecyclerViewAdapter mRecyclerViewAdapter;
+    private NewsAdapter mNewsAdapter;
     private String mTitle;
     private Handler handler;
     private Runnable runnable;
@@ -67,13 +68,13 @@ public class ContentFragment extends Fragment {
         mPullLoadMoreRecyclerView = (PullLoadMoreRecyclerView) view.findViewById(R.id.pullLoadMoreRecyclerView);
         mPullLoadMoreRecyclerView.setLinearLayout();
         mPullLoadMoreRecyclerView.setRefreshing(true);
-        mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity());
-        mPullLoadMoreRecyclerView.setAdapter(mRecyclerViewAdapter);
+        mNewsAdapter = new NewsAdapter(getActivity());
+        mPullLoadMoreRecyclerView.setAdapter(mNewsAdapter);
         mPullLoadMoreRecyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
             @Override
             public void onRefresh() {
                 page = 1;
-                mRecyclerViewAdapter.clear();
+                mNewsAdapter.clear();
                 setList();
             }
 
@@ -142,7 +143,6 @@ public class ContentFragment extends Fragment {
                         try {
                             JSONArray array = response.getJSONArray("user");
                             for (int j = 0; j < array.length(); j++) {
-                                Log.d(TAG, "onResponse: ");
                                 add(array.getJSONObject(j));
                             }
                         } catch (JSONException e) {
@@ -176,7 +176,7 @@ public class ContentFragment extends Fragment {
             String type = jsonObject.getString("type");
             String finder = jsonObject.getString("finder");
 
-            NewsTag data = new NewsTag();
+            NewsBean data = new NewsBean();
             data.setTitle(title);
             data.setDesc(desc);
             data.setTime(time);
@@ -184,7 +184,7 @@ public class ContentFragment extends Fragment {
             data.setPic_url(pic_url);
             data.setType(type);
             data.setFinder(finder);
-            mRecyclerViewAdapter.add(data);
+            mNewsAdapter.add(data);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -200,7 +200,7 @@ public class ContentFragment extends Fragment {
                 }else {
                     Toast.makeText(getActivity(), "没有网络连接", Toast.LENGTH_SHORT).show();
                 }
-                mRecyclerViewAdapter.notifyDataSetChanged();
+                mNewsAdapter.notifyDataSetChanged();
                 mPullLoadMoreRecyclerView.setPullLoadMoreCompleted();
 
             }
