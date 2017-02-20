@@ -44,11 +44,11 @@ public class ContentFragment extends Fragment {
     private boolean isVisible;
     private PullLoadMoreRecyclerView mPullLoadMoreRecyclerView;
     private NewsAdapter mNewsAdapter;
-    private String mTitle;
     private Handler handler;
     private Runnable runnable;
     private int page = 1;
-    private String url;
+    private String url;//文章url
+    private String mTitle;//文章标题
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

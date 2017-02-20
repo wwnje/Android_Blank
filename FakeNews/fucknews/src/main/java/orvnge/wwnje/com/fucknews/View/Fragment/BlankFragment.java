@@ -30,14 +30,14 @@ import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.TestActivity;
 import orvnge.wwnje.com.fucknews.utils.API;
 import orvnge.wwnje.com.fucknews.utils.CODE;
-import orvnge.wwnje.com.fucknews.view.Activity.AddNewsActivity;
+import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BlankFragment extends BaseFragment {
+public class BlankFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = "BlankFragment";
 
@@ -59,12 +59,10 @@ public class BlankFragment extends BaseFragment {
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.app_name);
 
-        btn_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), AddNewsActivity.class));
-            }
-        });
+        /**
+         * 点击分享按钮进入分享界面
+         */
+        btn_share.setOnClickListener(this);
         //设置标题居中
         //mToolbar.setTitle("");
         //TextView toolbarTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
@@ -128,6 +126,17 @@ public class BlankFragment extends BaseFragment {
                 return true;
             }
         });
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.share_fab:
+                startActivity(new Intent(getActivity(), ShareNewsActivity.class));
+                break;
+        }
+
     }
 
 

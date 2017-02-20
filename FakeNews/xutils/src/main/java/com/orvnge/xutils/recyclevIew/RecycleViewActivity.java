@@ -76,6 +76,7 @@ public class RecycleViewActivity extends AppCompatActivity {
 
         mRecyclerAdapter = new RecycleViewBaseAdapter(mData);
         mRecyclerView.setAdapter(mRecyclerAdapter);
+
         mRecyclerAdapter.setOnItemClickListener(new RecycleViewBaseAdapter.OnItemClickListener() {
             //此处实现onItemClick的接口
             @Override

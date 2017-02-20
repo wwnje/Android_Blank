@@ -34,7 +34,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name=".view.Activity.AddNewsActivity"
+            android:name=".view.Activity.ShareNewsActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -44,7 +44,7 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.Activity.MeActivity" />
+        <activity android:name=".view.Activity.FinderActivity" />
         <activity android:name=".view.Activity.BaseActivity" />
         <activity android:name=".view.Activity.DetailActivity" />
         <activity android:name=".TestActivity" />

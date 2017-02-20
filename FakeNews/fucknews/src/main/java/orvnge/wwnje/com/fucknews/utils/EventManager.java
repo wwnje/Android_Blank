@@ -33,7 +33,6 @@ public class EventManager {
     //登录操作
     public static void Login(final Context context, final String name, final String password, final MenuItem menuItem) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-
         String url = API.Login_Url;
 
         // Request a string response from the provided URL.
@@ -48,11 +47,13 @@ public class EventManager {
                     Toast.makeText(context, "密码错误", Toast.LENGTH_SHORT).show();
                 }
                 else if (!tip.equals("0") && !tip.equals("1")) {
-                    Toast.makeText(context, "finder:" + tip, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "登录成功：finder:" + tip, Toast.LENGTH_SHORT).show();
+
                     //保存信息
-                    SharedPreferencesUtils.setParam("me", context, "name", name);
-                    SharedPreferencesUtils.setParam("me", context, "password", password);
-                    menuItem.setTitle((String)SharedPreferencesUtils.getParam("me", context, "name", "Finder"));
+                    SharedPreferencesUtils.setParam("finder", context, "name", name);
+                    SharedPreferencesUtils.setParam("finder", context, "password", password);
+                    SharedPreferencesUtils.setParam("finder", context, "isLogin", true);
+                    menuItem.setTitle((String)SharedPreferencesUtils.getParam("finder", context, "name", "Finder未登录"));
                 }
             }
         }, new Response.ErrorListener() {
@@ -75,7 +76,7 @@ public class EventManager {
     }
 
     //注册操作
-    public static void Register(Context context, final TextView show_if_success, final String name, final String password) {
+    public static void Register(final Context context, final TextView show_if_success, final String name, final String password) {
         //判断注册信息是否正确
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -85,12 +86,12 @@ public class EventManager {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                show_if_success.setText(response.toString());
+                Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                show_if_success.setText("error");
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

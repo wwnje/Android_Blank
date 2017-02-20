@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.orvnge.xutils.recyclevIew.RecycleViewActivity;
 
+import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.other.AppConstants;
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
@@ -34,6 +36,7 @@ import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 import orvnge.wwnje.com.fucknews.utils.myCheckTools;
 import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
 import orvnge.wwnje.com.fucknews.view.Fragment.TwentyFragment;
+
 public class HomeActivity extends BaseActivity {
 
     private Snackbar snackbar;
@@ -42,6 +45,8 @@ public class HomeActivity extends BaseActivity {
     private NavigationView navigationView;
     private Fragment currentFragment;
     private int currentIndex;
+    private MenuItem _menuItem_finder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,7 @@ public class HomeActivity extends BaseActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         initNavigationViewHeader();
         initFragment(savedInstanceState);
+
     }
 
     private void initFragment(Bundle savedInstanceState) {
@@ -96,8 +102,16 @@ public class HomeActivity extends BaseActivity {
                 .placeholder(R.drawable.nav1)
                 .into(view2);
 
-        if ((String) SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder") != null)
-            navigationView.getMenu().getItem(0).setTitle((String) SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "finder"));
+        _menuItem_finder = navigationView.getMenu().findItem(R.id.nav_me);
+        FinderData.isLogin = (boolean) SharedPreferencesUtils.getParam("finder", getApplicationContext(), "isLogin", false);
+
+        //navigationView.getMenu().getItem(0).setTitle((String) SharedPreferencesUtils.getParam("finder", getApplicationContext(), "name", "Finder未登录"));
+
+        if (FinderData.isLogin) {
+            _menuItem_finder.setTitle((String) SharedPreferencesUtils.getParam("finder", getApplicationContext(), "name", "Finder未登录"));
+        } else {
+            _menuItem_finder.setTitle("Finder未登录");
+        }
 
         //View mNavigationViewHeader = View.inflate(HomeActivity.this, R.layout.drawer_header, null);
         //navigationView.addHeaderView(mNavigationViewHeader);//此方法在魅族note 1，头像显示不全
@@ -108,46 +122,50 @@ public class HomeActivity extends BaseActivity {
     class NavigationItemSelected implements NavigationView.OnNavigationItemSelectedListener {
         @Override
         public boolean onNavigationItemSelected(final MenuItem menuItem) {
-
-            mDrawerLayout.closeDrawers();
+            //关闭侧边栏
+            //mDrawerLayout.closeDrawers();
             switch (menuItem.getItemId()) {
                 case R.id.nav_me:
-                    login_InitView();
-//                    if((String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder") != "Finder"){
-//                        Toast.makeText(HomeActivity.this, (String)SharedPreferencesUtils.getParam("me", getApplicationContext(), "name", "Finder"), Toast.LENGTH_SHORT).show();
-//                        startActivity(new Intent(HomeActivity.this, MeActivity.class));
-//                    }else {
-                    new AlertDialog.Builder(HomeActivity.this).setTitle("hello 发现者")
-                            .setView(View_Desc)
-                            .setNegativeButton("cancel", null)
-                            .setNeutralButton("注册", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //注册操作
-                                    String name = edit_name.getText().toString();
-                                    String pwd = edit_password.getText().toString();
-                                    if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10)) {
-                                        EventManager.Register(getApplicationContext(), show_if_success, name, pwd);
-                                        Toast.makeText(mActivity, "注册", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(HomeActivity.this, "姓名和密码不能为空并且10位以内", Toast.LENGTH_SHORT).show();
+                    if (FinderData.isLogin) {
+                        //如果登陆了
+                        Toast.makeText(mActivity, "进入我的界面", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(HomeActivity.this, FinderActivity.class));
+                    } else {
+                        login_InitView();
+                        new AlertDialog.Builder(HomeActivity.this).setTitle("hello 发现者")
+                                .setView(View_Desc)
+                                .setNegativeButton("取消", null)
+                                .setNeutralButton("注册", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //注册操作
+                                        String name = edit_name.getText().toString();
+                                        String pwd = edit_password.getText().toString();
+                                        if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10) && !name.isEmpty() && !name.isEmpty()) {
+                                            EventManager.Register(getApplicationContext(), show_if_success, name, pwd);
+                                            Toast.makeText(mActivity, "正在注册,稍等", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(HomeActivity.this, "姓名和密码不能为空并且10位以内", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            })
-                            .setPositiveButton("登陆", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //登陆操作
-                                    String name = edit_name.getText().toString();
-                                    String pwd = edit_password.getText().toString();
-                                    if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10)) {
-                                        EventManager.Login(getApplicationContext(), name, pwd, menuItem);
-                                    } else {
-                                        Toast.makeText(HomeActivity.this, "格式不正确", Toast.LENGTH_SHORT).show();
+                                })
+                                .setPositiveButton("登陆", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //登陆操作
+                                        String name = edit_name.getText().toString();
+                                        String pwd = edit_password.getText().toString();
+                                        if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10)) {
+                                            EventManager.Login(getApplicationContext(), name, pwd, menuItem);
+                                            Toast.makeText(HomeActivity.this, "正在登录,请稍等", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(HomeActivity.this, "格式不正确", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
-                            }).show();
-//            }
+                                }).show();
+
+                    }
+
                     break;
 
                 case R.id.nav_about:
@@ -283,26 +301,18 @@ public class HomeActivity extends BaseActivity {
         return true;
     }
 
+    /**
+     * Login 界面初始化
+     */
     View View_Desc;
     EditText edit_name;
     EditText edit_password;
     TextView show_if_success;
 
     private void login_InitView() {
-        //login界面数据
         View_Desc = getLayoutInflater().inflate(R.layout.dialog_login, null);
         edit_name = (EditText) View_Desc.findViewById(R.id.login_name_dialog_edit);
         edit_password = (EditText) View_Desc.findViewById(R.id.login_pwd_dialog_edit);
         show_if_success = (TextView) View_Desc.findViewById(R.id.login_show_dialog);
     }
-
-//    private void saveMyMessage() {
-//        //保存信息
-//        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "name", name);
-//        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "password", topic);
-//        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "name", name);
-//        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "tel", tel);
-//        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "email", email);
-//        SharedPreferencesUtils.setParam("my_sharedPreferences", getApplicationContext(), "message", message);
-//    }
 }

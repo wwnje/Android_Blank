@@ -46,9 +46,9 @@ import static orvnge.wwnje.com.fucknews.utils.API.SHARE_NEWS;
 /*
   用户添加文章
  */
-public class AddNewsActivity extends AppCompatActivity implements View.OnClickListener {
+public class ShareNewsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "AddNewsActivity";
+    private static final String TAG = "ShareNewsActivity";
     @Bind(R.id.add_btn_news_link) Button add_news_link;
     @Bind(R.id.add_btn_pic) Button add_img_link;
 
@@ -76,7 +76,7 @@ public class AddNewsActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_news);
+        setContentView(R.layout.activity_share_news);
 
         setTitle("分享你喜欢的文章");
         ButterKnife.bind(this);
@@ -214,7 +214,7 @@ public class AddNewsActivity extends AppCompatActivity implements View.OnClickLi
                 e.printStackTrace();
             }
             startImageZoom(fileUri);
-            //Toast.makeText(AddNewsActivity.this, uri.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(ShareNewsActivity.this, uri.toString(), Toast.LENGTH_SHORT).show();
         } else if (requestCode == CROP_REQUEST_CODE) {
             if (data == null) {
                 return;
@@ -270,7 +270,7 @@ public class AddNewsActivity extends AppCompatActivity implements View.OnClickLi
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(AddNewsActivity.this, edit_link.getText(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ShareNewsActivity.this, edit_link.getText(), Toast.LENGTH_SHORT).show();
                                 news_link = edit_link.getText().toString();
                             }
                         }).show();
@@ -287,7 +287,7 @@ public class AddNewsActivity extends AppCompatActivity implements View.OnClickLi
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(AddNewsActivity.this, edit_link2.getText(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ShareNewsActivity.this, edit_link2.getText(), Toast.LENGTH_SHORT).show();
                                 news_img_link = edit_link2.getText().toString();
                             }
                         }).show();
@@ -326,7 +326,7 @@ public class AddNewsActivity extends AppCompatActivity implements View.OnClickLi
                                 news_tag = edit_tag.getSelectedItem().toString();
 
                                 if(news_title ==null || news_link == null || news_img_link ==null){
-                                    Toast.makeText(AddNewsActivity.this, "输入信息不完整" + news_title + news_link + news_img_link + news_tag, Toast.LENGTH_LONG).show();
+                                    Toast.makeText(ShareNewsActivity.this, "输入信息不完整" + news_title + news_link + news_img_link + news_tag, Toast.LENGTH_LONG).show();
                                 }else {
                                     add_news("finder", news_tag, news_title, news_desc, news_link, news_img_link);
                                 }
@@ -352,9 +352,9 @@ public class AddNewsActivity extends AppCompatActivity implements View.OnClickLi
                 //成功时
                 String tip = response.toString();
                 if(tip.equals("200")){
-                    Toast.makeText(AddNewsActivity.this, "200", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShareNewsActivity.this, "200", Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(AddNewsActivity.this, tip, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ShareNewsActivity.this, tip, Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -362,7 +362,7 @@ public class AddNewsActivity extends AppCompatActivity implements View.OnClickLi
             public void onErrorResponse(VolleyError error) {
                 //失败时
                 if(error != null)
-                Toast.makeText(AddNewsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShareNewsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

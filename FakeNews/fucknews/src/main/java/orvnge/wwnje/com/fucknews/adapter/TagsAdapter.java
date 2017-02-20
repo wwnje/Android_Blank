@@ -1,22 +1,18 @@
 package orvnge.wwnje.com.fucknews.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.bean.NewsBean;
 import orvnge.wwnje.com.fucknews.bean.TagsBean;
 
 /**
@@ -43,6 +39,19 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
         this.context = context;
     }
 
+    //定义一个监听对象，用来存储监听事件
+    public TagsAdapter.OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(TagsAdapter.OnItemClickListener itemClickListener) {
+        mOnItemClickListener = itemClickListener;
+    }
+
+    //定义OnItemClickListener的接口,便于在实例化的时候实现它的点击效果
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+
     /**
      * 添加
      * @param tag
@@ -68,15 +77,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
         holder.tags_name.setText(tagsBean.get(position).getTags_name());
-        holder.tags_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "hello you click me", Toast.LENGTH_SHORT).show();
-            }
-        });
-        //holder.tags_name.setText(mData.get(position) + position);
     }
 
     @Override
@@ -85,14 +86,25 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView tags_name;
+        CardView cardView;
         public ViewHolder(View itemView) {
             super(itemView);
             tags_name = (TextView) itemView.findViewById(R.id.item_tags_name);
+            cardView = (CardView) itemView.findViewById(R.id.item_tags_cardView);
+
+            cardView.setOnClickListener(this);
+        }
+
+        //通过接口回调来实现RecyclerView的点击事件
+        @Override
+        public void onClick(View v) {
+            if(mOnItemClickListener!=null) {
+                //此处调用的是onItemClick方法，而这个方法是会在RecyclerAdapter被实例化的时候实现
+                mOnItemClickListener.onItemClick(v, getItemCount());
+            }
         }
     }
-
-
 }
