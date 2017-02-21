@@ -149,8 +149,8 @@ public class EventManager {
 //        Toast.makeText(this, "正在发起请求", Toast.LENGTH_SHORT).show();
         Map<String, String> params = new HashMap<String, String>();
 
-        params.put("limit", String.valueOf(0));
-        params.put("offset", String.valueOf(100));
+        params.put("limit", String.valueOf(1000));
+        params.put("offset", String.valueOf(0));
         params.put("finder_name", FinderData.FinderName);
         params.put("myTags_version", String.valueOf(FinderData.MyTagsVersion));
 
@@ -167,8 +167,7 @@ public class EventManager {
                             for (int j = 0; j < array.length(); j++) {
                                 int tags_id = Integer.parseInt(array.getJSONObject(j).getString("tags_id"));
                                 int myTagsVersion = Integer.parseInt(array.getJSONObject(j).getString("myTags_version"));
-                                Log.d(TAG, "onResponse: " + tags_id + "," + myTagsVersion);
-                                //Toast.makeText(context, "tags_id: " + tags_id + "版本" + myTagsVersion, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "tags_id: " + tags_id + "版本" + myTagsVersion, Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
