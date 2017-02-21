@@ -60,8 +60,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.Activity.TagsActivity" />
 
-        <!---->
-        <activity android:name="com.orvnge.xutils.recyclevIew.RecycleViewActivity"/>
+        <!--  -->
+        <activity android:name="com.orvnge.xutils.recyclevIew.RecycleViewActivity" />
+        <activity android:name=".view.Activity.SubscribeActivity" />
+        <activity android:name=".view.Activity.DataActivity"></activity>
     </application>
 
 </manifest>

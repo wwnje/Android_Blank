@@ -202,7 +202,6 @@ public class ContentFragment extends Fragment {
                 }
                 mNewsAdapter.notifyDataSetChanged();
                 mPullLoadMoreRecyclerView.setPullLoadMoreCompleted();
-
             }
         };
         handler = new Handler();

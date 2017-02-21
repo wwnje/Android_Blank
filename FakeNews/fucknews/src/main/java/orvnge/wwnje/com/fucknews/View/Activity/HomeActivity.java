@@ -53,6 +53,10 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        FinderData finderData = new FinderData(getApplicationContext());//初始化数据
+        //获取第一次的版本号
+        EventManager.GetMyTags(getApplicationContext());
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         initNavigationViewHeader();
         initFragment(savedInstanceState);
@@ -103,7 +107,7 @@ public class HomeActivity extends BaseActivity {
                 .into(view2);
 
         _menuItem_finder = navigationView.getMenu().findItem(R.id.nav_me);
-        FinderData.isLogin = (boolean) SharedPreferencesUtils.getParam("finder", getApplicationContext(), "isLogin", false);
+        //FinderData.isLogin = (boolean) SharedPreferencesUtils.getParam("finder", getApplicationContext(), "isLogin", false);
 
         //navigationView.getMenu().getItem(0).setTitle((String) SharedPreferencesUtils.getParam("finder", getApplicationContext(), "name", "Finder未登录"));
 
@@ -193,7 +197,9 @@ public class HomeActivity extends BaseActivity {
                 case R.id.nav_tags:
                     startActivity(new Intent(HomeActivity.this, TagsActivity.class));
                     break;
-
+                case R.id.nav_my_tags:
+                    startActivity(new Intent(HomeActivity.this, SubscribeActivity.class));
+                    break;
                 case R.id.v_score: //评分
                     try {
                         Uri uri = Uri.parse("market://details?id=" + getPackageName());
@@ -211,6 +217,9 @@ public class HomeActivity extends BaseActivity {
                     startActivity(new Intent(HomeActivity.this, RecycleViewActivity.class));
                     break;
 
+                case R.id.v_data:
+                    startActivity(new Intent(HomeActivity.this, DataActivity.class));
+                    break;
              /*   case R.id.navigation_item_night:
                     SharedPreferencesUtil.setBoolean(mActivity, AppConstants.ISNIGHT, true);
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);

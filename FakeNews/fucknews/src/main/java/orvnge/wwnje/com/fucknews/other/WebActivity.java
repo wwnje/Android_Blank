@@ -123,7 +123,7 @@ public class WebActivity extends Activity {
 //
 //                doc= Jsoup.parse(new URL(url).openStream(),"utf-8", url);
 //                //doc = Jsoup.parse(readHtml(url));
-//                //doc=Jsoup.connect(url).get();
+//                //doc=Jsoup.connect(url).getMyTags();
 //                str=doc.body().toString();
                 doc = Jsoup.connect("http://www.cnblogs.com/zyw-205520/archive/2012/12/20/2826402.html").get();
                 Elements ListDiv = doc.getElementsByAttributeValue("class", "postBody");

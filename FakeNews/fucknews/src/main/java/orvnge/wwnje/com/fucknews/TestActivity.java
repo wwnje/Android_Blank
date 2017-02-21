@@ -39,7 +39,7 @@ public class TestActivity extends AppCompatActivity {
 //                    public void run() {
 //                        try {
 ////                            //从一个URL加载一个Document对象。
-////                            Document doc = Jsoup.connect("http://home.meishichina.com/show-top-type-recipe.html").get();
+////                            Document doc = Jsoup.connect("http://home.meishichina.com/show-top-type-recipe.html").getMyTags();
 ////                            //选择“美食天下”所在节点
 ////                            Elements elements = doc.select("div.top-bar");
 ////                            //打印 <a>标签里面的title
@@ -48,24 +48,24 @@ public class TestActivity extends AppCompatActivity {
 ////                            //“椒麻鸡”和它对应的图片都在<div class="pic">中
 ////                            Elements titleAndPic = doc.select("div.pic");
 ////                            //使用Element.select(String selector)查找元素，使用Node.attr(String key)方法取得一个属性的值
-////                            Log.i("mytag", "title:" + titleAndPic.get(1).select("a").attr("title") + "pic:" + titleAndPic.get(1).select("a").select("img").attr("data-src"));
+////                            Log.i("mytag", "title:" + titleAndPic.getMyTags(1).select("a").attr("title") + "pic:" + titleAndPic.getMyTags(1).select("a").select("img").attr("data-src"));
 ////
 ////                            //原料在<p class="subcontent">中
 ////                            Elements burden = doc.select("p.subcontent");
 ////                            //对于一个元素中的文本，可以使用Element.text()方法
-////                            Log.i("mytag", "burden:" + burden.get(1).text());
+////                            Log.i("mytag", "burden:" + burden.getMyTags(1).text());
 //                            //从一个URL加载一个Document对象。
-//                            Document doc = Jsoup.connect("http://www.vice.cn/").get();
+//                            Document doc = Jsoup.connect("http://www.vice.cn/").getMyTags();
 //
 //                            //“椒麻鸡”和它对应的图片都在<div class="pic">中
 //                            Elements titleAndPic = doc.select("div.swiper-slide");
 //                            //使用Element.select(String selector)查找元素，使用Node.attr(String key)方法取得一个属性的值
-//                            Log.i("mytag", "title:" + titleAndPic.get(1).select("a").attr("title") + "pic:" + titleAndPic.get(1).select("a").select("img").attr("src"));
+//                            Log.i("mytag", "title:" + titleAndPic.getMyTags(1).select("a").attr("title") + "pic:" + titleAndPic.getMyTags(1).select("a").select("img").attr("src"));
 //
 //                            //原料在<p class="subcontent">中
 //                            Elements burden = doc.select("p.subcontent");
 //                            //对于一个元素中的文本，可以使用Element.text()方法
-//                            Log.i("mytag", "burden:" + burden.get(1).text());
+//                            Log.i("mytag", "burden:" + burden.getMyTags(1).text());
 //
 //                        }catch(Exception e) {
 //                            Log.i("mytag", e.toString());

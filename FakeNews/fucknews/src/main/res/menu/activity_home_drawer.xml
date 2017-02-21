@@ -36,6 +36,9 @@
             <item
                 android:id="@+id/v_t"
                 android:title="RecycleView测试" />
+            <item
+                android:id="@+id/v_data"
+                android:title="查看数据" />
           <!--  <item
                 android:id="@+id/navigation_item_night"
                 android:icon="@drawable/abc_btn_radio_material"

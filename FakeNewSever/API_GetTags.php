@@ -18,11 +18,11 @@ $obj=json_decode($obj);
 
 $limit = $obj->limit;
 $offset = $obj ->offset;
+$tags_version = $obj ->tags_version;
+
 
 //这里出错了
 $sql ="select * from tags limit $limit offset $offset"; //SQL
-
-
 $result =mysql_query($sql);//执行SQL
 
 
@@ -36,6 +36,7 @@ class Tags
 {
     public $tags_id ;
     public $tags_name ;
+    public $tags_version;//申请版本
 }
 
 //
@@ -44,6 +45,7 @@ while ($row= mysql_fetch_array($result, MYSQL_ASSOC))
     $tags =new Tags();
     $tags->tags_id = $row["tags_id"];
     $tags->tags_name = $row["tags_name"];
+    $tags->tags_version = $tags_version;
     $data[]=$tags;
 }
 $json = json_encode($data);//把数据转换为JSON数据.
