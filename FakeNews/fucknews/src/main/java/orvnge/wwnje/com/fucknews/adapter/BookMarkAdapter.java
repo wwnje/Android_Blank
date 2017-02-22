@@ -13,36 +13,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
+import orvnge.wwnje.com.fucknews.bean.BookMarkBean;
 import orvnge.wwnje.com.fucknews.bean.TagsBean;
 
 /**
  * Created by wwnje on 2017/2/19.
  */
 
-public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
+public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.ViewHolder> {
 
-    private static final String TAG = "TagsAdapter";
+    private static final String TAG = "BookMarkAdapter";
     private List<String> mData;
 
-    private List<TagsBean> tagsBean;
+    private List<BookMarkBean> bookMarkBeen;
     private Context context;
 
-    public TagsAdapter(Context context, List<String> data){
+    public BookMarkAdapter(Context context, List<String> data) {
         mData = data;
 
-        tagsBean = new ArrayList<>();
+        bookMarkBeen = new ArrayList<>();
         this.context = context;
     }
 
-    public TagsAdapter(Context context){
-        tagsBean = new ArrayList<>();
+    public BookMarkAdapter(Context context) {
+        bookMarkBeen = new ArrayList<>();
         this.context = context;
     }
 
     //定义一个监听对象，用来存储监听事件
-    public TagsAdapter.OnItemClickListener mOnItemClickListener;
+    public BookMarkAdapter.OnItemClickListener mOnItemClickListener;
 
-    public void setOnItemClickListener(TagsAdapter.OnItemClickListener itemClickListener) {
+    public void setOnItemClickListener(BookMarkAdapter.OnItemClickListener itemClickListener) {
         mOnItemClickListener = itemClickListener;
     }
 
@@ -54,18 +55,18 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
 
     /**
      * 添加
-     * @param tag
+     *
+     * @param bookmark
      */
 
-    public void add(TagsBean tag){
-        tagsBean.add(tag);
-        Log.d(TAG, "add: " + tag.getTags_name());
+    public void add(BookMarkBean bookmark) {
+        bookMarkBeen.add(bookmark);
 
-        notifyItemInserted(tagsBean.size() -1 );
+        notifyItemInserted(bookMarkBeen.size() - 1);
     }
 
-    public void clear(){
-        tagsBean.clear();
+    public void clear() {
+        bookMarkBeen.clear();
     }
 
     @Override
@@ -77,12 +78,18 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tags_name.setText(tagsBean.get(position).getTags_name() + tagsBean.get(position).getTags_id());
+        holder.tags_name.setText(bookMarkBeen.get(position).getBookmark_id() +
+                bookMarkBeen.get(position).getFinder_id() +
+                bookMarkBeen.get(position).getFinder_name() +
+                bookMarkBeen.get(position).getNews_title() +
+                bookMarkBeen.get(position).getNews_content_url() +
+                bookMarkBeen.get(position).getType()
+        );
     }
 
     @Override
     public int getItemCount() {
-        return tagsBean.size();
+        return bookMarkBeen.size();
     }
 
 
@@ -90,6 +97,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
 
         TextView tags_name;
         CardView cardView;
+
         public ViewHolder(View itemView) {
             super(itemView);
             tags_name = (TextView) itemView.findViewById(R.id.item_tags_name);
@@ -101,7 +109,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
         //通过接口回调来实现RecyclerView的点击事件
         @Override
         public void onClick(View v) {
-            if(mOnItemClickListener!=null) {
+            if (mOnItemClickListener != null) {
                 //此处调用的是onItemClick方法，而这个方法是会在RecyclerAdapter被实例化的时候实现
                 mOnItemClickListener.onItemClick(v, getItemCount());
             }

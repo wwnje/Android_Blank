@@ -28,7 +28,7 @@ $obj = json_decode($obj);
 
 $limit = $obj->limit;
 $offset = $obj->offset;
-$finder_name = $obj->finder_name;
+$finder_id = $obj->finder_id;
 $myTags_version = $obj->myTags_version;//我的标签版本
 
 //$limit = 100;
@@ -36,7 +36,7 @@ $myTags_version = $obj->myTags_version;//我的标签版本
 //$finder_name = '123';
 
 //获得该finder的书签id  注意这里后面 L和O好像是反的
-$sql1 = "select * from finder_tags WHERE finder_name = $finder_name limit $limit offset $offset"; //SQL
+$sql1 = "select * from finder_tags WHERE finder_id = $finder_id limit $limit offset $offset"; //SQL
 $result1 = mysql_query($sql1);//执行SQL
 
 

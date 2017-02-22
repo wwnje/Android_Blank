@@ -36,7 +36,6 @@ public class WebActivity extends Activity {
             ProgressAsyncTask asyncTask = new ProgressAsyncTask(webView, textView);
             asyncTask.execute(10000);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -60,7 +59,6 @@ public class WebActivity extends Activity {
                 }
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return buffer.toString();
@@ -135,7 +133,6 @@ public class WebActivity extends Activity {
                 System.out.println(str);
                 //你可以试试GBK或UTF-8
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             return str.toString();

@@ -1,3 +1,4 @@
+
 package orvnge.wwnje.com.fucknews.view.Activity;
 
 import android.graphics.Color;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -30,30 +32,29 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.R;
+import orvnge.wwnje.com.fucknews.adapter.BookMarkAdapter;
 import orvnge.wwnje.com.fucknews.adapter.TagsAdapter;
+import orvnge.wwnje.com.fucknews.bean.BookMarkBean;
 import orvnge.wwnje.com.fucknews.bean.TagsBean;
 import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.utils.API;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
 import orvnge.wwnje.com.fucknews.utils.MyUtils;
-import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 
 /**
- * 用户订阅显示界面
+ * 书签待阅读
  */
-public class SubscribeActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "SubscribeActivity";
+    private static final String TAG = "BookMarkActivity";
 
     @Bind(R.id.tags_recycleview)
     RecyclerView recycleView;
     @Bind(R.id.tags_swip)
     SwipeRefreshLayout swip;
 
-    private TagsAdapter tagsAdapter;
-
+    private BookMarkAdapter bookMarkAdapter;
     private List<String> mdata = new ArrayList<>();
-
     private RecyclerView.LayoutManager layoutManager;
 
     private Handler handler;
@@ -70,8 +71,9 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tags);
-        setTitle("我订阅的标签");
+        setTitle("所有书签待阅读");
         ButterKnife.bind(this);
+
         initView();
     }
 
@@ -80,21 +82,20 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
         recycleView.setLayoutManager(layoutManager);
         recycleView.setHasFixedSize(true);
 
-        tagsAdapter = new TagsAdapter(getApplicationContext(), mdata);
-        recycleView.setAdapter(tagsAdapter);
+        bookMarkAdapter = new BookMarkAdapter(getApplicationContext(), mdata);
+        recycleView.setAdapter(bookMarkAdapter);
 
         //点击进行订阅
-        tagsAdapter.setOnItemClickListener(new TagsAdapter.OnItemClickListener() {
+        bookMarkAdapter.setOnItemClickListener(new BookMarkAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 //此处实现onItemClick的接口
                 TextView tvRecycleViewItemText = (TextView) view.findViewById(R.id.item_tags_name);
                 //如果字体本来是黑色就变成红色，反之就变为黑色
-                if (tvRecycleViewItemText.getCurrentTextColor() == Color.BLACK){
+                if (tvRecycleViewItemText.getCurrentTextColor() == Color.BLACK) {
                     tvRecycleViewItemText.setTextColor(Color.RED);
                     //订阅
-                }
-                else{
+                } else {
                     tvRecycleViewItemText.setTextColor(Color.BLACK);
                 }
             }
@@ -116,7 +117,7 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
                 swip.setRefreshing(true);
                 isRefresh = true;
                 page = 1;
-                tagsAdapter.clear();
+                bookMarkAdapter.clear();
                 setList();
             }
         });
@@ -124,14 +125,13 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
     }
 
 
-
     //下拉刷新
     @Override
     public void onRefresh() {
-        if(!isRefresh){
+        if (!isRefresh) {
             isRefresh = true;
             page = 1;
-            tagsAdapter.clear();
+            bookMarkAdapter.clear();
             setList();
         }
     }
@@ -144,14 +144,14 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
             @Override
             public void run() {
                 int start = 20 * (page - 1);
-                if(MyUtils.isOpenNetwork(getApplicationContext())) {
-                    getMyTags(start, page * 20);
-                }else {
+                if (MyUtils.isOpenNetwork(getApplicationContext())) {
+                    getALLTags(start, page * 20);
+                } else {
                     Toast.makeText(getApplicationContext(), "没有网络连接", Toast.LENGTH_SHORT).show();
                 }
-                tagsAdapter.notifyDataSetChanged();
+                bookMarkAdapter.notifyDataSetChanged();
                 swip.setRefreshing(false);
-                isRefresh= false;
+                isRefresh = false;
             }
         };
         handler = new Handler();
@@ -172,24 +172,24 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
     * offset起始点
     * limit最多条数
      */
-    public void getMyTags(int offset, int limit) {//传递进来
-
+    public void getALLTags(int offset, int limit) {//传递进来
+//        Toast.makeText(this, "正在发起请求", Toast.LENGTH_SHORT).show();
         Map<String, String> params = new HashMap<String, String>();
         params.put("limit", String.valueOf(limit));
         params.put("offset", String.valueOf(offset));
         params.put("finder_id", String.valueOf(FinderData.finder_id));
-        params.put("myTags_version", String.valueOf(FinderData.MyTagsVersion));
+        params.put("book_version", String.valueOf(FinderData.BookVersion));
 
         JSONObject paramJsonObject = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                API.GET_MY_TAGS_URL,
+                API.GET_BOOKMARK_URL,
                 paramJsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray array = response.getJSONArray("tags");
+                            JSONArray array = response.getJSONArray("bookmarks");
                             for (int j = 0; j < array.length(); j++) {
                                 add(array.getJSONObject(j));
                             }
@@ -200,7 +200,7 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "获取订阅标签出错" + error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "刷新出错", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -218,14 +218,29 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
      */
     public void add(JSONObject jsonObject) {
         try {
-            String tags_name = jsonObject.getString("tags_name");
-            String tags_id = jsonObject.getString("tags_id");
+            String bookmark_id = jsonObject.getString("bookmark_id");
+            String news_title = jsonObject.getString("news_title");
+            String news_desc = jsonObject.getString("news_desc");
+            String news_content_url = jsonObject.getString("news_pic_url");
+            String type = jsonObject.getString("type");
+            String finder_id = jsonObject.getString("finder_id");
+            String finder_name = jsonObject.getString("finder_name");
+            String book_version = jsonObject.getString("book_version");
+            String news_pic_url = jsonObject.getString("news_pic_url");
 
-            TagsBean data = new TagsBean();
-            data.setTags_name(tags_name);
-            data.setTags_id(Integer.parseInt(tags_id));
+            BookMarkBean data = new BookMarkBean();
 
-            tagsAdapter.add(data);
+            data.setBookmark_id(bookmark_id);
+            data.setBook_version(Integer.parseInt(book_version));
+            data.setFinder_id(finder_id);
+            data.setFinder_name(finder_name);
+            data.setNews_content_url(news_content_url);
+            data.setNews_desc(news_desc);
+            data.setNews_pic_url(news_pic_url);
+            data.setNews_title(news_title);
+            data.setType(type);
+
+            bookMarkAdapter.add(data);
 //            Toast.makeText(this, "正在加载数据..." + data.getTags_name(), Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();

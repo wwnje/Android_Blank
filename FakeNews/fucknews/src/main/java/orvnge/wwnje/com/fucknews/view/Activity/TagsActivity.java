@@ -36,7 +36,6 @@ import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.utils.API;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
 import orvnge.wwnje.com.fucknews.utils.MyUtils;
-import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 
 /**
  * 标签界面
@@ -144,7 +143,7 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
             public void run() {
                 int start = 20 * (page - 1);
                 if(MyUtils.isOpenNetwork(getApplicationContext())) {
-                    get(start, page * 20);
+                    getALLTags(start, page * 20);
                 }else {
                     Toast.makeText(getApplicationContext(), "没有网络连接", Toast.LENGTH_SHORT).show();
                 }
@@ -171,7 +170,7 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
     * offset起始点
     * limit最多条数
      */
-    public void get(int offset, int limit) {//传递进来
+    public void getALLTags(int offset, int limit) {//传递进来
 //        Toast.makeText(this, "正在发起请求", Toast.LENGTH_SHORT).show();
         Map<String, String> params = new HashMap<String, String>();
         params.put("limit", String.valueOf(limit));
@@ -217,8 +216,11 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void add(JSONObject jsonObject) {
         try {
             String tags_name = jsonObject.getString("tags_name");
+            String tags_id = jsonObject.getString("tags_id");
+
             TagsBean data = new TagsBean();
             data.setTags_name(tags_name);
+            data.setTags_id(Integer.parseInt(tags_id));
             tagsAdapter.add(data);
 //            Toast.makeText(this, "正在加载数据..." + data.getTags_name(), Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {

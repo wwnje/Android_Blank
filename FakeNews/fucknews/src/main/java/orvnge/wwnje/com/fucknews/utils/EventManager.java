@@ -45,20 +45,20 @@ public class EventManager {
             @Override
             public void onResponse(String response) {
                 //成功时
-                String tip = response.toString();
-                if (tip.equals("0")) {
+                String finder_id = response.toString();//返回获得用户id
+                if (finder_id.equals("0")) {
                     Toast.makeText(context, "没有此帐号", Toast.LENGTH_SHORT).show();
-                } else if (tip.equals("1")) {
+                } else if (finder_id.equals("-1")) {
                     Toast.makeText(context, "密码错误", Toast.LENGTH_SHORT).show();
                 }
-                else if (!tip.equals("0") && !tip.equals("1")) {
-                    Toast.makeText(context, "登录成功：finder:" + tip, Toast.LENGTH_SHORT).show();
+                else if (!finder_id.equals("0") && !finder_id.equals("-1")) {
+                    Toast.makeText(context, "登录成功：finder:" + finder_id, Toast.LENGTH_SHORT).show();
 
                     //保存信息
 //                    SharedPreferencesUtils.setParam("finder", context, "name", name);
 //                    SharedPreferencesUtils.setParam("finder", context, "password", password);
 //                    SharedPreferencesUtils.setParam("finder", context, "isLogin", true);
-                    FinderData.SetLoginData(context, name, password);
+                    FinderData.SetLoginData(context, name, password, Integer.parseInt(finder_id));
                     menuItem.setTitle(FinderData.FinderName);
                 }
             }
@@ -151,7 +151,7 @@ public class EventManager {
 
         params.put("limit", String.valueOf(1000));
         params.put("offset", String.valueOf(0));
-        params.put("finder_name", FinderData.FinderName);
+        params.put("finder_id", String.valueOf(FinderData.finder_id));
         params.put("myTags_version", String.valueOf(FinderData.MyTagsVersion));
 
         JSONObject paramJsonObject = new JSONObject(params);
@@ -167,6 +167,7 @@ public class EventManager {
                             for (int j = 0; j < array.length(); j++) {
                                 int tags_id = Integer.parseInt(array.getJSONObject(j).getString("tags_id"));
                                 int myTagsVersion = Integer.parseInt(array.getJSONObject(j).getString("myTags_version"));
+                                //TODO 保存到数据库
                                 Toast.makeText(context, "tags_id: " + tags_id + "版本" + myTagsVersion, Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
