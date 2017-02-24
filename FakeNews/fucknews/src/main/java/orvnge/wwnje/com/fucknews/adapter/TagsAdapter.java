@@ -3,7 +3,6 @@ package orvnge.wwnje.com.fucknews.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,8 @@ import java.util.List;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.bean.TagsBean;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+
 /**
  * Created by wwnje on 2017/2/19.
  */
@@ -22,22 +23,15 @@ import orvnge.wwnje.com.fucknews.bean.TagsBean;
 public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
 
     private static final String TAG = "TagsAdapter";
-    private List<String> mData;
 
-    private List<TagsBean> tagsBean;
+    private List<TagsBean> tagsBeanList;
     private Context context;
 
-    public TagsAdapter(Context context, List<String> data){
-        mData = data;
-
-        tagsBean = new ArrayList<>();
+    public TagsAdapter(Context context) {
+        tagsBeanList = new ArrayList<>();
         this.context = context;
     }
 
-    public TagsAdapter(Context context){
-        tagsBean = new ArrayList<>();
-        this.context = context;
-    }
 
     //定义一个监听对象，用来存储监听事件
     public TagsAdapter.OnItemClickListener mOnItemClickListener;
@@ -51,21 +45,24 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
         void onItemClick(View view, int position);
     }
 
-
     /**
      * 添加
+     *
      * @param tag
      */
 
-    public void add(TagsBean tag){
-        tagsBean.add(tag);
-        Log.d(TAG, "add: " + tag.getTags_name());
-
-        notifyItemInserted(tagsBean.size() -1 );
+    public void add(TagsBean tag) {
+        tagsBeanList.add(tag);
+        notifyItemInserted(getItemCount() - 1);
     }
 
-    public void clear(){
-        tagsBean.clear();
+    public void addAll(List<TagsBean> tags){
+        tagsBeanList.clear();
+        tagsBeanList.addAll(tags);
+    }
+
+    public void clear() {
+        tagsBeanList.clear();
     }
 
     @Override
@@ -77,12 +74,12 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tags_name.setText(tagsBean.get(position).getTags_name() + tagsBean.get(position).getTags_id());
+        holder.tags_name.setText(tagsBeanList.get(position).getTags_name() + tagsBeanList.get(position).getTags_id());
     }
 
     @Override
     public int getItemCount() {
-        return tagsBean.size();
+        return tagsBeanList.size();
     }
 
 
@@ -90,6 +87,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
 
         TextView tags_name;
         CardView cardView;
+
         public ViewHolder(View itemView) {
             super(itemView);
             tags_name = (TextView) itemView.findViewById(R.id.item_tags_name);
@@ -101,7 +99,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.ViewHolder> {
         //通过接口回调来实现RecyclerView的点击事件
         @Override
         public void onClick(View v) {
-            if(mOnItemClickListener!=null) {
+            if (mOnItemClickListener != null) {
                 //此处调用的是onItemClick方法，而这个方法是会在RecyclerAdapter被实例化的时候实现
                 mOnItemClickListener.onItemClick(v, getItemCount());
             }

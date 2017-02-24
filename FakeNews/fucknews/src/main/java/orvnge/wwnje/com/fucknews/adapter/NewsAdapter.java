@@ -48,6 +48,23 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         notifyItemInserted(newsBeen.size() - 1);
     }
 
+    /**
+     * 首次加入
+     * @param news
+     */
+    public void addAll(List<NewsBean> news) {
+        newsBeen.clear();
+        newsBeen.addAll(news);
+    }
+
+    /**
+     * 加载更多
+     * @param news
+     */
+    public void addMore(List<NewsBean> news){
+        newsBeen.addAll(news);
+    }
+
     public void clear() {
         newsBeen.clear();
     }

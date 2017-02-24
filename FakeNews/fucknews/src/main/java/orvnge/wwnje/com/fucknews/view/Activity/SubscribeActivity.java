@@ -80,7 +80,7 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
         recycleView.setLayoutManager(layoutManager);
         recycleView.setHasFixedSize(true);
 
-        tagsAdapter = new TagsAdapter(getApplicationContext(), mdata);
+        tagsAdapter = new TagsAdapter(getApplicationContext());
         recycleView.setAdapter(tagsAdapter);
 
         //点击进行订阅
@@ -101,12 +101,13 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
         });
 
         //禁止刷新移动  放刷新最下面
-        recycleView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return isRefresh;
-            }
-        });
+//        recycleView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return isRefresh;
+//            }
+//        });
+
         swip.setOnRefreshListener(this);
 
         //进入就刷新
@@ -116,7 +117,7 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
                 swip.setRefreshing(true);
                 isRefresh = true;
                 page = 1;
-                tagsAdapter.clear();
+                //tagsAdapter.clear();
                 setList();
             }
         });
