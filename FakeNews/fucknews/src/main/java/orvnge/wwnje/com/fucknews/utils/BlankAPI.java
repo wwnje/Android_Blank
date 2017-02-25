@@ -5,7 +5,7 @@ package orvnge.wwnje.com.fucknews.utils;
  * 存储php端信息
  */
 
-public class API {
+public class BlankAPI {
     /**
      * 用户操作
      */
@@ -14,7 +14,16 @@ public class API {
     public static  String SHARE_NEWS = "http://www.wwnje.com/FakeNews/Android_Share_News.php";//分享文章
     public static  String ADD_BOOKMARK = "http://www.wwnje.com/FakeNews/AndroidFinderAddBookmark.php";//添加书签
 
+    /**
+     * 订阅标签和新闻
+     */
+    public static  String ADD_ITEMS_URL = "http://www.wwnje.com/FakeNews/API_AddItems.php";//获取所有内容类别
 
+
+    /**
+     * 获取列表
+     */
+    public static  String GET_TYPE_URL = "http://www.wwnje.com/FakeNews/API_GetType.php";//获取所有内容类别
     public static  String GET_TAGS_URL = "http://www.wwnje.com/FakeNews/API_GetTags.php";//获取所有标签
     public static  String GET_MY_TAGS_URL = "http://www.wwnje.com/FakeNews/API_GetMyTags.php";//获取订阅标签
     public static  String GET_BOOKMARK_URL = "http://www.wwnje.com/FakeNews/API_GetBookMark.php";//获取所有书签

@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -33,11 +32,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.adapter.BookMarkAdapter;
-import orvnge.wwnje.com.fucknews.adapter.TagsAdapter;
 import orvnge.wwnje.com.fucknews.bean.BookMarkBean;
-import orvnge.wwnje.com.fucknews.bean.TagsBean;
 import orvnge.wwnje.com.fucknews.data.FinderData;
-import orvnge.wwnje.com.fucknews.utils.API;
+import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
 import orvnge.wwnje.com.fucknews.utils.MyUtils;
 
@@ -48,9 +45,9 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
 
     private static final String TAG = "BookMarkActivity";
 
-    @Bind(R.id.tags_recycleview)
+    @Bind(R.id.itemsbase_recycleview)
     RecyclerView recycleView;
-    @Bind(R.id.tags_swip)
+    @Bind(R.id.itemsbase_swip)
     SwipeRefreshLayout swip;
 
     private BookMarkAdapter bookMarkAdapter;
@@ -70,7 +67,7 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tags);
+        setContentView(R.layout.activity_itemsbase);
         setTitle("所有书签待阅读");
         ButterKnife.bind(this);
 
@@ -183,7 +180,7 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
         JSONObject paramJsonObject = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                API.GET_BOOKMARK_URL,
+                BlankAPI.GET_BOOKMARK_URL,
                 paramJsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override

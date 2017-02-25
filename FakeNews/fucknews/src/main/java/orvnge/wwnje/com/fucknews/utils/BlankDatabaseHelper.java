@@ -8,10 +8,14 @@ import android.widget.Toast;
 
 /**
  * Created by wwnje on 2016/5/10.
+ * 数据库操作
+ * 用于保存
+ * news缓存
+ * 标签信息
  */
-public class MyDatabaseHelper extends SQLiteOpenHelper {
+public class BlankDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String TAG = "MyDatabaseHelper";
+    private static final String TAG = "BlankDatabaseHelper";
     private static final String DB_TABLE_NEWS = "LocalNews";
     private static final String DB_TABLE_USER = "User";
 
@@ -38,9 +42,9 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private Context mContext;
 
-    public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public BlankDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        Log.d(TAG, "MyDatabaseHelper: ");
+        Log.d(TAG, "BlankDatabaseHelper: ");
         mContext = context;
     }
 

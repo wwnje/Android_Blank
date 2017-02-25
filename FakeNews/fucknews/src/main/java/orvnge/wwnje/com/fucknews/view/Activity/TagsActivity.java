@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,13 +31,11 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.WrapContentLinearLayoutManager;
-import orvnge.wwnje.com.fucknews.adapter.TagsAdapter;
-import orvnge.wwnje.com.fucknews.bean.TagsBean;
+import orvnge.wwnje.com.fucknews.adapter.BlankItemsBaseAdapter;
+import orvnge.wwnje.com.fucknews.bean.BlankBaseItemsBean;
 import orvnge.wwnje.com.fucknews.data.FinderData;
-import orvnge.wwnje.com.fucknews.utils.API;
+import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
-import orvnge.wwnje.com.fucknews.utils.MyUtils;
 
 /**
  * 标签界面
@@ -47,13 +44,13 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private static final String TAG = "TagsActivity";
 
-    @Bind(R.id.tags_recycleview)
+    @Bind(R.id.itemsbase_recycleview)
     RecyclerView recycleView;
-    @Bind(R.id.tags_swip)
+    @Bind(R.id.itemsbase_swip)
     SwipeRefreshLayout swip;
 
-    private TagsAdapter tagsAdapter;
-    private List<TagsBean> items = new ArrayList<>();
+    private BlankItemsBaseAdapter blankItemsBaseAdapter;
+    private List<BlankBaseItemsBean> items = new ArrayList<>();
 
     private RecyclerView.LayoutManager layoutManager;
 
@@ -70,7 +67,7 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tags);
+        setContentView(R.layout.activity_itemsbase);
         setTitle("所有标签");
         ButterKnife.bind(this);
 
@@ -83,11 +80,11 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         recycleView.setHasFixedSize(true);
 
-        tagsAdapter = new TagsAdapter(getApplicationContext());
-        recycleView.setAdapter(tagsAdapter);
+        blankItemsBaseAdapter = new BlankItemsBaseAdapter(getApplicationContext());
+        recycleView.setAdapter(blankItemsBaseAdapter);
 
         //点击进行订阅
-        tagsAdapter.setOnItemClickListener(new TagsAdapter.OnItemClickListener() {
+        blankItemsBaseAdapter.setOnItemClickListener(new BlankItemsBaseAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 //此处实现onItemClick的接口
@@ -108,6 +105,7 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
         swip.post(new Runnable() {
             @Override
             public void run() {
+                swip.setRefreshing(true);
                 new LoadAllAppsTask().execute("Test AsyncTask");
             }
         });
@@ -118,11 +116,8 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
     //下拉刷新
     @Override
     public void onRefresh() {
-        if (!isRefresh) {
-            isRefresh = true;
             page = 1;
             new LoadAllAppsTask().execute("Test AsyncTask");
-        }
     }
 
     /**
@@ -130,14 +125,6 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
      */
 
     private class LoadAllAppsTask extends AsyncTask<String, Integer, Long> {
-
-        @Override
-        protected void onPreExecute() {
-            swip.setRefreshing(true);
-            isSetData = false;
-            page = 1;
-        }
-
         /**
          * 后台处理 请求
          *
@@ -154,50 +141,6 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
         }
     }
 
-//    private void setList() {
-//        runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                int start = 20 * (page - 1);
-//                if (MyUtils.isOpenNetwork(getApplicationContext())) {
-//                    getALLTags(start, page * 20);
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "没有网络连接", Toast.LENGTH_SHORT).show();
-//                }
-//                Toast.makeText(getApplicationContext(), "正在notifyDataSetChanged：" + isRefresh, Toast.LENGTH_SHORT).show();
-//
-//                swip.setRefreshing(false);
-//                tagsAdapter.notifyDataSetChanged();
-//
-//                isRefresh = false;
-//                Toast.makeText(getApplicationContext(), "加载完成：" + isRefresh, Toast.LENGTH_SHORT).show();
-//            }
-//        };
-//        handler = new Handler();
-//        handler.postDelayed(runnable, 500);
-//    }
-
-//
-//    private void setList() {
-//        runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                int start = 20 * (page - 1);
-//                if (MyUtils.isOpenNetwork(getApplicationContext())) {
-//                    getALLTags(start, page * 20);
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "没有网络连接", Toast.LENGTH_SHORT).show();
-//                }
-//                Toast.makeText(getApplicationContext(), "正在notifyDataSetChanged：" + isRefresh, Toast.LENGTH_SHORT).show();
-//                tagsAdapter.notifyDataSetChanged();
-//                swip.setRefreshing(false);
-//                isRefresh = false;
-//                Toast.makeText(getApplicationContext(), "加载完成：" + isRefresh, Toast.LENGTH_SHORT).show();
-//            }
-//        };
-//        handler = new Handler();
-//        handler.postDelayed(runnable, 500);
-//    }
 
     @Override
     public void onDestroy() {
@@ -222,7 +165,7 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
         JSONObject paramJsonObject = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                API.GET_TAGS_URL,
+                BlankAPI.GET_TAGS_URL,
                 paramJsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -234,11 +177,12 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
                             }
 
                             //请求完成
-                            tagsAdapter.addAll(items);
-                            isSetData = true;
+                            blankItemsBaseAdapter.addAll(items);
+                            items = new ArrayList<>();//清除
+
                             //处理完毕进行设置
                             swip.setRefreshing(false);
-                            tagsAdapter.notifyDataSetChanged();
+                            blankItemsBaseAdapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -269,12 +213,12 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
             String tags_name = jsonObject.getString("tags_name");
             String tags_id = jsonObject.getString("tags_id");
 
-            TagsBean data = new TagsBean();
+            BlankBaseItemsBean data = new BlankBaseItemsBean();
             data.setTags_name(tags_name);
             data.setTags_id(Integer.parseInt(tags_id));
             items.add(data);
 
-            //tagsAdapter.add(data);
+            //blankItemsBaseAdapter.add(data);
         } catch (JSONException e) {
             e.printStackTrace();
         }

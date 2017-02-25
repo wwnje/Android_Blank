@@ -12,11 +12,11 @@
     tools:context="orvnge.wwnje.com.fucknews.view.Activity.TagsActivity">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/tags_swip"
+        android:id="@+id/itemsbase_swip"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/tags_recycleview"
+            android:id="@+id/itemsbase_recycleview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </android.support.v7.widget.RecyclerView>

@@ -3,12 +3,10 @@ package orvnge.wwnje.com.fucknews.view.Fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.wuxiaolong.pullloadmorerecyclerview.PullLoadMoreRecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,13 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.adapter.NewsAdapter;
 import orvnge.wwnje.com.fucknews.bean.NewsBean;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
-import orvnge.wwnje.com.fucknews.utils.MyUtils;
-import orvnge.wwnje.com.fucknews.view.Activity.TagsActivity;
 
 //TODO:列表显示的时候不转圈
 
@@ -48,16 +42,11 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private static final String TAG = "ContentFragment";
     private RecyclerView.LayoutManager layoutManager;
 
-    // 标志位，标志已经初始化完成，因为setUserVisibleHint是在onCreateView之前调用的，在视图未初始化的时候，在lazyLoad当中就使用的话，就会有空指针的异常
-    //标志当前页面是否可见
-    private RecyclerView mPullLoadMoreRecyclerView;
+    private RecyclerView mRecyclerView;
     private SwipeRefreshLayout swip;
     private NewsAdapter mNewsAdapter;
-    private Handler handler;
-    private Runnable runnable;
     private int page = 1;
-    private String url;//文章url
-    private String mTitle;//文章标题
+
     private List<NewsBean> newsNow = new ArrayList<>();//现在加载的新数据
 
     private Boolean isLoadMore = false;
@@ -72,37 +61,27 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        url = this.getArguments().getString("url");
-        mTitle = this.getArguments().getString("title");
 
-
-        mPullLoadMoreRecyclerView = (RecyclerView) view.findViewById(R.id.pullLoadMoreRecyclerView);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.content_RecyclerView);
         swip = (SwipeRefreshLayout) view.findViewById(R.id.content_swip);
 
+        initData();
+        initView();
+    }
+
+    /**
+     * 界面设置
+     */
+    private void initView() {
+
         layoutManager = new LinearLayoutManager(getActivity());
-        mPullLoadMoreRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
 
-        mPullLoadMoreRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(true);
         mNewsAdapter = new NewsAdapter(getActivity());
-        mPullLoadMoreRecyclerView.setAdapter(mNewsAdapter);
+        mRecyclerView.setAdapter(mNewsAdapter);
 
-//        mPullLoadMoreRecyclerView.setOnPullLoadMoreListener(new PullLoadMoreRecyclerView.PullLoadMoreListener() {
-//            @Override
-//            public void onRefresh() {
-//                page = 1;
-//                int start = 20 * (page - 1);
-//                new LoadAllAppsTask().execute(start);
-//            }
-//
-//            @Override
-//            public void onLoadMore() {
-//                loadMore();
-//            }
-//        });
-//        isPrepared = true;
-        //lazyLoad();
-
-        mPullLoadMoreRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 
@@ -125,7 +104,8 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 //如果两个条件都满足则说明是真正的滑动到了底部
                 if(lastChildBottom == recyclerBottom && lastPosition == recyclerView.getLayoutManager().getItemCount()-1 ){
                     Toast.makeText(getActivity(), "滑动到底了", Toast.LENGTH_SHORT).show();
-                    new LoadAllAppsTask().execute(loadMore());
+                    swip.setRefreshing(true);
+                    new LoadAllAppsTask().execute(loadMore());//下拉刷新请求
                 }
             }
 
@@ -142,9 +122,23 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 new LoadAllAppsTask().execute(start);
             }
         });
-
     }
 
+    private String mUrl;//文章url
+    private String mTitle;//文章标题
+
+    /**
+     * 获取items内容
+     */
+    private void initData() {
+        mUrl = this.getArguments().getString("tags_url");
+        mTitle = this.getArguments().getString("tags_title");
+    }
+
+    /**
+     * 下拉刷新
+     * @return
+     */
     private Integer loadMore() {
         isLoadMore = true;
         page++;
@@ -164,6 +158,9 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
     }
 
 
+    /**
+     * 后台操作请求
+     */
     private class LoadAllAppsTask extends AsyncTask<Integer, Integer, Long> {
         @Override
         protected Long doInBackground(Integer... params) {
@@ -187,7 +184,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         JSONObject paramJsonObject = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                url,
+                mUrl,//相应标签 请求链接
                 paramJsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -229,7 +226,6 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     private void add(JSONObject jsonObject) {
         try {
-            Log.d(TAG, "add: ");
             String title = jsonObject.getString("title");
             String desc = jsonObject.getString("desc");
             String time = jsonObject.getString("time");
@@ -252,12 +248,5 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (handler != null)
-            handler.removeCallbacks(runnable);
     }
 }

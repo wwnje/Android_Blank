@@ -41,7 +41,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.R;
 
-import static orvnge.wwnje.com.fucknews.utils.API.SHARE_NEWS;
+import static orvnge.wwnje.com.fucknews.utils.BlankAPI.SHARE_NEWS;
 
 /*
   用户添加文章

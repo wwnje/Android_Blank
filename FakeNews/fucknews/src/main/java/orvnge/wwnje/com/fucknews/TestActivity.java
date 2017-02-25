@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.bean.DouBanNote;
-import orvnge.wwnje.com.fucknews.utils.API;
+import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -78,7 +78,7 @@ public class TestActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        StringRequest request = new StringRequest(API.DOUBAN_NOTE_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(BlankAPI.DOUBAN_NOTE_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.i("info", response);

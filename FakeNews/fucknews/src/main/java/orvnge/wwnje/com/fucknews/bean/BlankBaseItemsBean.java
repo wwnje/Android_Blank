@@ -4,7 +4,7 @@ package orvnge.wwnje.com.fucknews.bean;
  * Created by wwnje on 2017/2/19.
  */
 
-public class TagsBean {
+public class BlankBaseItemsBean {
     private int tags_id;
     private String tags_name;
 

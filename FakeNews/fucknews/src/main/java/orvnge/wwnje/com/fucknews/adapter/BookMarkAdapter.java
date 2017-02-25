@@ -3,7 +3,6 @@ package orvnge.wwnje.com.fucknews.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.bean.BookMarkBean;
-import orvnge.wwnje.com.fucknews.bean.TagsBean;
 
 /**
  * Created by wwnje on 2017/2/19.

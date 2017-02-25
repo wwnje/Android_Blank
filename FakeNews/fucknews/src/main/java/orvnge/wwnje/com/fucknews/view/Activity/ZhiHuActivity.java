@@ -28,7 +28,7 @@ import com.google.gson.Gson;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.VolleySingleton;
 import orvnge.wwnje.com.fucknews.bean.ZhuanLan;
-import orvnge.wwnje.com.fucknews.utils.API;
+import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 
 
 public class ZhiHuActivity extends AppCompatActivity {
@@ -104,7 +104,7 @@ public class ZhiHuActivity extends AppCompatActivity {
             }
         });
 
-        StringRequest request = new StringRequest(Request.Method.GET, API.ZHUHU_POST_URL + slug, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.GET, BlankAPI.ZHUHU_POST_URL + slug, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
 

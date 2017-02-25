@@ -1,8 +1,6 @@
 package orvnge.wwnje.com.fucknews.utils;
 
 import android.content.Context;
-import android.content.pm.FeatureInfo;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,26 +17,24 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import orvnge.wwnje.com.fucknews.bean.TagsBean;
 import orvnge.wwnje.com.fucknews.data.FinderData;
-import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
 
 /**
  * Created by Administrator on 2017/1/31.
+ * 方法具体实现 和网络有关
  */
 
-public class EventManager {
+public class BlankNetMehod {
 
-    private static final String TAG = "EventManager";
+    private static final String TAG = "BlankNetMehod";
     //登录操作
     public static void Login(final Context context, final String name, final String password, final MenuItem menuItem) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        String url = API.Login_Url;
+        String url = BlankAPI.Login_Url;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -86,7 +82,7 @@ public class EventManager {
         //判断注册信息是否正确
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        String url = API.Register_Url;
+        String url = BlankAPI.Register_Url;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -112,12 +108,18 @@ public class EventManager {
         requestQueue.add(stringRequest);
     }
 
-    //订阅操作
-    public static void Subscribe(final Context context, final String tags_id) {
+    /**
+     * 订阅tags 和type共用
+     * news_type
+     * @param context
+     * @param _id
+     */
+    public static void Subscribe(final Context context, final int _id, final String subType) {
+
         //判断注册信息是否正确
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        String url = API.GET_MY_TAGS_URL;
+        String url = BlankAPI.ADD_ITEMS_URL;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -134,8 +136,9 @@ public class EventManager {
             @Override
             protected Map getParams() throws AuthFailureError {
                 Map map = new HashMap();
-                map.put("tags_id", tags_id);
-                map.put("finder_name", SharedPreferencesUtils.getParam("finder", context, "name", "null"));
+                map.put("finder_id", String.valueOf(FinderData.finder_id));
+                map.put("items_id", String.valueOf(_id));
+                map.put("subType", subType);//tags还是news
                 return map;
             }
         };
@@ -146,7 +149,6 @@ public class EventManager {
     //上传
     // 获取我的订阅数据更新版本号
     public static void GetMyTags(final Context context) {//传递进来
-//        Toast.makeText(this, "正在发起请求", Toast.LENGTH_SHORT).show();
         Map<String, String> params = new HashMap<String, String>();
 
         params.put("limit", String.valueOf(1000));
@@ -157,7 +159,7 @@ public class EventManager {
         JSONObject paramJsonObject = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                API.GET_MY_TAGS_URL,
+                BlankAPI.GET_MY_TAGS_URL,
                 paramJsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override

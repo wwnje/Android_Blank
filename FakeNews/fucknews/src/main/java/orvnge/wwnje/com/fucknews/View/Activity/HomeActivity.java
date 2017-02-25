@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -31,7 +30,7 @@ import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.other.AppConstants;
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.utils.EventManager;
+import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
 import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 import orvnge.wwnje.com.fucknews.utils.myCheckTools;
 import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
@@ -55,7 +54,7 @@ public class HomeActivity extends BaseActivity {
 
         FinderData finderData = new FinderData(getApplicationContext());//初始化数据
         //获取第一次的版本号
-        EventManager.GetMyTags(getApplicationContext());
+        BlankNetMehod.GetMyTags(getApplicationContext());
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         initNavigationViewHeader();
@@ -129,7 +128,8 @@ public class HomeActivity extends BaseActivity {
             //关闭侧边栏
             //mDrawerLayout.closeDrawers();
             switch (menuItem.getItemId()) {
-                case R.id.nav_me:
+
+                case R.id.nav_me://进入我的界面
                     if (FinderData.isLogin) {
                         //如果登陆了
                         Toast.makeText(mActivity, "进入我的界面", Toast.LENGTH_SHORT).show();
@@ -146,7 +146,7 @@ public class HomeActivity extends BaseActivity {
                                         String name = edit_name.getText().toString();
                                         String pwd = edit_password.getText().toString();
                                         if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10) && !name.isEmpty() && !name.isEmpty()) {
-                                            EventManager.Register(getApplicationContext(), show_if_success, name, pwd);
+                                            BlankNetMehod.Register(getApplicationContext(), show_if_success, name, pwd);
                                             Toast.makeText(mActivity, "正在注册,稍等", Toast.LENGTH_SHORT).show();
                                         } else {
                                             Toast.makeText(HomeActivity.this, "姓名和密码不能为空并且10位以内", Toast.LENGTH_SHORT).show();
@@ -160,7 +160,7 @@ public class HomeActivity extends BaseActivity {
                                         String name = edit_name.getText().toString();
                                         String pwd = edit_password.getText().toString();
                                         if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10)) {
-                                            EventManager.Login(getApplicationContext(), name, pwd, menuItem);
+                                            BlankNetMehod.Login(getApplicationContext(), name, pwd, menuItem);
                                             Toast.makeText(HomeActivity.this, "正在登录,请稍等", Toast.LENGTH_SHORT).show();
                                         } else {
                                             Toast.makeText(HomeActivity.this, "格式不正确", Toast.LENGTH_SHORT).show();
@@ -169,10 +169,12 @@ public class HomeActivity extends BaseActivity {
                                 }).show();
 
                     }
-
                     break;
 
-                case R.id.nav_about:
+                /**
+                 * 提交bug
+                 */
+                case R.id.nav_bug:
                     snackbar =
                             Snackbar.make(mDrawerLayout, "By wwnje", Snackbar.LENGTH_LONG)
                                     .setAction("提交Bug", new View.OnClickListener() {
@@ -194,15 +196,31 @@ public class HomeActivity extends BaseActivity {
                                     });
                     snackbar.show();
                     break;
+
+                /**
+                 * 查看tags
+                 */
                 case R.id.nav_tags:
                     startActivity(new Intent(HomeActivity.this, TagsActivity.class));
                     break;
+                /**
+                 * 查看我的tags
+                 */
                 case R.id.nav_my_tags:
                     startActivity(new Intent(HomeActivity.this, SubscribeActivity.class));
                     break;
+
+                /**
+                 * news_type订阅和第一次的查看
+                 */
+                case R.id.nav_news_type:
+                    startActivity(new Intent(HomeActivity.this, BlankNewsTypeActivity.class));
+                    break;
+
                 case R.id.nav_bookmark://书签
                     startActivity(new Intent(HomeActivity.this, BookMarkActivity.class));
                     break;
+
                 case R.id.v_score: //评分
                     try {
                         Uri uri = Uri.parse("market://details?id=" + getPackageName());

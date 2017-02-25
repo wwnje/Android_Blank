@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.TestActivity;
-import orvnge.wwnje.com.fucknews.utils.API;
+import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.CODE;
 import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
@@ -204,14 +204,14 @@ public class BlankFragment extends BaseFragment implements View.OnClickListener 
         Frags.add("Movie");
         Frags.add("Arts");
 
-        FragsURL.add(API.GET_NEWS_URL);
-        FragsURL.add(API.GET_WORLD_URL);
-        FragsURL.add(API.GET_LIFE_URL);
-        FragsURL.add(API.GET_GAME_URL);
-        FragsURL.add(API.GET_DESIGN_URL);
-        FragsURL.add(API.GET_BOOK_URL);
-        FragsURL.add(API.GET_MOVIE_URL);
-        FragsURL.add(API.GET_ARTS_URL);
+        FragsURL.add(BlankAPI.GET_NEWS_URL);
+        FragsURL.add(BlankAPI.GET_WORLD_URL);
+        FragsURL.add(BlankAPI.GET_LIFE_URL);
+        FragsURL.add(BlankAPI.GET_GAME_URL);
+        FragsURL.add(BlankAPI.GET_DESIGN_URL);
+        FragsURL.add(BlankAPI.GET_BOOK_URL);
+        FragsURL.add(BlankAPI.GET_MOVIE_URL);
+        FragsURL.add(BlankAPI.GET_ARTS_URL);
 
         Fragment newfragment;
         Bundle data;
@@ -220,8 +220,8 @@ public class BlankFragment extends BaseFragment implements View.OnClickListener 
             newfragment = new ContentFragment();
             data = new Bundle();
             data.putInt("id", i);
-            data.putString("title", Frags.get(i));
-            data.putString("url", FragsURL.get(i));
+            data.putString("tags_title", Frags.get(i));
+            data.putString("tags_url", FragsURL.get(i));
             Log.d(TAG, "setupViewPager: " + Frags.get(i) + FragsURL.get(i));
             newfragment.setArguments(data);
             adapter.addFrag(newfragment, Frags.get(i));
