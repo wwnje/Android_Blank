@@ -49,11 +49,7 @@ public class BlankNetMehod {
                 }
                 else if (!finder_id.equals("0") && !finder_id.equals("-1")) {
                     Toast.makeText(context, "登录成功：finder:" + finder_id, Toast.LENGTH_SHORT).show();
-
                     //保存信息
-//                    SharedPreferencesUtils.setParam("finder", context, "name", name);
-//                    SharedPreferencesUtils.setParam("finder", context, "password", password);
-//                    SharedPreferencesUtils.setParam("finder", context, "isLogin", true);
                     FinderData.SetLoginData(context, name, password, Integer.parseInt(finder_id));
                     menuItem.setTitle(FinderData.FinderName);
                 }
