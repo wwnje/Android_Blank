@@ -116,7 +116,6 @@ public class BlankNetMehod {
      */
     public static void Subscribe(final Context context, final int _id, final String subType) {
 
-        //判断注册信息是否正确
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         String url = BlankAPI.ADD_ITEMS_URL;

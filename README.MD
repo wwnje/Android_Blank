@@ -1,19 +1,5 @@
 ## Blank：基于协同推荐算法及其改进的的内容分享社交软件的设计与实现
 
-
-
-
-
-> 1.3connection
-
-
-
-> 1.2beta
-
-
-
-
-
 > 代码分类
 
 1. FakeNews:Android平台
