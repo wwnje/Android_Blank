@@ -3,6 +3,8 @@ package orvnge.wwnje.com.fucknews.view.Fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,7 +16,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,7 @@ import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.TestActivity;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.CODE;
+import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
 import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
@@ -37,9 +39,10 @@ import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BlankFragment extends BaseFragment implements View.OnClickListener {
+public class BlankFragment extends BaseFragment{
 
     private static final String TAG = "BlankFragment";
+    private DatabaseHelper dbHelper;
 
     private Toolbar mToolbar;
     @Bind(R.id.share_fab)
@@ -59,20 +62,29 @@ public class BlankFragment extends BaseFragment implements View.OnClickListener 
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.app_name);
 
-        /**
-         * 点击分享按钮进入分享界面
-         */
-        btn_share.setOnClickListener(this);
+        dbHelper = new DatabaseHelper(getActivity(), DatabaseHelper.DATABASE_LOCAL_MESSAGE, null, DatabaseHelper.DATABASE_LOCAL_MESSAGE_VERSION);
+
+        btn_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ShareNewsActivity.class));
+            }
+        });
+
         //设置标题居中
         //mToolbar.setTitle("");
         //TextView toolbarTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
         //toolbarTitle.setText("首页");
         ((HomeActivity) getActivity()).initDrawer(mToolbar);
+
         initTabLayout(view);
         inflateMenu();
         initSearchView();
     }
 
+    /**
+     * 搜索功能
+     */
     private void initSearchView() {
         final SearchView searchView = (SearchView) mToolbar.getMenu()
                 .findItem(R.id.menu_search).getActionView();
@@ -111,7 +123,9 @@ public class BlankFragment extends BaseFragment implements View.OnClickListener 
             }
         });
     }
-
+    /**
+     * 设置菜单
+     */
     private void inflateMenu() {
         mToolbar.inflateMenu(R.menu.home);
         mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -128,33 +142,41 @@ public class BlankFragment extends BaseFragment implements View.OnClickListener 
         });
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.share_fab:
-                startActivity(new Intent(getActivity(), ShareNewsActivity.class));
-                break;
-        }
-
-    }
-
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    /**
+     * ViewPager设置
+     */
+    class BlankViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public ViewPagerAdapter(FragmentManager manager) {
+        public BlankViewPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
+        private long baseId = 0;
+
         @Override
-        public Fragment getItem(int position) {
+        public long getItemId(int position) {
+            // give an ID different from position when position has been changed
+            return baseId + position;
+        }
+
+        /**
+         * 更新fragment的数量之后，在调用notifyDataSetChanged之前，changeId(1) 改变id，改变tag
+         * @param n
+         */
+        public void changeId(int n) {
+            // shift the ID returned by getItemId outside the range of all previous fragments
+            baseId += getCount() + n;
+        }
+
+        @Override
+        public Fragment getItem(int position) {//指定位置
             return mFragmentList.get(position);
         }
 
         @Override
-        public int getCount() {
+        public int getCount() {//数量
             return mFragmentList.size();
         }
 
@@ -169,11 +191,19 @@ public class BlankFragment extends BaseFragment implements View.OnClickListener 
         }
     }
 
+    /**
+     *
+     * @param view
+     */
     private void initTabLayout(View view) {
+
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        setupViewPager(viewPager);
+
+        setupViewPager(viewPager);//设置adapter
+
         viewPager.setOffscreenPageLimit(viewPager.getAdapter().getCount());
+
         // 设置ViewPager的数据等
         tabLayout.setupWithViewPager(viewPager);
         //适合很多tab
@@ -188,47 +218,80 @@ public class BlankFragment extends BaseFragment implements View.OnClickListener 
      * 设置首页展示标签的页面
      * @param viewPager
      */
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+
+    public void setupViewPager(ViewPager viewPager) {
+
+        BlankViewPagerAdapter mAdapter = new BlankViewPagerAdapter(getChildFragmentManager());
 
         List<String> Frags = new ArrayList<>();
         List<String> FragsURL = new ArrayList<>();
 
-        //存放订阅后的标签页
         Frags.add("Blank");
-        Frags.add("World");
-        Frags.add("Life");
-        Frags.add("Game");
-        Frags.add("Design");
-        Frags.add("Book");
-        Frags.add("Movie");
-        Frags.add("Arts");
+        FragsURL.add(BlankAPI.GET_NEWS_URL);//全部
 
-        FragsURL.add(BlankAPI.GET_NEWS_URL);
-        FragsURL.add(BlankAPI.GET_WORLD_URL);
-        FragsURL.add(BlankAPI.GET_LIFE_URL);
-        FragsURL.add(BlankAPI.GET_GAME_URL);
-        FragsURL.add(BlankAPI.GET_DESIGN_URL);
-        FragsURL.add(BlankAPI.GET_BOOK_URL);
-        FragsURL.add(BlankAPI.GET_MOVIE_URL);
-        FragsURL.add(BlankAPI.GET_ARTS_URL);
+        /**
+         * 读取本地local新闻类型
+         */
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        //查询所有数据
+        Cursor cursor = db.query(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL,//表明
+                null,//查询列名
+                null,//where约束条件
+                null ,//where具体值
+                null ,//group by的列
+                null,//进一步约束
+                null);//order by排列方式
+
+        if(cursor.moveToFirst()){//移到第一条数据
+            do{
+                //遍历cursor对象
+                String type_name = cursor.getString(cursor.getColumnIndex("type_name"));
+                String type_url = "http://www.wwnje.com/FakeNews/getNewsJSON_" + type_name + ".php";
+                //int type_id = cursor.getInt(cursor.getColumnIndex("type_id"));
+
+                //存放订阅后的标签页
+                Frags.add(type_name);
+                FragsURL.add(type_url);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+
+
+//        Frags.add("World");
+//        Frags.add("Life");
+//        Frags.add("Game");
+//        Frags.add("Design");
+//        Frags.add("Book");
+//        Frags.add("Movie");
+//        Frags.add("Arts");
+//
+//        FragsURL.add(BlankAPI.GET_WORLD_URL);
+//        FragsURL.add(BlankAPI.GET_LIFE_URL);
+//        FragsURL.add(BlankAPI.GET_GAME_URL);
+//        FragsURL.add(BlankAPI.GET_DESIGN_URL);
+//        FragsURL.add(BlankAPI.GET_BOOK_URL);
+//        FragsURL.add(BlankAPI.GET_MOVIE_URL);
+//        FragsURL.add(BlankAPI.GET_ARTS_URL);
 
         Fragment newfragment;
         Bundle data;
 
-        for(int i = 0; i < 8; i++){
+
+        for(int i = 0; i < Frags.size(); i++){
             newfragment = new ContentFragment();
             data = new Bundle();
             data.putInt("id", i);
             data.putString("tags_title", Frags.get(i));
             data.putString("tags_url", FragsURL.get(i));
-            Log.d(TAG, "setupViewPager: " + Frags.get(i) + FragsURL.get(i));
+
             newfragment.setArguments(data);
-            adapter.addFrag(newfragment, Frags.get(i));
+            mAdapter.addFrag(newfragment, Frags.get(i));
         }
 
-        viewPager.setAdapter(adapter);
+        mAdapter.changeId(1);
+        mAdapter.notifyDataSetChanged();
+
+        viewPager.setAdapter(mAdapter);
 
     }
-
 }

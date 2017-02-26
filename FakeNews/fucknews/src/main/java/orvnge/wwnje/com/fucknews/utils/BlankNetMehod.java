@@ -110,7 +110,7 @@ public class BlankNetMehod {
      * @param context
      * @param _id
      */
-    public static void Subscribe(final Context context, final int _id, final String subType) {
+    public static void Subscribe(final Context context, final int _id, final String subType, final String sub) {
 
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -134,6 +134,7 @@ public class BlankNetMehod {
                 map.put("finder_id", String.valueOf(FinderData.finder_id));
                 map.put("items_id", String.valueOf(_id));
                 map.put("subType", subType);//tags还是news
+                map.put("sub", sub);//true订阅否则取消
                 return map;
             }
         };

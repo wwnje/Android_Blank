@@ -14,8 +14,8 @@ public class FinderData {
     public static int MyTagsVersion;//订阅标签版本
     public static int BookVersion;//待阅读
 
-
     public static boolean IsFirstOpenAPP;//是否是第一次打开软件
+    public static boolean IsFirstSub;//是否是第一次订阅，以后就只显示订阅了的
 
     /**
      * 用户信息

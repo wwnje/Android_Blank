@@ -5,6 +5,10 @@ import android.content.Context;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.facebook.stetho.Stetho;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Created by wwnje on 2016/5/21.
@@ -20,6 +24,12 @@ public class MyApplication extends Application {
         context = getApplicationContext();
         requestQueue = Volley.newRequestQueue(context);
         super.onCreate();
+
+        Stetho.initializeWithDefaults(this);
+        new OkHttpClient.Builder()
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
+
     }
 
     public static RequestQueue getRequestQueue() {

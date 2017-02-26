@@ -1,8 +1,12 @@
 package orvnge.wwnje.com.fucknews.view.Activity;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,8 +37,10 @@ import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.adapter.BlankItemsBaseAdapter;
 import orvnge.wwnje.com.fucknews.bean.BlankBaseItemsBean;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
+import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
 import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
+import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
 
 
 /**
@@ -44,6 +50,7 @@ import orvnge.wwnje.com.fucknews.utils.MyApplication;
 public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, BlankItemsBaseAdapter.OnItemClickListener, BlankItemsBaseAdapter.OnLongItemClickListener {
 
     private static final String TAG = "TagsActivity";
+    private DatabaseHelper dbHelper;
 
     @Bind(R.id.itemsbase_recycleview)
     RecyclerView recycleView;
@@ -69,11 +76,17 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_itemsbase);
         setTitle("选择新闻类别");
+
+        //数据库名字，版本号
+        dbHelper = new DatabaseHelper(this, DatabaseHelper.DATABASE_LOCAL_MESSAGE, null, DatabaseHelper.DATABASE_LOCAL_MESSAGE_VERSION);
+
         ButterKnife.bind(this);
         initView();
     }
 
     private void initView() {
+
+
         layoutManager = new LinearLayoutManager(this);
         recycleView.setLayoutManager(layoutManager);
 
@@ -113,8 +126,37 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
     @Override
     public void onItemClick(View view, int position) {
 
-        BlankNetMehod.Subscribe(getApplicationContext(), blankItemsBaseAdapter.blankBaseItemsBeanList.get(position).getTags_id(), "news");
-        Toast.makeText(this, "你点击了" + position + blankItemsBaseAdapter.blankBaseItemsBeanList.get(position).getTags_name(), Toast.LENGTH_SHORT).show();
+        String type_name = blankItemsBaseAdapter.blankBaseItemsBeanList.get(position).getTags_name();
+        int type_id = blankItemsBaseAdapter.blankBaseItemsBeanList.get(position).getTags_id();
+
+        TextView tv = (TextView) view.findViewById(R.id.item_tags_name);
+        //如果字体本来是黑色就变成红色，反之就变为黑色
+        if (tv.getCurrentTextColor() == Color.BLACK) {
+
+            //网络请求订阅
+            BlankNetMehod.Subscribe(getApplicationContext(), type_id, "news", "true");
+
+            //本地插入订阅数据
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+
+            values.put("type_name", type_name);
+            values.put("type_id", type_id);
+
+            db.insert(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL, "or ", values);//插入数据
+            //values.clear();
+
+            tv.setTextColor(Color.RED);
+            //订阅
+        } else {
+
+            //网络请求取消订阅
+            BlankNetMehod.Subscribe(getApplicationContext(), type_id, "news", "false");
+
+            DatabaseHelper.DeleteData(dbHelper,  DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL,"type_id = ?" ,String.valueOf(type_id));
+
+            tv.setTextColor(Color.BLACK);
+        }
     }
 
     /**

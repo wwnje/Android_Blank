@@ -1,11 +1,15 @@
 package orvnge.wwnje.com.fucknews;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -17,24 +21,119 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.bean.DouBanNote;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
+import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
 
-public class TestActivity extends AppCompatActivity {
+/**
+ * 测试
+ * 数据库
+ * jsoup
+ */
+public class TestActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private DatabaseHelper dbHelper;
+
 
     @Bind(R.id.testBtn)
     Button btn;
 
+    @Bind(R.id.testBtnQuery)
+    Button testBtnQuery;
+
     @Bind(R.id.tv)
     TextView tv;
+
+    @Bind(R.id.testBtnCreate)
+    Button testBtnCreate;
+
+    @Bind(R.id.testBtnADD)
+    Button testBtnADD;
+
+    @Bind(R.id.testBtnDelete)
+    Button testBtnDelete;
+
+    @Bind(R.id.testBtnUpdate)
+    Button testBtnUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                new Thread(new Runnable() {
+
+        //数据库名字，版本号
+        dbHelper = new DatabaseHelper(this, "test.db", null, 2);
+
+        testBtnCreate.setOnClickListener(this);
+        testBtnADD.setOnClickListener(this);
+        testBtnDelete.setOnClickListener(this);
+        testBtnUpdate.setOnClickListener(this);
+        testBtnQuery.setOnClickListener(this);
+        btn.setOnClickListener(this);
+    }
+
+
+    /**
+     * 点击测试
+     *
+     * @param v
+     */
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.testBtnCreate://创建数据表
+                dbHelper.getWritableDatabase();
+                break;
+            case R.id.testBtnADD://添加数据
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                //开始组装第一条数据
+                values.put("type_name", "科技");
+                values.put("type_id", 1);
+                db.insert("NEWS_TYPE_LOCAL", null, values);//插入第一条数据
+                values.clear();
+
+                //开始组装第2条数据
+                values.put("type_name", "艺术");
+                values.put("type_id", 2);
+                db.insert("NEWS_TYPE_LOCAL", null, values);//插入第2条数据
+                break;
+
+            case R.id.testBtnDelete://删除数据
+                SQLiteDatabase db2 = dbHelper.getWritableDatabase();
+                db2.delete("NEWS_TYPE_LOCAL", "type_id = ?", new String[]{
+                        "1"
+                });
+
+                break;
+            case R.id.testBtnQuery://查询数据
+                SQLiteDatabase db4 = dbHelper.getWritableDatabase();
+                //查询所有数据
+                Cursor cursor = db4.query("NEWS_TYPE_LOCAL", null, null, null ,null ,null, null);
+                if(cursor.moveToFirst()){//移到第一条数据
+                    do{
+                        //遍历cursor对象
+                        String type_name = cursor.getString(cursor.getColumnIndex("type_name"));
+                        int type_id = cursor.getInt(cursor.getColumnIndex("type_id"));
+                        Toast.makeText(this, type_name + type_id , Toast.LENGTH_SHORT).show();
+                    }while (cursor.moveToNext());
+                }
+                cursor.close();
+                break;
+
+            case R.id.testBtnUpdate://更新数据
+
+                //DatabaseHelper.UpdateData(dbHelper);
+                SQLiteDatabase db3 = dbHelper.getWritableDatabase();
+                ContentValues values3 = new ContentValues();
+                values3.put("type_id", 4);
+                db3.update("NEWS_TYPE_LOCAL", values3, "type_name = ?", new String[]{
+                        "艺术"
+                });
+
+                break;
+            case R.id.testBtn:
+                //                new Thread(new Runnable() {
 //                    @Override
 //                    public void run() {
 //                        try {
@@ -73,18 +172,21 @@ public class TestActivity extends AppCompatActivity {
 //                    }
 //                }).start();
                 getData();
-            }
-        });
+                break;
+        }
     }
 
     private void getData() {
+        /**
+         * 有提供的
+         */
         StringRequest request = new StringRequest(BlankAPI.DOUBAN_NOTE_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.i("info", response);
                 dealData(response);
             }
-        }, new Response.ErrorListener(){
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
@@ -100,4 +202,6 @@ public class TestActivity extends AppCompatActivity {
         Log.d("BOOK", "dealData: " + note.getAuthor() + note.getSummary() + note.getContent());
         tv.setText(note.getContent());
     }
+
+
 }

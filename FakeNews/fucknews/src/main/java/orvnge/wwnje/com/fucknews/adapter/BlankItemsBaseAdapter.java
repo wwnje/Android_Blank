@@ -1,6 +1,9 @@
 package orvnge.wwnje.com.fucknews.adapter;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.bean.BlankBaseItemsBean;
+import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
 
 /**
  * Created by wwnje on 2017/2/19.
@@ -25,7 +29,12 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
 
     public List<BlankBaseItemsBean> blankBaseItemsBeanList;
     private Context context;
+    private DatabaseHelper dbHelper;
 
+    /**
+     * 初始化
+     * @param context
+     */
     public BlankItemsBaseAdapter(Context context) {
         blankBaseItemsBeanList = new ArrayList<>();
         this.context = context;
@@ -79,6 +88,9 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //TODO 只出现第一条数据 改为null
+
+        //数据库名字，版本号
+        dbHelper = new DatabaseHelper(context, DatabaseHelper.DATABASE_LOCAL_MESSAGE, null, DatabaseHelper.DATABASE_LOCAL_MESSAGE_VERSION);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tags, null);
         return new ViewHolder(view);
     }
@@ -86,7 +98,31 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        holder.tags_name.setText(blankBaseItemsBeanList.get(position).getTags_name() + "id:" + blankBaseItemsBeanList.get(position).getTags_id());
+        String type_name = blankBaseItemsBeanList.get(position).getTags_name();
+        int type_id = blankBaseItemsBeanList.get(position).getTags_id();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        //查询所有数据
+        Cursor cursor = db.query(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL,//表明
+                null,//查询列名
+                "type_id = ?",//where约束条件
+                new String[]{String.valueOf(type_id)} ,//where具体值
+                null ,//group by的列
+                null,//进一步约束
+                null);//order by排列方式
+
+        /**
+         * 订阅的显示红色
+         * 否则为黑色
+         */
+
+        holder.tags_name.setText(type_name +
+                "id:" + type_id);
+
+        if(cursor.getCount() == 0){ //如果没有这个记录显示未订阅状态
+            holder.tags_name.setTextColor(Color.BLACK);
+        }else{
+            holder.tags_name.setTextColor(Color.RED);
+        }
 
         //通过接口回调来实现RecyclerView的点击事件
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +141,6 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
                 return false;
             }
         });
-
     }
 
 
@@ -116,6 +151,7 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
 
 
     public class ViewHolder extends RecyclerView.ViewHolder{
+
 
         TextView tags_name;
         CardView cardView;
