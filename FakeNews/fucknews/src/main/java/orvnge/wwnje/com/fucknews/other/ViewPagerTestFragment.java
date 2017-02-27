@@ -31,12 +31,14 @@ import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
  */
 public class ViewPagerTestFragment extends Fragment   implements TextProvider {
 
+    private Toolbar mToolbar;
+
     private Button mAdd;
     private Button mRemove;
-    private ViewPager mPager;
-    private MyPagerAdapter mAdapter;
+    private static ViewPager mPager;
+    private static MyPagerAdapter mAdapter;
 
-    private ArrayList<String> mEntries = new ArrayList<String>();
+    private static ArrayList<String> mEntries = new ArrayList<String>();
 
     public ViewPagerTestFragment() {
         // Required empty public constructor
@@ -53,6 +55,9 @@ public class ViewPagerTestFragment extends Fragment   implements TextProvider {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mToolbar = (Toolbar) view.findViewById(R.id.test_toolbar);
+        mToolbar.setTitle(R.string.app_name);
 
         mEntries.add("pos 1");
         mEntries.add("pos 2");
@@ -82,13 +87,13 @@ public class ViewPagerTestFragment extends Fragment   implements TextProvider {
     }
 
 
-    private void addNewItem() {
+    public void addNewItem() {
         mEntries.add("new item");
         mAdapter.notifyDataSetChanged();
         mAdapter.notifyChangeInPosition(1);
     }
 
-    private void removeCurrentItem() {
+    public static void removeCurrentItem() {
         int position = mPager.getCurrentItem();
         mEntries.remove(position);
         mAdapter.notifyDataSetChanged();

@@ -72,7 +72,7 @@ public class HomeActivity extends BaseActivity {
             currentIndex = savedInstanceState.getInt(AppConstants.CURRENT_INDEX);
             switch (this.currentIndex) {
                 case 0:
-                    currentFragment = new BlankFragment();
+                    currentFragment = new ViewPagerTestFragment();
                     switchContent(currentFragment);
                     break;
                 case 1:
@@ -242,6 +242,17 @@ public class HomeActivity extends BaseActivity {
                 case R.id.v_data:
                     startActivity(new Intent(HomeActivity.this, DataActivity.class));
                     break;
+
+                case R.id.v_add:
+                    Toast.makeText(mActivity, test.get("hello"), Toast.LENGTH_SHORT).show();
+                    //startActivity(new Intent(HomeActivity.this, GitHubActivity.class));
+                    startActivity(new Intent(HomeActivity.this, RecycleViewActivity.class));
+                    break;
+
+                case R.id.v_remove:
+                    ViewPagerTestFragment.removeCurrentItem();
+                    break;
+
              /*   case R.id.navigation_item_night:
                     SharedPreferencesUtil.setBoolean(mActivity, AppConstants.ISNIGHT, true);
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);

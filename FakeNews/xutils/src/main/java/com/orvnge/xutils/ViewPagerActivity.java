@@ -32,7 +32,6 @@ public class ViewPagerActivity extends FragmentActivity implements TextProvider 
         mEntries.add("pos 1");
         mEntries.add("pos 2");
 
-
         mAdd = (Button) findViewById(R.id.add);
         mRemove = (Button) findViewById(R.id.remove);
         mPager = (ViewPager) findViewById(R.id.pager);
