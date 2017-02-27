@@ -30,6 +30,7 @@ import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.other.AppConstants;
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
+import orvnge.wwnje.com.fucknews.other.ViewPagerTestFragment;
 import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
 import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 import orvnge.wwnje.com.fucknews.utils.myCheckTools;
@@ -63,8 +64,9 @@ public class HomeActivity extends BaseActivity {
 
     private void initFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            currentFragment = new BlankFragment();
+            currentFragment = new ViewPagerTestFragment();
             switchContent(currentFragment);
+
         } else {
             //activity销毁后记住销毁前所在页面，用于夜间模式切换
             currentIndex = savedInstanceState.getInt(AppConstants.CURRENT_INDEX);
