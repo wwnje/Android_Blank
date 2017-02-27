@@ -1,6 +1,7 @@
 package orvnge.wwnje.com.fucknews;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -16,12 +17,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.orvnge.xutils.ViewPagerActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.bean.DouBanNote;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
+import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
 
 /**
  * 测试
@@ -133,6 +136,11 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.testBtn:
+                startActivity(new Intent(TestActivity.this, ViewPagerActivity.class));
+
+//                getData();
+
+
                 //                new Thread(new Runnable() {
 //                    @Override
 //                    public void run() {
@@ -171,7 +179,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 //                        }
 //                    }
 //                }).start();
-                getData();
                 break;
         }
     }

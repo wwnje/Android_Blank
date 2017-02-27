@@ -46,7 +46,6 @@ public class HomeActivity extends BaseActivity {
     private int currentIndex;
     private MenuItem _menuItem_finder;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

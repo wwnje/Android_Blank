@@ -157,6 +157,17 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
 
             tv.setTextColor(Color.BLACK);
         }
+
+
+        BlankFragment currentFragment = new BlankFragment();
+
+        String type_url = "http://www.wwnje.com/FakeNews/getNewsJSON_" + type_name + ".php";
+
+        currentFragment.Frags.add(type_name);
+        currentFragment.FragsURL.add(type_url);
+
+        currentFragment.UpdateView();
+
     }
 
     /**

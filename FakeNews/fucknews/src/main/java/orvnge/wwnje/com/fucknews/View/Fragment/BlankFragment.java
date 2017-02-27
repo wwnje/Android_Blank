@@ -41,10 +41,17 @@ import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
  */
 public class BlankFragment extends BaseFragment{
 
+    public List<String> Frags;
+    public List<String> FragsURL;
+
     private static final String TAG = "BlankFragment";
     private DatabaseHelper dbHelper;
 
     private Toolbar mToolbar;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private MyPagerAdapter mAdapter;
+
     @Bind(R.id.share_fab)
     FloatingActionButton btn_share;
 
@@ -59,6 +66,7 @@ public class BlankFragment extends BaseFragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.app_name);
 
@@ -145,11 +153,11 @@ public class BlankFragment extends BaseFragment{
     /**
      * ViewPager设置
      */
-    class BlankViewPagerAdapter extends FragmentPagerAdapter {
+    class MyPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public BlankViewPagerAdapter(FragmentManager manager) {
+        public MyPagerAdapter(FragmentManager manager) {
             super(manager);
         }
 
@@ -197,10 +205,10 @@ public class BlankFragment extends BaseFragment{
      */
     private void initTabLayout(View view) {
 
-        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
 
-        setupViewPager(viewPager);//设置adapter
+        setupViewPager();//设置adapter
 
         viewPager.setOffscreenPageLimit(viewPager.getAdapter().getCount());
 
@@ -216,15 +224,14 @@ public class BlankFragment extends BaseFragment{
 
     /**
      * 设置首页展示标签的页面
-     * @param viewPager
      */
 
-    public void setupViewPager(ViewPager viewPager) {
+    public void setupViewPager() {
 
-        BlankViewPagerAdapter mAdapter = new BlankViewPagerAdapter(getChildFragmentManager());
+        mAdapter = new MyPagerAdapter(getChildFragmentManager());
 
-        List<String> Frags = new ArrayList<>();
-        List<String> FragsURL = new ArrayList<>();
+        Frags = new ArrayList<>();
+        FragsURL = new ArrayList<>();
 
         Frags.add("Blank");
         FragsURL.add(BlankAPI.GET_NEWS_URL);//全部
@@ -256,22 +263,37 @@ public class BlankFragment extends BaseFragment{
         }
         cursor.close();
 
+        Fragment newfragment;
+        Bundle data;
 
-//        Frags.add("World");
-//        Frags.add("Life");
-//        Frags.add("Game");
-//        Frags.add("Design");
-//        Frags.add("Book");
-//        Frags.add("Movie");
-//        Frags.add("Arts");
+
+        for(int i = 0; i < Frags.size(); i++){
+            newfragment = new ContentFragment();
+            data = new Bundle();
+            data.putInt("id", i);
+            data.putString("tags_title", Frags.get(i));
+            data.putString("tags_url", FragsURL.get(i));
+
+            newfragment.setArguments(data);
+            mAdapter.addFrag(newfragment, Frags.get(i));
+        }
+
+//        mAdapter.changeId(1);
+//        mAdapter.notifyDataSetChanged();
+
+        viewPager.setAdapter(mAdapter);
+
+    }
 //
-//        FragsURL.add(BlankAPI.GET_WORLD_URL);
-//        FragsURL.add(BlankAPI.GET_LIFE_URL);
-//        FragsURL.add(BlankAPI.GET_GAME_URL);
-//        FragsURL.add(BlankAPI.GET_DESIGN_URL);
-//        FragsURL.add(BlankAPI.GET_BOOK_URL);
-//        FragsURL.add(BlankAPI.GET_MOVIE_URL);
-//        FragsURL.add(BlankAPI.GET_ARTS_URL);
+    public void UpdateView(){
+
+        mAdapter = new MyPagerAdapter(getChildFragmentManager());
+
+        Frags = new ArrayList<>();
+        FragsURL = new ArrayList<>();
+
+        Frags.add("Blank");
+        FragsURL.add(BlankAPI.GET_NEWS_URL);//全部
 
         Fragment newfragment;
         Bundle data;
@@ -292,6 +314,5 @@ public class BlankFragment extends BaseFragment{
         mAdapter.notifyDataSetChanged();
 
         viewPager.setAdapter(mAdapter);
-
     }
 }
