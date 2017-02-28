@@ -21,6 +21,7 @@ import com.orvnge.xutils.ViewPagerActivity;
 
 import java.util.ArrayList;
 
+import orvnge.wwnje.com.fucknews.ContentTestragment;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
 import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
@@ -29,7 +30,7 @@ import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ViewPagerTestFragment extends Fragment   implements TextProvider {
+public class ViewPagerFragment extends Fragment   implements TextProvider {
 
     private Toolbar mToolbar;
 
@@ -40,7 +41,7 @@ public class ViewPagerTestFragment extends Fragment   implements TextProvider {
 
     private static ArrayList<String> mEntries = new ArrayList<String>();
 
-    public ViewPagerTestFragment() {
+    public ViewPagerFragment() {
         // Required empty public constructor
     }
 
@@ -55,9 +56,9 @@ public class ViewPagerTestFragment extends Fragment   implements TextProvider {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mToolbar = (Toolbar) view.findViewById(R.id.test_toolbar);
-        mToolbar.setTitle(R.string.app_name);
+//
+//        mToolbar = (Toolbar) view.findViewById(R.id.test_toolbar);
+//        mToolbar.setTitle(R.string.app_name);
 
         mEntries.add("pos 1");
         mEntries.add("pos 2");
@@ -81,7 +82,7 @@ public class ViewPagerTestFragment extends Fragment   implements TextProvider {
             }
         });
 
-        mAdapter = new MyPagerAdapter(getChildFragmentManager(), this);
+        mAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager(), this);
 
         mPager.setAdapter(mAdapter);
     }
@@ -114,14 +115,14 @@ public class ViewPagerTestFragment extends Fragment   implements TextProvider {
         private TextProvider mProvider;
         private long baseId = 0;
 
-        public MyPagerAdapter(FragmentManager fm, TextProvider provider) {
-            super(fm);
+        public MyPagerAdapter(FragmentManager manager, TextProvider provider) {
+            super(manager);
             this.mProvider = provider;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return MyFragment.newInstance(mProvider.getTextForPosition(position));
+            return ContentTestragment.newInstance(mProvider.getTextForPosition(position));
         }
 
         @Override

@@ -30,7 +30,7 @@ import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.other.AppConstants;
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.other.ViewPagerTestFragment;
+import orvnge.wwnje.com.fucknews.other.ViewPagerFragment;
 import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
 import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 import orvnge.wwnje.com.fucknews.utils.myCheckTools;
@@ -64,7 +64,7 @@ public class HomeActivity extends BaseActivity {
 
     private void initFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            currentFragment = new ViewPagerTestFragment();
+            currentFragment = new BlankFragment();
             switchContent(currentFragment);
 
         } else {
@@ -72,7 +72,7 @@ public class HomeActivity extends BaseActivity {
             currentIndex = savedInstanceState.getInt(AppConstants.CURRENT_INDEX);
             switch (this.currentIndex) {
                 case 0:
-                    currentFragment = new ViewPagerTestFragment();
+                    currentFragment = new BlankFragment();
                     switchContent(currentFragment);
                     break;
                 case 1:
@@ -250,7 +250,7 @@ public class HomeActivity extends BaseActivity {
                     break;
 
                 case R.id.v_remove:
-                    ViewPagerTestFragment.removeCurrentItem();
+                    ViewPagerFragment.removeCurrentItem();
                     break;
 
              /*   case R.id.navigation_item_night:

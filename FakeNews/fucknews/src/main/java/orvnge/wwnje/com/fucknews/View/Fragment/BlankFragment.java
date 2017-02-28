@@ -41,9 +41,9 @@ import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
  */
 public class BlankFragment extends BaseFragment{
 
-    public List<String> Frags;
-    public List<String> FragsURL;
 
+//    public List<String> Frags;
+//    public List<String> FragsURL;
     private static final String TAG = "BlankFragment";
     private DatabaseHelper dbHelper;
 
@@ -154,14 +154,29 @@ public class BlankFragment extends BaseFragment{
      * ViewPager设置
      */
     class MyPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
+        private ArrayList<Fragment> mFragmentList;
+        private ArrayList<String> mFragmentTitleList;
+        private long baseId = 0;
 
-        public MyPagerAdapter(FragmentManager manager) {
-            super(manager);
+        public MyPagerAdapter(FragmentManager fragmentManager, ArrayList<Fragment> pages,ArrayList<String> titles) {
+            super(fragmentManager);
+            this.mFragmentList = pages;
+            this.mFragmentTitleList = titles;
         }
 
-        private long baseId = 0;
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            int index = mFragmentList.indexOf (object);
+            if (index == -1)
+                return POSITION_NONE;
+            else
+                return index;
+        }
 
         @Override
         public long getItemId(int position) {
@@ -178,10 +193,7 @@ public class BlankFragment extends BaseFragment{
             baseId += getCount() + n;
         }
 
-        @Override
-        public Fragment getItem(int position) {//指定位置
-            return mFragmentList.get(position);
-        }
+
 
         @Override
         public int getCount() {//数量
@@ -228,13 +240,17 @@ public class BlankFragment extends BaseFragment{
 
     public void setupViewPager() {
 
-        mAdapter = new MyPagerAdapter(getChildFragmentManager());
 
-        Frags = new ArrayList<>();
-        FragsURL = new ArrayList<>();
+        ArrayList<Fragment> Fragments = new ArrayList<>();
+        ArrayList<String> Titles = new ArrayList<>();
 
-        Frags.add("Blank");
-        FragsURL.add(BlankAPI.GET_NEWS_URL);//全部
+        mAdapter = new MyPagerAdapter(getChildFragmentManager(), Fragments,Titles);
+
+        List<String> typeNames = new ArrayList<>();
+        List<String> typeUrls = new ArrayList<>();
+
+        typeNames.add("Blank");
+        typeUrls.add(BlankAPI.GET_NEWS_URL);//全部
 
         /**
          * 读取本地local新闻类型
@@ -257,8 +273,8 @@ public class BlankFragment extends BaseFragment{
                 //int type_id = cursor.getInt(cursor.getColumnIndex("type_id"));
 
                 //存放订阅后的标签页
-                Frags.add(type_name);
-                FragsURL.add(type_url);
+                typeNames.add(type_name);
+                typeUrls.add(type_url);
             }while (cursor.moveToNext());
         }
         cursor.close();
@@ -266,16 +282,15 @@ public class BlankFragment extends BaseFragment{
         Fragment newfragment;
         Bundle data;
 
-
-        for(int i = 0; i < Frags.size(); i++){
+        for(int i = 0; i < typeNames.size(); i++){
             newfragment = new ContentFragment();
             data = new Bundle();
             data.putInt("id", i);
-            data.putString("tags_title", Frags.get(i));
-            data.putString("tags_url", FragsURL.get(i));
+            data.putString("tags_title", typeNames.get(i));
+            data.putString("tags_url", typeUrls.get(i));
 
             newfragment.setArguments(data);
-            mAdapter.addFrag(newfragment, Frags.get(i));
+            mAdapter.addFrag(newfragment, typeNames.get(i));//frag和titile
         }
 
 //        mAdapter.changeId(1);
@@ -283,36 +298,5 @@ public class BlankFragment extends BaseFragment{
 
         viewPager.setAdapter(mAdapter);
 
-    }
-//
-    public void UpdateView(){
-
-        mAdapter = new MyPagerAdapter(getChildFragmentManager());
-
-        Frags = new ArrayList<>();
-        FragsURL = new ArrayList<>();
-
-        Frags.add("Blank");
-        FragsURL.add(BlankAPI.GET_NEWS_URL);//全部
-
-        Fragment newfragment;
-        Bundle data;
-
-
-        for(int i = 0; i < Frags.size(); i++){
-            newfragment = new ContentFragment();
-            data = new Bundle();
-            data.putInt("id", i);
-            data.putString("tags_title", Frags.get(i));
-            data.putString("tags_url", FragsURL.get(i));
-
-            newfragment.setArguments(data);
-            mAdapter.addFrag(newfragment, Frags.get(i));
-        }
-
-        mAdapter.changeId(1);
-        mAdapter.notifyDataSetChanged();
-
-        viewPager.setAdapter(mAdapter);
     }
 }

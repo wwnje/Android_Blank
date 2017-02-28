@@ -65,9 +65,9 @@
         <activity android:name=".view.Activity.SubscribeActivity" />
         <activity android:name=".view.Activity.DataActivity" />
         <activity android:name=".view.Activity.BookMarkActivity" />
-        <activity android:name=".view.Activity.BlankNewsTypeActivity"></activity>
-
-        <activity android:name="com.orvnge.xutils.ViewPagerActivity"/>
+        <activity android:name=".view.Activity.BlankNewsTypeActivity" />
+        <activity android:name="com.orvnge.xutils.ViewPagerActivity" />
+        <activity android:name=".BlankActivity"></activity>
     </application>
 
 </manifest>
