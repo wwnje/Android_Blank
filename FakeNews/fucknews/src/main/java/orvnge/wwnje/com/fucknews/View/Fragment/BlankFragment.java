@@ -50,7 +50,10 @@ public class BlankFragment extends BaseFragment{
     private Toolbar mToolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private MyPagerAdapter mAdapter;
+    private static MyPagerAdapter mAdapter;
+
+    private static ArrayList<Fragment> Fragments;
+    private static ArrayList<String> Titles ;
 
     @Bind(R.id.share_fab)
     FloatingActionButton btn_share;
@@ -89,6 +92,7 @@ public class BlankFragment extends BaseFragment{
         inflateMenu();
         initSearchView();
     }
+
 
     /**
      * 搜索功能
@@ -154,8 +158,8 @@ public class BlankFragment extends BaseFragment{
      * ViewPager设置
      */
     class MyPagerAdapter extends FragmentPagerAdapter {
-        private ArrayList<Fragment> mFragmentList;
-        private ArrayList<String> mFragmentTitleList;
+        private ArrayList<Fragment> mFragmentList = new ArrayList<>();
+        private ArrayList<String> mFragmentTitleList = new ArrayList<>();
         private long baseId = 0;
 
         public MyPagerAdapter(FragmentManager fragmentManager, ArrayList<Fragment> pages,ArrayList<String> titles) {
@@ -240,11 +244,10 @@ public class BlankFragment extends BaseFragment{
 
     public void setupViewPager() {
 
+        Fragments = new ArrayList<>();
+        Titles = new ArrayList<>();
 
-        ArrayList<Fragment> Fragments = new ArrayList<>();
-        ArrayList<String> Titles = new ArrayList<>();
-
-        mAdapter = new MyPagerAdapter(getChildFragmentManager(), Fragments,Titles);
+        //mAdapter = new MyPagerAdapter(getChildFragmentManager(), Fragments,Titles);
 
         List<String> typeNames = new ArrayList<>();
         List<String> typeUrls = new ArrayList<>();
@@ -290,13 +293,38 @@ public class BlankFragment extends BaseFragment{
             data.putString("tags_url", typeUrls.get(i));
 
             newfragment.setArguments(data);
-            mAdapter.addFrag(newfragment, typeNames.get(i));//frag和titile
+
+            Fragments.add(newfragment);
+            Titles.add(typeNames.get(i));
+
+            //mAdapter.addFrag(newfragment, typeNames.get(i));//frag和titile
         }
 
 //        mAdapter.changeId(1);
 //        mAdapter.notifyDataSetChanged();
 
-        viewPager.setAdapter(mAdapter);
-
+        //viewPager.setAdapter(mAdapter);
+        viewPager.setAdapter(new MyPagerAdapter(getChildFragmentManager(), Fragments,Titles));
     }
+
+    public void Removess(){
+//        pages.remove(position); // ArrayList<ItemFragment>
+//        adapter.notifyDataSetChanged(); // MyFragmentAdapter
+    }
+
+    public static void addNewItem() {
+//        Fragments.add(newfragment);
+//        Titles.add(typeNames.get(i));
+        mAdapter.notifyDataSetChanged();
+        //mAdapter.notifyChangeInPosition(1);
+    }
+
+    public static void removeCurrentItem() {
+//        int position = mPager.getCurrentItem();
+        Fragments.remove(1); // ArrayList<ItemFragment>
+        Titles.remove(1);
+        mAdapter.notifyDataSetChanged();
+        //mAdapter.notifyChangeInPosition(1);
+    }
+
 }
