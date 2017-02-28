@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.orvnge.xutils.MyFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +47,21 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private SwipeRefreshLayout swip;
     private NewsAdapter mNewsAdapter;
     private int page = 1;
+
+    private String mText;
+
+    public static ContentFragment newInstance(String text) {
+        ContentFragment f = new ContentFragment(text);
+        return f;
+    }
+
+    public ContentFragment() {
+    }
+
+    public ContentFragment(String text) {
+        this.mText = text;
+    }
+
 
     private List<NewsBean> newsNow = new ArrayList<>();//现在加载的新数据
 

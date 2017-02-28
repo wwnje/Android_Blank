@@ -92,6 +92,11 @@ public class BlankActivity extends FragmentActivity implements TextProvider {
         return mEntries.size();
     }
 
+    @Override
+    public Fragment getTrag(int position) {
+        return null;
+    }
+
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
 

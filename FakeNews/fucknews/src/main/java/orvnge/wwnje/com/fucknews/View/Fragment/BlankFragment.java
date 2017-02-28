@@ -21,6 +21,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orvnge.xutils.MyFragment;
+import com.orvnge.xutils.TextProvider;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +42,7 @@ import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BlankFragment extends BaseFragment{
+public class BlankFragment extends BaseFragment  implements TextProvider {
 
 
 //    public List<String> Frags;
@@ -47,13 +50,13 @@ public class BlankFragment extends BaseFragment{
     private static final String TAG = "BlankFragment";
     private DatabaseHelper dbHelper;
 
+    static ArrayList<Fragment> Fragments = new ArrayList<>();
+    static ArrayList<String> Titles = new ArrayList<>();
+
     private Toolbar mToolbar;
-    private ViewPager viewPager;
+    private static ViewPager viewPager;
     private TabLayout tabLayout;
     private static MyPagerAdapter mAdapter;
-
-    private static ArrayList<Fragment> Fragments;
-    private static ArrayList<String> Titles ;
 
     @Bind(R.id.share_fab)
     FloatingActionButton btn_share;
@@ -92,7 +95,6 @@ public class BlankFragment extends BaseFragment{
         inflateMenu();
         initSearchView();
     }
-
 
     /**
      * 搜索功能
@@ -154,32 +156,42 @@ public class BlankFragment extends BaseFragment{
         });
     }
 
+    @Override
+    public String getTextForPosition(int position) {
+        return Titles.get(position);
+    }
+
+    @Override
+    public int getCount() {
+        return Titles.size();
+    }
+
+    @Override
+    public Fragment getTrag(int position) {
+        return Fragments.get(position);
+    }
+
     /**
      * ViewPager设置
      */
     class MyPagerAdapter extends FragmentPagerAdapter {
-        private ArrayList<Fragment> mFragmentList = new ArrayList<>();
-        private ArrayList<String> mFragmentTitleList = new ArrayList<>();
+        private TextProvider mProvider;
         private long baseId = 0;
 
-        public MyPagerAdapter(FragmentManager fragmentManager, ArrayList<Fragment> pages,ArrayList<String> titles) {
+        public MyPagerAdapter(FragmentManager fragmentManager, TextProvider provider) {
             super(fragmentManager);
-            this.mFragmentList = pages;
-            this.mFragmentTitleList = titles;
+            this.mProvider = provider;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return mFragmentList.get(position);
+            return Fragments.get(position);
+            //return ContentFragment.newInstance(mProvider.getTextForPosition(position));
         }
 
         @Override
-        public int getItemPosition(Object object) {
-            int index = mFragmentList.indexOf (object);
-            if (index == -1)
-                return POSITION_NONE;
-            else
-                return index;
+        public int getCount() {
+            return mProvider.getCount();
         }
 
         @Override
@@ -189,29 +201,18 @@ public class BlankFragment extends BaseFragment{
         }
 
         /**
-         * 更新fragment的数量之后，在调用notifyDataSetChanged之前，changeId(1) 改变id，改变tag
-         * @param n
+         * Notify that the position of a fragment has been changed.
+         * Create a new ID for each position to force recreation of the fragment
+         * @param n number of items which have been changed
          */
-        public void changeId(int n) {
+        public void notifyChangeInPosition(int n) {
             // shift the ID returned by getItemId outside the range of all previous fragments
             baseId += getCount() + n;
         }
 
-
-
-        @Override
-        public int getCount() {//数量
-            return mFragmentList.size();
-        }
-
-        public void addFrag(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
         @Override
         public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
+            return Titles.get(position);
         }
     }
 
@@ -244,10 +245,7 @@ public class BlankFragment extends BaseFragment{
 
     public void setupViewPager() {
 
-        Fragments = new ArrayList<>();
-        Titles = new ArrayList<>();
 
-        //mAdapter = new MyPagerAdapter(getChildFragmentManager(), Fragments,Titles);
 
         List<String> typeNames = new ArrayList<>();
         List<String> typeUrls = new ArrayList<>();
@@ -293,38 +291,25 @@ public class BlankFragment extends BaseFragment{
             data.putString("tags_url", typeUrls.get(i));
 
             newfragment.setArguments(data);
-
             Fragments.add(newfragment);
             Titles.add(typeNames.get(i));
-
-            //mAdapter.addFrag(newfragment, typeNames.get(i));//frag和titile
         }
 
-//        mAdapter.changeId(1);
-//        mAdapter.notifyDataSetChanged();
+        mAdapter = new MyPagerAdapter(getChildFragmentManager(),this);
+        viewPager.setAdapter(mAdapter);
 
-        //viewPager.setAdapter(mAdapter);
-        viewPager.setAdapter(new MyPagerAdapter(getChildFragmentManager(), Fragments,Titles));
     }
 
-    public void Removess(){
-//        pages.remove(position); // ArrayList<ItemFragment>
-//        adapter.notifyDataSetChanged(); // MyFragmentAdapter
-    }
-
-    public static void addNewItem() {
-//        Fragments.add(newfragment);
-//        Titles.add(typeNames.get(i));
+    private void addNewItem() {
+        Titles.add("new item");
         mAdapter.notifyDataSetChanged();
-        //mAdapter.notifyChangeInPosition(1);
     }
 
-    public static void removeCurrentItem() {
-//        int position = mPager.getCurrentItem();
-        Fragments.remove(1); // ArrayList<ItemFragment>
-        Titles.remove(1);
+    private static void removeCurrentItem() {
+        int position = viewPager.getCurrentItem();
+        Titles.remove(position);
+        Fragments.remove(position);
         mAdapter.notifyDataSetChanged();
-        //mAdapter.notifyChangeInPosition(1);
     }
 
 }
