@@ -244,9 +244,7 @@ public class HomeActivity extends BaseActivity {
                     break;
 
                 case R.id.v_add:
-                    Toast.makeText(mActivity, test.get("hello"), Toast.LENGTH_SHORT).show();
-                    //startActivity(new Intent(HomeActivity.this, GitHubActivity.class));
-                    startActivity(new Intent(HomeActivity.this, RecycleViewActivity.class));
+                    BlankFragment.addNewItem();
                     break;
 
                 case R.id.v_remove:

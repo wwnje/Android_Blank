@@ -300,8 +300,21 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
     }
 
-    private void addNewItem() {
-        Titles.add("new item");
+    public static  void addNewItem() {
+        Bundle data;
+
+        Fragment newfragment = new ContentFragment();
+        data = new Bundle();
+        data.putInt("id", Fragments.size());
+        data.putString("tags_title", "sss");
+        data.putString("tags_url", BlankAPI.GET_NEWS_URL);
+
+        newfragment.setArguments(data);
+
+        Fragments.add(newfragment);
+        Titles.add("sss");
+
+
         mAdapter.notifyDataSetChanged();
     }
 
