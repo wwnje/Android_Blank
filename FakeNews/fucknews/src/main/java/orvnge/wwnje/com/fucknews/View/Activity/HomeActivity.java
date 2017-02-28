@@ -250,7 +250,7 @@ public class HomeActivity extends BaseActivity {
                     break;
 
                 case R.id.v_remove:
-                    ViewPagerFragment.removeCurrentItem();
+                    BlankFragment.removeCurrentItem();
                     break;
 
              /*   case R.id.navigation_item_night:

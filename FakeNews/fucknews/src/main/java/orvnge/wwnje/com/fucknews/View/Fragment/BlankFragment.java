@@ -305,7 +305,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         mAdapter.notifyDataSetChanged();
     }
 
-    private static void removeCurrentItem() {
+    public static void removeCurrentItem() {
         int position = viewPager.getCurrentItem();
         Titles.remove(position);
         Fragments.remove(position);
