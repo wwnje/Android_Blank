@@ -245,7 +245,9 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
     public void setupViewPager() {
 
-
+        //初始化
+        Fragments = new ArrayList<>();
+        Titles = new ArrayList<>();
 
         List<String> typeNames = new ArrayList<>();
         List<String> typeUrls = new ArrayList<>();
@@ -300,26 +302,34 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
     }
 
+    /**
+     * 增加
+     */
     public static  void addNewItem() {
-        Bundle data;
 
         Fragment newfragment = new ContentFragment();
+        Bundle data;
         data = new Bundle();
+
+
+
         data.putInt("id", Fragments.size());
-        data.putString("tags_title", "sss");
-        data.putString("tags_url", BlankAPI.GET_NEWS_URL);
+        data.putString("tags_title", "test");
+        data.putString("tags_url", BlankAPI.GET_ARTS_URL);
 
         newfragment.setArguments(data);
-
         Fragments.add(newfragment);
         Titles.add("sss");
-
 
         mAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * 删去
+     */
     public static void removeCurrentItem() {
-        int position = viewPager.getCurrentItem();
+        int position = viewPager.getCurrentItem();//当前view
+
         Titles.remove(position);
         Fragments.remove(position);
         mAdapter.notifyDataSetChanged();
