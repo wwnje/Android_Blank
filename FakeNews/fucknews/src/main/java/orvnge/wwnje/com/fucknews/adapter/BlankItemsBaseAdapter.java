@@ -87,11 +87,10 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //TODO 只出现第一条数据 改为null
 
         //数据库名字，版本号
         dbHelper = new DatabaseHelper(context, DatabaseHelper.DATABASE_LOCAL_MESSAGE, null, DatabaseHelper.DATABASE_LOCAL_MESSAGE_VERSION);
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tags, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tags, parent, false);
         return new ViewHolder(view);
     }
 

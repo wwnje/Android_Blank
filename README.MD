@@ -1,5 +1,9 @@
 ## Blank：基于协同推荐算法及其改进的的内容分享社交软件的设计与实现
 
+> 设计步骤
+
+[脑图地址](http://naotu.baidu.com/file/797475783de812dd407617eb0880056f?token=5b1204296cb26e84)
+
 > 代码分类
 
 1. FakeNews:Android平台
@@ -20,7 +24,7 @@
 
 **start from 2016.x**
 
-> 系统环境
+> 开发环境
 
 * Android Studio 2.2.2
 * PHPStorm

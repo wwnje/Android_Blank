@@ -14,7 +14,7 @@
 
     <!--不带标题-->
     <LinearLayout
-        android:id="@+id/item_tags_container"
+        android:id="@+id/base_swipe_item_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
@@ -24,17 +24,16 @@
             android:id="@+id/item_tags_name"
             android:layout_width="0dp"
             android:layout_height="100dp"
-            android:text="Code"
             android:layout_weight="1"
             android:gravity="left|center_vertical"
-            android:textColor="@color/black"
+            android:textColor="#eddddd"
             android:textSize="21sp" />
 
         <ImageView
-            android:id="@+id/item_tags_img"
-            android:background="@color/bbutton_danger"
+            android:id="@+id/item_tags_image"
             android:layout_width="90dp"
             android:layout_height="90dp"
+            android:background="@color/black"
             android:layout_gravity="center_vertical|right" />
     </LinearLayout>
 </android.support.v7.widget.CardView>
