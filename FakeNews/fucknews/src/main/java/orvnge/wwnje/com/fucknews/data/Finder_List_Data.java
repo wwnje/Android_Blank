@@ -9,6 +9,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
 
 /**
@@ -38,7 +39,7 @@ public class Finder_List_Data {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         NEWS_TYPE_NAME.add("Blank");
-        NEWS_URL.add(URL_ + "Blank" + ".php");
+        NEWS_URL.add(BlankAPI.GET_NEWS_URL);
 
         //查询所有数据
         Cursor cursor = db.query(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL, null, null, null ,null ,null, null);

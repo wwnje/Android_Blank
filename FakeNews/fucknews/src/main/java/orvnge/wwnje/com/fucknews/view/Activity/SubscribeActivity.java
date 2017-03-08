@@ -167,7 +167,7 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
         Map<String, String> params = new HashMap<String, String>();
         params.put("limit", String.valueOf(limit));
         params.put("offset", String.valueOf(offset));
-        params.put("finder_id", String.valueOf(FinderData.finder_id));
+        params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
         params.put("myTags_version", String.valueOf(FinderData.MyTagsVersion));
 
         JSONObject paramJsonObject = new JSONObject(params);

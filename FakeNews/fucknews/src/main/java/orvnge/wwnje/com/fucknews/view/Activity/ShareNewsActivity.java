@@ -37,7 +37,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -46,9 +45,10 @@ import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
 import orvnge.wwnje.com.fucknews.data.Finder_News_Data;
+import orvnge.wwnje.com.fucknews.utils.BlankAPI;
+import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
 import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 
-import static orvnge.wwnje.com.fucknews.utils.BlankAPI.SHARE_NEWS;
 
 /*
   用户添加文章
@@ -73,7 +73,7 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
 
     private String news_link;
     private String news_title;
-    private String news_desc = "";
+    private String news_desc;
     private String news_tag;
     private String news_img_link;
 
@@ -149,6 +149,10 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
 
         add_news_link.setOnClickListener(this);
         add_img_link.setOnClickListener(this);
+
+        news_link = Finder_News_Data.News_URL;
+        news_desc = Finder_News_Data.DESC;
+        news_title = Finder_News_Data.Title;
     }
 
     private Uri saveBitmap(Bitmap bm) {
@@ -260,6 +264,7 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                                 news_title = edit_title.getText().toString();
                                 SharedPreferencesUtils.setParam("finder_news_save", context, "Title", news_title);
                                 tv_title.setText(news_title);
+                                Toast.makeText(ShareNewsActivity.this, "添加标题" + news_title, Toast.LENGTH_SHORT).show();
                             }
                         }).show();
                 break;
@@ -278,6 +283,7 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                                 news_desc =  edit_desc.getText().toString();
                                 SharedPreferencesUtils.setParam("finder_news_save", context, "Desc", news_desc);
                                 tv_desc.setText(news_desc);
+                                Toast.makeText(ShareNewsActivity.this, "添加描述" + news_desc, Toast.LENGTH_SHORT).show();
                             }
                         }).show();
                 break;
@@ -362,9 +368,12 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                                 news_tag = edit_tag.getSelectedItem().toString();
 
                                 if(news_title ==null || news_link == null){
-                                    Toast.makeText(ShareNewsActivity.this, "输入信息不完整" + news_title + news_link + news_tag, Toast.LENGTH_LONG).show();
+                                    Toast.makeText(ShareNewsActivity.this, "输入信息不完整：" +
+                                            "标题" + news_title +
+                                            "链接" + news_link +
+                                            "类型" + news_tag, Toast.LENGTH_LONG).show();
                                 }else {
-                                    add_news(news_tag, news_title, news_desc, news_link, news_img_link);
+                                    BlankNetMehod.Share_NEWS(context,news_tag, news_title, news_desc, news_link, news_img_link);
                                 }
                             }
                         }).show();
@@ -375,46 +384,5 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                 return super.onOptionsItemSelected(item);
         }
         return true;
-    }
-
-    private void add_news(final String _news_tag, final String _news_title, final String _news_desc, final String _news_link, final String _news_img_link) {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        String url = SHARE_NEWS;//文章分享
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                //成功时
-                String tip = response.toString();
-                if(tip.equals("200")){
-                    Toast.makeText(ShareNewsActivity.this, "200", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(ShareNewsActivity.this, tip, Toast.LENGTH_LONG).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //失败时
-                if(error != null)
-                Toast.makeText(ShareNewsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map getParams() throws AuthFailureError {
-                Map map = new HashMap();
-                map.put("finder", FinderData.FinderName);
-                map.put("tag", _news_tag);
-                map.put("title", _news_title);
-                map.put("desc", _news_desc);
-                map.put("news_link", _news_link);
-                map.put("news_img_link", _news_img_link);
-
-                return map;
-            }
-        };
-        //把StringRequest对象加到请求队列里来
-        requestQueue.add(stringRequest);
     }
 }

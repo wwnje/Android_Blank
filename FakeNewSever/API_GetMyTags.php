@@ -4,9 +4,9 @@
  * User: wwnje
  * Date: 2017/2/19
  * Time: 下午6:33
- * 返回所有我订阅的列表
- * tags_id
- * tags_name
+ * 返回所有我订阅的新闻类型列表
+ * type_name
+ * type_id
  */
 require 'mysql_connect.php';
 

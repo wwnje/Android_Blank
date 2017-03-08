@@ -23,7 +23,7 @@ public class FinderData {
      */
     public static String FinderName;
     public static String Password;
-    public static int finder_id;//用户id
+    public static int FINDER_ID;//用户id
 
 
     //初始化数据
@@ -36,7 +36,7 @@ public class FinderData {
 
         FinderName = (String)SharedPreferencesUtils.getParam("finder", context, "name", "Finder未登录");
         Password = (String)SharedPreferencesUtils.getParam("finder", context, "password", "Finder未登录");
-        finder_id = (int) SharedPreferencesUtils.getParam("finder", context, "finder_id", 0);
+        FINDER_ID = (int) SharedPreferencesUtils.getParam("finder", context, "FINDER_ID", 0);
     }
 
     //第一次打开设置数据
@@ -49,17 +49,17 @@ public class FinderData {
         SharedPreferencesUtils.setParam("finder", context, "name", name);
         SharedPreferencesUtils.setParam("finder", context, "password", password);
         SharedPreferencesUtils.setParam("finder", context, "isLogin", true);
-        SharedPreferencesUtils.setParam("finder", context, "finder_id", id);
+        SharedPreferencesUtils.setParam("finder", context, "FINDER_ID", id);
 
         FinderName = (String)SharedPreferencesUtils.getParam("finder", context, "name", "Finder未登录");
         Password = (String)SharedPreferencesUtils.getParam("finder", context, "password", "Finder未登录");
         isLogin = (boolean) SharedPreferencesUtils.getParam("finder", context, "isLogin", false);
-        finder_id = (int) SharedPreferencesUtils.getParam("finder", context, "finder_id", id);
+        FINDER_ID = (int) SharedPreferencesUtils.getParam("finder", context, "FINDER_ID", id);
     }
 
     public static String GetALLData(){
         return "名字：" + FinderName +
-                "id:" + finder_id +
+                "id:" + FINDER_ID +
                 "\nisLogin:" + isLogin +
                 "\nTagsVersion:" + TagsVersion +
                 "\nMyTagsVersion: " + MyTagsVersion +

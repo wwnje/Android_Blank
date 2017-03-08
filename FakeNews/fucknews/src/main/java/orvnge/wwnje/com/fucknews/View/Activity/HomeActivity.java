@@ -57,6 +57,7 @@ public class HomeActivity extends BaseActivity {
         context = getApplicationContext();
 
         initData();
+
         //获取第一次的版本号
         BlankNetMehod.GetMyTags(getApplicationContext());
 

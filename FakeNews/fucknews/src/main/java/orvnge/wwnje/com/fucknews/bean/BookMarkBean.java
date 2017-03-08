@@ -13,7 +13,7 @@ public class BookMarkBean {
      * news_content_url : http://mp.weixin.qq.com/s?__biz=MTg1MjI3MzY2MQ==&mid=2651681280&idx=1&sn=08f01327e837c56bc639c3b4e5bfbbd5&scene=0#wechat_redirect
      * news_pic_url : http://mmbiz.qpic.cn/mmbiz_jpg/icZklJrRfHgDVjxYbMS8emBic2TJtC81kgvEqNjkSHbk8A79viaWfV2yBFIKhsvU9zntyNfWtpITcMunpHDUic5wvw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1
      * type : Life
-     * finder_id : 1
+     * FINDER_ID : 1
      * finder_name : 1
      * book_version : 0
      */

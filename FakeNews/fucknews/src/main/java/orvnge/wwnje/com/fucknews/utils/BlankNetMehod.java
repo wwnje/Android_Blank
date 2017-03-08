@@ -25,6 +25,7 @@ import java.util.Map;
 
 import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
+import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
 
 /**
  * Created by Administrator on 2017/1/31.
@@ -135,7 +136,7 @@ public class BlankNetMehod {
             @Override
             protected Map getParams() throws AuthFailureError {
                 Map map = new HashMap();
-                map.put("finder_id", String.valueOf(FinderData.finder_id));
+                map.put("finder_id", String.valueOf(FinderData.FINDER_ID));
                 map.put("items_id", String.valueOf(_id));
                 map.put("subType", subType);//tags还是news
                 map.put("sub", sub);//true订阅否则取消
@@ -146,14 +147,60 @@ public class BlankNetMehod {
         requestQueue.add(stringRequest);
     }
 
-    //上传
+    /**
+     * 分享内容
+     */
+    public static void Share_NEWS(final Context context, final String _news_tag, final String _news_title, final String _news_desc, final String _news_link, final String _news_img_link) {
+
+        // Instantiate the RequestQueue.
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        String url = BlankAPI.SHARE_NEWS;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //成功时
+                String tip = response.toString();
+                if(tip.equals("200")){
+                    Toast.makeText(context, "分享成功", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(context, tip, Toast.LENGTH_LONG).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map getParams() throws AuthFailureError {
+                Map map = new HashMap();
+                map.put("finder_id", String.valueOf(FinderData.FINDER_ID));
+                map.put("tag", _news_tag);
+                map.put("title", _news_title);
+                map.put("desc", _news_desc);
+                map.put("news_link", _news_link);
+
+                //TODO 有问题 图片URL要判断
+//                if(_news_link != null){
+//                    map.put("news_img_link", _news_img_link);
+//                }
+                return map;
+            }
+        };
+        //把StringRequest对象加到请求队列里来
+        requestQueue.add(stringRequest);
+    }
+
     // 获取我的订阅数据更新版本号
     public static void GetMyTags(final Context context) {//传递进来
         Map<String, String> params = new HashMap<String, String>();
 
         params.put("limit", String.valueOf(1000));
         params.put("offset", String.valueOf(0));
-        params.put("finder_id", String.valueOf(FinderData.finder_id));
+        params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
         params.put("myTags_version", String.valueOf(FinderData.MyTagsVersion));
 
         JSONObject paramJsonObject = new JSONObject(params);
@@ -200,7 +247,7 @@ public class BlankNetMehod {
         Map<String, String> params = new HashMap<String, String>();
         dbHelper = new DatabaseHelper(context, DatabaseHelper.DATABASE_LOCAL_MESSAGE, null, DatabaseHelper.DATABASE_LOCAL_MESSAGE_VERSION);
 
-        params.put("finder_id", String.valueOf(FinderData.finder_id));
+        params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
 
         JSONObject paramJsonObject = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(

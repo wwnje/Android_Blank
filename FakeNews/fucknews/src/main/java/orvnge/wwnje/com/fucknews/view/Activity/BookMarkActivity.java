@@ -174,7 +174,7 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
         Map<String, String> params = new HashMap<String, String>();
         params.put("limit", String.valueOf(limit));
         params.put("offset", String.valueOf(offset));
-        params.put("finder_id", String.valueOf(FinderData.finder_id));
+        params.put("FINDER_ID", String.valueOf(FinderData.FINDER_ID));
         params.put("book_version", String.valueOf(FinderData.BookVersion));
 
         JSONObject paramJsonObject = new JSONObject(params);
@@ -220,7 +220,7 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
             String news_desc = jsonObject.getString("news_desc");
             String news_content_url = jsonObject.getString("news_pic_url");
             String type = jsonObject.getString("type");
-            String finder_id = jsonObject.getString("finder_id");
+            String finder_id = jsonObject.getString("FINDER_ID");
             String finder_name = jsonObject.getString("finder_name");
             String book_version = jsonObject.getString("book_version");
             String news_pic_url = jsonObject.getString("news_pic_url");
