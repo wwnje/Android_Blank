@@ -1,5 +1,6 @@
 package orvnge.wwnje.com.fucknews.view.Activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,11 +37,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.R;
+import orvnge.wwnje.com.fucknews.data.FinderData;
+import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
+import orvnge.wwnje.com.fucknews.data.Finder_News_Data;
+import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 
 import static orvnge.wwnje.com.fucknews.utils.BlankAPI.SHARE_NEWS;
 
@@ -49,8 +56,10 @@ import static orvnge.wwnje.com.fucknews.utils.BlankAPI.SHARE_NEWS;
 public class ShareNewsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ShareNewsActivity";
+
     @Bind(R.id.add_btn_news_link) Button add_news_link;
     @Bind(R.id.add_btn_pic) Button add_img_link;
+    private ArrayAdapter<String> arrayAdapter;
 
     private Button add_btn_shot;
     private Button add_btn_open;
@@ -58,9 +67,9 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
     private static int CAMERA_REQUEST_CODE = 1;
     private static int GALLERY_REQUEST_CODE = 2;
     private static int CROP_REQUEST_CODE = 3;
-    private ImageView add_imageview;
-    private TextView add_title;
-    private TextView add_desc;
+    private ImageView imageview;
+    private TextView tv_title;
+    private TextView tv_desc;
 
     private String news_link;
     private String news_title;
@@ -73,6 +82,8 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
     private String share_link;
     private String share_img_link;
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +91,12 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
 
         setTitle("分享你喜欢的文章");
         ButterKnife.bind(this);
+        context = getApplicationContext();
+
+        /**
+         * 初始化内容
+         */
+        Finder_News_Data.Finder_News_NEW(context);
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -119,19 +136,19 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
         add_btn_shot.setOnClickListener(this);
         add_btn_open = (Button) findViewById(R.id.add_btn_open);
         add_btn_open.setOnClickListener(this);
-        add_imageview = (ImageView) findViewById(R.id.add_imageview);
-        add_imageview.setOnClickListener(this);
+        imageview = (ImageView) findViewById(R.id.add_imageview);
+        imageview.setOnClickListener(this);
 
-        add_title = (TextView) findViewById(R.id.add_title);
-        add_title.setOnClickListener(this);
+        tv_title = (TextView) findViewById(R.id.add_title);
+        tv_title.setText(Finder_News_Data.Title);
+        tv_title.setOnClickListener(this);
 
-        add_desc = (TextView) findViewById(R.id.add_desc);
-        add_desc.setOnClickListener(this);
+        tv_desc = (TextView) findViewById(R.id.add_desc);
+        tv_desc.setText(Finder_News_Data.DESC);
+        tv_desc.setOnClickListener(this);
 
         add_news_link.setOnClickListener(this);
         add_img_link.setOnClickListener(this);
-        add_title.setText(share_desc);
-        add_desc.setText(share_title);
     }
 
     private Uri saveBitmap(Bitmap bm) {
@@ -197,7 +214,7 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                     Bitmap bm = extras.getParcelable("data");
                     Uri uri = saveBitmap(bm);//转换
                     startImageZoom(uri);//必须是file类型的
-                    //add_imageview.setImageBitmap(bm);
+                    //imageview.setImageBitmap(bm);
                 }
             }
         } else if (requestCode == GALLERY_REQUEST_CODE) {
@@ -221,7 +238,7 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
             }
             Bundle extras = data.getExtras();
             Bitmap bm = extras.getParcelable("data");
-            add_imageview.setImageBitmap(bm);
+            imageview.setImageBitmap(bm);
         }
     }
 
@@ -232,14 +249,17 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                 final View View_Title = getLayoutInflater().inflate(R.layout.dialog_add_news, null);
                 final EditText edit_title = (EditText) View_Title.findViewById(R.id.add_news_dialog_edit);
 
+                edit_title.setText(Finder_News_Data.Title);
+
                 new AlertDialog.Builder(this).setTitle("标题")
                         .setView(View_Title)
                         .setNegativeButton("cancel", null)
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                add_title.setText(edit_title.getText());
                                 news_title = edit_title.getText().toString();
+                                SharedPreferencesUtils.setParam("finder_news_save", context, "Title", news_title);
+                                tv_title.setText(news_title);
                             }
                         }).show();
                 break;
@@ -247,31 +267,38 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
             case R.id.add_desc:
                 final View View_Desc = getLayoutInflater().inflate(R.layout.dialog_add_news, null);
                 final EditText edit_desc = (EditText) View_Desc.findViewById(R.id.add_news_dialog_edit);
+                edit_desc.setText(Finder_News_Data.DESC);
+
                 new AlertDialog.Builder(this).setTitle("desc")
                         .setView(View_Desc)
                         .setNegativeButton("cancel", null)
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                add_desc.setText(edit_desc.getText());
                                 news_desc =  edit_desc.getText().toString();
+                                SharedPreferencesUtils.setParam("finder_news_save", context, "Desc", news_desc);
+                                tv_desc.setText(news_desc);
                             }
                         }).show();
                 break;
-            case R.id.add_btn_news_link://Link
+            case R.id.add_btn_news_link:
                 final View View_Publish = getLayoutInflater().inflate(R.layout.dialog_add_newslink, null);
                 final EditText edit_link = (EditText) View_Publish.findViewById(R.id.add_news_link);
+                edit_link.setText(Finder_News_Data.News_URL);
+
                 if(share_link != null){
                     edit_link.setText(share_link);
                 }
+
                 new AlertDialog.Builder(this).setTitle("Add a Link")
                         .setView(View_Publish)
                         .setNegativeButton("cancel", null)
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(ShareNewsActivity.this, edit_link.getText(), Toast.LENGTH_SHORT).show();
-                                news_link = edit_link.getText().toString();
+                                news_link =  edit_link.getText().toString();
+                                SharedPreferencesUtils.setParam("finder_news_save", context, "News_URL", news_link);
+                                Toast.makeText(ShareNewsActivity.this, "添加链接" + news_link, Toast.LENGTH_SHORT).show();
                             }
                         }).show();
                 break;
@@ -309,6 +336,11 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
         return true;
     }
 
+    /**
+     * 菜单按钮上传
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -317,6 +349,10 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                 //Tag
                 final View View_Publish = getLayoutInflater().inflate(R.layout.dialog_tag, null);
                 final Spinner edit_tag = (Spinner) View_Publish.findViewById(R.id.spinner_select_tag);
+
+                arrayAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item, Finder_List_Data.NEWS_TYPE_NAME);
+                edit_tag.setAdapter(arrayAdapter);
+
                 new AlertDialog.Builder(this).setTitle("Select a Tag")
                         .setView(View_Publish)
                         .setNegativeButton("cancel", null)
@@ -325,10 +361,10 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                             public void onClick(DialogInterface dialog, int which) {
                                 news_tag = edit_tag.getSelectedItem().toString();
 
-                                if(news_title ==null || news_link == null || news_img_link ==null){
-                                    Toast.makeText(ShareNewsActivity.this, "输入信息不完整" + news_title + news_link + news_img_link + news_tag, Toast.LENGTH_LONG).show();
+                                if(news_title ==null || news_link == null){
+                                    Toast.makeText(ShareNewsActivity.this, "输入信息不完整" + news_title + news_link + news_tag, Toast.LENGTH_LONG).show();
                                 }else {
-                                    add_news("finder", news_tag, news_title, news_desc, news_link, news_img_link);
+                                    add_news(news_tag, news_title, news_desc, news_link, news_img_link);
                                 }
                             }
                         }).show();
@@ -341,7 +377,7 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
         return true;
     }
 
-    private void add_news(final String finder, final String _news_tag, final String _news_title, final String _news_desc, final String _news_link, final String _news_img_link) {
+    private void add_news(final String _news_tag, final String _news_title, final String _news_desc, final String _news_link, final String _news_img_link) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         String url = SHARE_NEWS;//文章分享
@@ -368,7 +404,7 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
             @Override
             protected Map getParams() throws AuthFailureError {
                 Map map = new HashMap();
-                map.put("finder", finder);
+                map.put("finder", FinderData.FinderName);
                 map.put("tag", _news_tag);
                 map.put("title", _news_title);
                 map.put("desc", _news_desc);

@@ -2,6 +2,7 @@ package orvnge.wwnje.com.fucknews.view.Activity;
 
 import com.orvnge.xutils.*;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -27,10 +28,10 @@ import com.bumptech.glide.Glide;
 import com.orvnge.xutils.recyclevIew.RecycleViewActivity;
 
 import orvnge.wwnje.com.fucknews.data.FinderData;
+import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
 import orvnge.wwnje.com.fucknews.other.AppConstants;
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.other.ViewPagerFragment;
 import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
 import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 import orvnge.wwnje.com.fucknews.utils.myCheckTools;
@@ -47,19 +48,30 @@ public class HomeActivity extends BaseActivity {
     private int currentIndex;
     private MenuItem _menuItem_finder;
 
+    private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        FinderData finderData = new FinderData(getApplicationContext());//初始化数据
+        context = getApplicationContext();
+
+        initData();
         //获取第一次的版本号
         BlankNetMehod.GetMyTags(getApplicationContext());
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         initNavigationViewHeader();
         initFragment(savedInstanceState);
+    }
 
+    /**
+     * 初始化数据
+     */
+    private void initData() {
+        Toast.makeText(context, "初始化数据", Toast.LENGTH_SHORT).show();
+        FinderData finderData = new FinderData(mActivity);//初始化数据
+        Finder_List_Data.Finder_List_Get(context);//获取用户订阅数据
     }
 
     private void initFragment(Bundle savedInstanceState) {
@@ -106,7 +118,7 @@ public class HomeActivity extends BaseActivity {
                 .placeholder(R.drawable.nav1)
                 .into(view2);
 
-        _menuItem_finder = navigationView.getMenu().findItem(R.id.nav_me);
+        _menuItem_finder = navigationView.getMenu().findItem(R.id.nav_login_or_me);
         //FinderData.isLogin = (boolean) SharedPreferencesUtils.getParam("finder", getApplicationContext(), "isLogin", false);
 
         //navigationView.getMenu().getItem(0).setTitle((String) SharedPreferencesUtils.getParam("finder", getApplicationContext(), "name", "Finder未登录"));
@@ -130,7 +142,7 @@ public class HomeActivity extends BaseActivity {
             //mDrawerLayout.closeDrawers();
             switch (menuItem.getItemId()) {
 
-                case R.id.nav_me://进入我的界面
+                case R.id.nav_login_or_me://进入我的界面
                     if (FinderData.isLogin) {
                         //如果登陆了
                         Toast.makeText(mActivity, "进入我的界面", Toast.LENGTH_SHORT).show();
@@ -175,7 +187,7 @@ public class HomeActivity extends BaseActivity {
                 /**
                  * 提交bug
                  */
-                case R.id.nav_bug:
+                case R.id.nav_commit_bug:
                     snackbar =
                             Snackbar.make(mDrawerLayout, "By wwnje", Snackbar.LENGTH_LONG)
                                     .setAction("提交Bug", new View.OnClickListener() {

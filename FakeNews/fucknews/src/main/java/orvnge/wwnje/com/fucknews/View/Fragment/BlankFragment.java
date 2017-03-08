@@ -32,6 +32,8 @@ import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.TestActivity;
+import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
+import orvnge.wwnje.com.fucknews.data.Finder_News_Data;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.CODE;
 import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
@@ -249,15 +251,15 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         Fragments = new ArrayList<>();
         Titles = new ArrayList<>();
 
-        List<String> typeNames = new ArrayList<>();
-        List<String> typeUrls = new ArrayList<>();
+//        List<String> typeNames = new ArrayList<>();
+//        List<String> typeUrls = new ArrayList<>();
+//
+//        typeNames.add("Blank");
+//        typeUrls.add(BlankAPI.GET_NEWS_URL);//全部
 
-        typeNames.add("Blank");
-        typeUrls.add(BlankAPI.GET_NEWS_URL);//全部
-
-        /**
+       /* *//**
          * 读取本地local新闻类型
-         */
+         *//*
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         //查询所有数据
         Cursor cursor = db.query(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL,//表明
@@ -280,21 +282,33 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
                 typeUrls.add(type_url);
             }while (cursor.moveToNext());
         }
-        cursor.close();
+        cursor.close();*/
 
         Fragment newfragment;
         Bundle data;
 
-        for(int i = 0; i < typeNames.size(); i++){
+//        for(int i = 0; i < typeNames.size(); i++){
+//            newfragment = new ContentFragment();
+//            data = new Bundle();
+//            data.putInt("id", i);
+//            data.putString("tags_title", typeNames.get(i));
+//            data.putString("tags_url", typeUrls.get(i));
+//
+//            newfragment.setArguments(data);
+//            Fragments.add(newfragment);
+//            Titles.add(typeNames.get(i));
+//        }
+
+        for(int i = 0; i < Finder_List_Data.NEWS_TYPE_NAME.size(); i++){
             newfragment = new ContentFragment();
             data = new Bundle();
             data.putInt("id", i);
-            data.putString("tags_title", typeNames.get(i));
-            data.putString("tags_url", typeUrls.get(i));
+            data.putString("tags_title", Finder_List_Data.NEWS_TYPE_NAME.get(i));
+            data.putString("tags_url", Finder_List_Data.NEWS_URL.get(i));
 
             newfragment.setArguments(data);
             Fragments.add(newfragment);
-            Titles.add(typeNames.get(i));
+            Titles.add(Finder_List_Data.NEWS_TYPE_NAME.get(i));
         }
 
         mAdapter = new MyPagerAdapter(getChildFragmentManager(),this);

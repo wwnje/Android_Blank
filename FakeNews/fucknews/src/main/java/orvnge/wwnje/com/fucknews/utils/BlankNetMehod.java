@@ -1,6 +1,8 @@
 package orvnge.wwnje.com.fucknews.utils;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import orvnge.wwnje.com.fucknews.data.FinderData;
+import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
 
 /**
  * Created by Administrator on 2017/1/31.
@@ -30,6 +33,7 @@ import orvnge.wwnje.com.fucknews.data.FinderData;
 
 public class BlankNetMehod {
 
+    private static DatabaseHelper dbHelper;
     private static final String TAG = "BlankNetMehod";
     //登录操作
     public static void Login(final Context context, final String name, final String password, final MenuItem menuItem) {
@@ -176,6 +180,65 @@ public class BlankNetMehod {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, "获取出错", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        MyApplication.getRequestQueue().add(jsonObjectRequest);
+    }
+
+    /**
+     * 获取我的新闻订阅标签
+     * @param context
+     */
+    public static void GetMyTypes(final Context context) {//传递进来
+        Map<String, String> params = new HashMap<String, String>();
+        dbHelper = new DatabaseHelper(context, DatabaseHelper.DATABASE_LOCAL_MESSAGE, null, DatabaseHelper.DATABASE_LOCAL_MESSAGE_VERSION);
+
+        params.put("finder_id", String.valueOf(FinderData.finder_id));
+
+        JSONObject paramJsonObject = new JSONObject(params);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                BlankAPI.GET_MY_TAGS_URL,
+                paramJsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray array = response.getJSONArray("myTypes");
+                            for (int j = 0; j < array.length(); j++) {
+                                int type_id = Integer.parseInt(array.getJSONObject(j).getString("tags_id"));
+                                String type_name = array.getJSONObject(j).getString("type_name");
+
+                                //TODO 保存到数据库和List
+                                Finder_List_Data.NEWS_TYPE_NAME.add(type_name);
+                                Finder_List_Data.NEWS_URL.add(Finder_List_Data.URL_ + type_name + ".php");
+                                Finder_List_Data.NEWS_TYPE_ID.add(type_id);
+
+                                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                                ContentValues values = new ContentValues();
+                                //开始组装第一条数据
+                                values.put("type_name", type_name);
+                                values.put("type_id", type_id);
+                                db.insert(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL, null, values);//插入第一条数据
+                                values.clear();
+
+                                Toast.makeText(context, "id: " + type_id + "类型名字" + type_name, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "获取新闻订阅标签出错", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

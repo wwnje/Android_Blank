@@ -70,5 +70,5 @@
         android:id="@+id/add_btn_pic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="添加图片url"/>
+        android:text="添加图片url（可选）"/>
 </LinearLayout>
