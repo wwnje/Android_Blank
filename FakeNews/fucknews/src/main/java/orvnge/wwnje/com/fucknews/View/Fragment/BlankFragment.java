@@ -267,7 +267,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
             data.putString("type", NEWS_TYPE_NAME.get(i));
             Datas.add(data);
 
-            newfragment.setArguments(data);
+            newfragment.setArguments(Datas.get(i));
             Fragments.add(newfragment);
             Titles.add(NEWS_TYPE_NAME.get(i));
         }
@@ -304,6 +304,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
      * 取消
      */
     public static void DeleteItem(int position) {
+        Datas.remove(position);
         Titles.remove(position);
         Fragments.remove(position);
         mAdapter.notifyDataSetChanged();
@@ -315,6 +316,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
     public static void removeCurrentItem() {
         int position = viewPager.getCurrentItem();//当前view
 
+        Datas.remove(position);
         Titles.remove(position);
         Fragments.remove(position);
         mAdapter.notifyDataSetChanged();
