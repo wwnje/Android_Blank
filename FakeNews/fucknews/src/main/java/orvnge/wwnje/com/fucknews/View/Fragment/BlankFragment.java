@@ -261,7 +261,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         for(int i = 0; i < NEWS_TYPE_NAME.size(); i++){
             ContentFragment newfragment = new ContentFragment();
             data = new Bundle();
-            //data.putInt("id", i);
+            data.putInt("id", i);
             data.putString("type", NEWS_TYPE_NAME.get(i));
 
             newfragment.setArguments(data);
@@ -285,7 +285,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         Bundle data;
         data = new Bundle();
 
-        //data.putInt("id", Fragments.size());
+        data.putInt("id", Fragments.size());
         data.putString("type", type_name);
 
         newfragment.setArguments(data);

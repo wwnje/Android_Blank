@@ -177,13 +177,12 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
      */
     private void initData() {
 
-        Bundle bundle = getArguments();
 
-        //mType = this.getArguments().getString("type");
-        mType = bundle.getString(ARGUMENT);
+        mType = this.getArguments().getString("type");
+        int mInt = this.getArguments().getInt("id");
 
         //mType = BlankFragment.Datas.get(1).getString("type");
-        Log.d(TAG, "initData: " + mType);
+        Log.d(TAG, "initData: " + mType + mInt);
     }
 
     /**
@@ -235,7 +234,6 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         params.put("news_type", mType);
         params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
 
-        Log.d(TAG, "getNews: " + mType);
         JSONObject paramJsonObject = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
