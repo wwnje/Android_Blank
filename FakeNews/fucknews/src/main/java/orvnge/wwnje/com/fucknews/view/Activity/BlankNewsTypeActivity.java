@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,8 @@ import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
 import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
 import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
+
+import static orvnge.wwnje.com.fucknews.data.Finder_List_Data.NEWS_TYPE_NAME;
 
 
 /**
@@ -142,7 +145,9 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
             values.put("type_id", type_id);
 
             db.insert(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL, "or ", values);//插入数据
-            //values.clear();
+
+            //更新UI
+            BlankFragment.AddNewItem(type_name);
 
             tv.setTextColor(Color.RED);
             //订阅
@@ -152,6 +157,15 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
             BlankNetMehod.Subscribe(getApplicationContext(), type_id, "news", "false");
 
             DatabaseHelper.DeleteData(dbHelper,  DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL,"type_id = ?" ,String.valueOf(type_id));
+
+            for (int i= 0;i < NEWS_TYPE_NAME.size(); i++){
+                String check = NEWS_TYPE_NAME.get(i);
+                if(check.equals(type_name))
+                {
+                    BlankFragment.DeleteItem(i);
+                    break;
+                }
+            }
 
             tv.setTextColor(Color.BLACK);
         }

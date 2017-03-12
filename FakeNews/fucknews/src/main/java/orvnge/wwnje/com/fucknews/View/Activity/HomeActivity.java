@@ -257,7 +257,7 @@ public class HomeActivity extends BaseActivity {
                     break;
 
                 case R.id.v_add:
-                    BlankFragment.addNewItem();
+                    BlankFragment.AddNewItem("测试");
                     break;
 
                 case R.id.v_remove:

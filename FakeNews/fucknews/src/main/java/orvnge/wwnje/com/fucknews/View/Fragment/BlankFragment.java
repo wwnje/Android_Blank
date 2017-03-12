@@ -41,6 +41,8 @@ import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
 
+import static orvnge.wwnje.com.fucknews.data.Finder_List_Data.NEWS_TYPE_NAME;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -52,8 +54,8 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
     private static final String TAG = "BlankFragment";
     private DatabaseHelper dbHelper;
 
-    static ArrayList<Fragment> Fragments = new ArrayList<>();
-    static ArrayList<String> Titles = new ArrayList<>();
+    public static ArrayList<Fragment> Fragments = new ArrayList<>();
+    public static ArrayList<String> Titles = new ArrayList<>();
 
     private Toolbar mToolbar;
     private static ViewPager viewPager;
@@ -253,15 +255,15 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         Fragment newfragment;
         Bundle data;
 
-        for(int i = 0; i < Finder_List_Data.NEWS_TYPE_NAME.size(); i++){
+        for(int i = 0; i < NEWS_TYPE_NAME.size(); i++){
             newfragment = new ContentFragment();
             data = new Bundle();
             data.putInt("id", i);
-            data.putString("type", Finder_List_Data.NEWS_TYPE_NAME.get(i));
+            data.putString("type", NEWS_TYPE_NAME.get(i));
 
             newfragment.setArguments(data);
             Fragments.add(newfragment);
-            Titles.add(Finder_List_Data.NEWS_TYPE_NAME.get(i));
+            Titles.add(NEWS_TYPE_NAME.get(i));
         }
 
         mAdapter = new MyPagerAdapter(getChildFragmentManager(),this);
@@ -272,24 +274,36 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
     /**
      * 增加
      */
-    public static  void addNewItem() {
+    public static  void AddNewItem(String type_name) {
 
         Fragment newfragment = new ContentFragment();
         Bundle data;
         data = new Bundle();
 
         data.putInt("id", Fragments.size());
-        data.putString("type", "Arts");
+        data.putString("type", type_name);
 
         newfragment.setArguments(data);
+
         Fragments.add(newfragment);
-        Titles.add("Arts");
+
+        Titles.add(type_name);
+        NEWS_TYPE_NAME.add(type_name);
 
         mAdapter.notifyDataSetChanged();
     }
 
     /**
-     * 删去
+     * 取消
+     */
+    public static void DeleteItem(int position) {
+        Titles.remove(position);
+        Fragments.remove(position);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 删去当前页面
      */
     public static void removeCurrentItem() {
         int position = viewPager.getCurrentItem();//当前view
