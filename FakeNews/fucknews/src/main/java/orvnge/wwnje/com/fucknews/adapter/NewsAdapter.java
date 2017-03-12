@@ -110,26 +110,22 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
         holder.tvTime.setText(newsBeen.get(position).getTime());
 
         if(newsBeen.get(position).getFinder().toString().equals("null")){
-            holder.tvName.setText("admin");
+            holder.tvName.setText(newsBeen.get(position).getFinder().toString());
         }else {
             holder.tvName.setText(newsBeen.get(position).getFinder());
         }
 
-//        //书签按钮事件加入数据库
-//        holder.btn_bookmark.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(index == unpressed){
-//                    index = pressed;
-//                    bookmarkText = R.string.bookmarked;
-//                }else if(index == pressed){
-//                    index = unpressed;
-//                    bookmarkText = R.string.bookmark;
-//                }
-//                holder.btn_bookmark.setBackgroundResource(index);
-//                holder.btn_bookmark.setText(bookmarkText);
-//            }
-//        });
+        //是否加入书签
+        if(newsBeen.get(position).getBook() == false){
+            index = unpressed;
+            bookmarkText = R.string.bookmark;
+        }else{
+            index = pressed;
+            bookmarkText = R.string.bookmarked;
+        }
+
+        holder.btn_bookmark.setBackgroundResource(index);
+        holder.btn_bookmark.setText(bookmarkText);
 
         //通过接口回调来实现RecyclerView的点击事件
         holder.btn_bookmark.setOnClickListener(new View.OnClickListener() {
