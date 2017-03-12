@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.orvnge.xutils.ViewPagerActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -135,7 +136,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.testBtn:
-                startActivity(new Intent(TestActivity.this, BlankActivity.class));
+                startActivity(new Intent(TestActivity.this, ViewPagerActivity.class));
 
 //                getData();
 

@@ -60,10 +60,10 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private NewsAdapter mNewsAdapter;
     private int page = 1;
 
-
     private List<NewsBean> newsNow = new ArrayList<>();//现在加载的新数据
 
     private Boolean isLoadMore = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -168,15 +168,16 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     }
 
-    //private String mUrl;//文章url
     private String mType;//文章标题
 
     /**
      * 获取items内容
      */
     private void initData() {
-        //mUrl = this.getArguments().getString("type");
+
         mType = this.getArguments().getString("type");
+
+        //mType = BlankFragment.Datas.get(1).getString("type");
         Log.d(TAG, "initData: " + mType);
     }
 
