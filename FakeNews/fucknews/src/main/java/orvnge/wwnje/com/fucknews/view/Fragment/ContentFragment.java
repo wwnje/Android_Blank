@@ -36,6 +36,7 @@ import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.data.VariateName;
 import orvnge.wwnje.com.fucknews.ibean.IAdapeter;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
+import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
 
 //TODO:列表显示的时候不转圈
@@ -91,19 +92,21 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
             @Override
             public void onItemClick(View view, int position) {
                 Button btn_bookmark = (Button) view.findViewById(R.id.btn_bookmark);
-                String text = btn_bookmark.getText().toString();
+                String str_book = btn_bookmark.getText().toString();
+                int news_id = mNewsAdapter.newsBeen.get(position).getNews_id();
 
-                if(text.equals(VariateName.BookMark)){
-                    //BlankNetMehod.NewsClick(getContext(), );
+                if(str_book.equals(VariateName.BookMark)){
+                    BlankNetMehod.NewsClick(getContext(), news_id, VariateName.ADDBOOKMARK,"true");
                     bookmarkText = VariateName.BookMarked;
                     index = pressed;
                 }else{
+                    BlankNetMehod.NewsClick(getContext(), news_id, VariateName.ADDBOOKMARK,"false");
                     bookmarkText = VariateName.BookMark;
                     index = unpressed;
                 }
                 btn_bookmark.setBackgroundResource(index);
                 btn_bookmark.setText(bookmarkText);
-                Toast.makeText(getActivity(), bookmarkText + "news_id:" + mNewsAdapter.newsBeen.get(position).getNews_id() + mNewsAdapter.newsBeen.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), bookmarkText + "news_name:"  + mNewsAdapter.newsBeen.get(position).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -280,6 +283,8 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
             String pic_url = jsonObject.getString("pic_url");
             String type = jsonObject.getString("type");
             String finder = jsonObject.getString("finder");
+            Boolean isLike = jsonObject.getBoolean("isLike");
+            Boolean isBook = jsonObject.getBoolean("isBooked");
 
             NewsBean data = new NewsBean();
             data.setNews_id(news_id);
@@ -290,6 +295,8 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
             data.setPic_url(pic_url);
             data.setType(type);
             data.setFinder(finder);
+            data.setBook(isBook);
+            data.setLike(isLike);
 
             newsNow.add(data);
             //mNewsAdapter.add(data);
