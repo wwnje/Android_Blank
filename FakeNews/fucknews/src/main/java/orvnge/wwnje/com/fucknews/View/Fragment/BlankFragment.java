@@ -16,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,6 +56,9 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
     private DatabaseHelper dbHelper;
 
     public static ArrayList<Fragment> Fragments = new ArrayList<>();
+
+    public static ArrayList<Bundle> Datas = new ArrayList<>();
+
     public static ArrayList<String> Titles = new ArrayList<>();
 
     private Toolbar mToolbar;
@@ -189,6 +193,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
         @Override
         public Fragment getItem(int position) {
+            Log.d(TAG, "getItem: " + position);
             return Fragments.get(position);
         }
 
@@ -260,6 +265,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
             data = new Bundle();
             data.putInt("id", i);
             data.putString("type", NEWS_TYPE_NAME.get(i));
+            Datas.add(data);
 
             newfragment.setArguments(data);
             Fragments.add(newfragment);
@@ -283,13 +289,14 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         data.putInt("id", Fragments.size());
         data.putString("type", type_name);
 
+        Datas.add(data);
+
         newfragment.setArguments(data);
 
         Fragments.add(newfragment);
 
         Titles.add(type_name);
         NEWS_TYPE_NAME.add(type_name);
-
         mAdapter.notifyDataSetChanged();
     }
 

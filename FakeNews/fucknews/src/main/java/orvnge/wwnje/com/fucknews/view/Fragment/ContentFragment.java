@@ -177,6 +177,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private void initData() {
         //mUrl = this.getArguments().getString("type");
         mType = this.getArguments().getString("type");
+        Log.d(TAG, "initData: " + mType);
     }
 
     /**
@@ -242,7 +243,6 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
                             for (int j = 0; j < array.length(); j++) {
                                 add(array.getJSONObject(j));
-                                Log.d(TAG, "onResponse: "+ array.getJSONObject(j));
                             }
                             if(isLoadMore){
                                 mNewsAdapter.addMore(newsNow);
