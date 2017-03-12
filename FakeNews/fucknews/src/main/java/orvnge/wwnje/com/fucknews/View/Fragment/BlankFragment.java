@@ -255,16 +255,17 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         Fragments = new ArrayList<>();
         Titles = new ArrayList<>();
 
-        Fragment newfragment;
+        //Fragment newfragment;
         Bundle data;
 
         for(int i = 0; i < NEWS_TYPE_NAME.size(); i++){
-            newfragment = new ContentFragment();
+            ContentFragment newfragment = new ContentFragment();
             data = new Bundle();
-            data.putInt("id", i);
+            //data.putInt("id", i);
             data.putString("type", NEWS_TYPE_NAME.get(i));
 
             newfragment.setArguments(data);
+
             Fragments.add(newfragment);
             Titles.add(NEWS_TYPE_NAME.get(i));
         }
@@ -278,24 +279,27 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
      */
     public static  void AddNewItem(String type_name) {
 
-        Fragment newfragment = new ContentFragment();
+        //Fragment newfragment = new ContentFragment();
+        ContentFragment newfragment = new ContentFragment();
+
         Bundle data;
         data = new Bundle();
 
-        data.putInt("id", Fragments.size());
+        //data.putInt("id", Fragments.size());
         data.putString("type", type_name);
 
         newfragment.setArguments(data);
+
 
         Fragments.add(newfragment);
 
         Titles.add(type_name);
         NEWS_TYPE_NAME.add(type_name);
 
-       //mAdapter.notifyChangeInPosition(1);
         mAdapter.notifyDataSetChanged();
-
         viewPager.setAdapter(mAdapter);
+
+
     }
 
     /**
@@ -307,8 +311,8 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         Titles.remove(position);
         Fragments.remove(position);
 
-        //mAdapter.notifyChangeInPosition(1);
         mAdapter.notifyDataSetChanged();
+        viewPager.setAdapter(mAdapter);//更新
     }
 
     /**
@@ -321,7 +325,6 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         Titles.remove(position);
         Fragments.remove(position);
 
-        //mAdapter.notifyChangeInPosition(1);
         mAdapter.notifyDataSetChanged();
     }
 
