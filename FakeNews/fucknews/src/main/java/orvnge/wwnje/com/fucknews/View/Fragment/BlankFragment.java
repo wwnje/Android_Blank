@@ -322,10 +322,12 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         int position = viewPager.getCurrentItem();//当前view
 
         NEWS_TYPE_NAME.remove(position);
+
         Titles.remove(position);
         Fragments.remove(position);
 
         mAdapter.notifyDataSetChanged();
+        viewPager.setAdapter(mAdapter);//更新
     }
 
 }
