@@ -99,6 +99,7 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
 
         String type_name = blankBaseItemsBeanList.get(position).getTags_name();
         int type_id = blankBaseItemsBeanList.get(position).getTags_id();
+
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         //查询所有数据
         Cursor cursor = db.query(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL,//表明

@@ -32,14 +32,14 @@ public class Finder_List_Data {
     public static void Finder_List_Get(Context context){
         NEWS_TYPE_NAME = new ArrayList<>();
         NEWS_TYPE_ID = new ArrayList<>();
-        NEWS_URL = new ArrayList<>();
+        //NEWS_URL = new ArrayList<>();
 
         dbHelper = new DatabaseHelper(context, DatabaseHelper.DATABASE_LOCAL_MESSAGE, null, DatabaseHelper.DATABASE_LOCAL_MESSAGE_VERSION);
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         NEWS_TYPE_NAME.add("Blank");
-        NEWS_URL.add(BlankAPI.GET_NEWS_URL);
+        //NEWS_URL.add(BlankAPI.GET_NEWS_URL);
 
         //查询所有数据
         Cursor cursor = db.query(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL, null, null, null ,null ,null, null);
@@ -51,8 +51,8 @@ public class Finder_List_Data {
 
                 NEWS_TYPE_NAME.add(type_name);
                 NEWS_TYPE_ID.add(type_id);
-                NEWS_URL.add(URL_ + type_name + ".php");
-                Log.d(TAG, "Finder_List_Get: ");
+                //NEWS_URL.add(URL_ + type_name + ".php");
+                Log.d(TAG, "Finder_List_Get: " + type_name + type_id);
             }while (cursor.moveToNext());
         }
         Toast.makeText(context, "获取新闻订阅列表完成", Toast.LENGTH_SHORT).show();

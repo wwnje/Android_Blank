@@ -19,6 +19,7 @@ import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.bean.NewsBean;
+import orvnge.wwnje.com.fucknews.ibean.IAdapeter;
 import orvnge.wwnje.com.fucknews.utils.MyUtils;
 import orvnge.wwnje.com.fucknews.view.Activity.BrowseActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.ZhiHuActivity;
@@ -26,9 +27,12 @@ import orvnge.wwnje.com.fucknews.view.Activity.ZhiHuActivity;
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+/**
+ * 新闻列表适配器
+ */
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> implements IAdapeter.OnItemClickListener,IAdapeter.OnLongItemClickListener {
 
-    private List<NewsBean> newsBeen;
+    public List<NewsBean> newsBeen;
     private Context context;
 
     private int pressed = R.drawable.btn_bookmark_style_pressed;
@@ -36,6 +40,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private int index = unpressed;
 
     private int bookmarkText = R.string.bookmark;
+
+
+    //定义一个监听对象，用来存储监听事件
+    public IAdapeter.OnItemClickListener mOnItemClickListener;
+    public IAdapeter.OnLongItemClickListener mOnLongItemClickListener;
+
+
+    public void setOnItemClickListener(IAdapeter.OnItemClickListener itemClickListener) {
+        mOnItemClickListener = itemClickListener;
+    }
+    public void setOnLongItemClickListener(IAdapeter.OnLongItemClickListener itemLongClickListener) {
+        mOnLongItemClickListener = itemLongClickListener;
+    }
 
     public NewsAdapter(Context context){
         newsBeen = new ArrayList<>();
@@ -91,25 +108,44 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.tvTitle.setText(newsBeen.get(position).getTitle());
         holder.tvDesc.setText(newsBeen.get(position).getDesc());
         holder.tvTime.setText(newsBeen.get(position).getTime());
+
         if(newsBeen.get(position).getFinder().toString().equals("null")){
             holder.tvName.setText("admin");
         }else {
             holder.tvName.setText(newsBeen.get(position).getFinder());
         }
 
-        //书签按钮事件加入数据库
+//        //书签按钮事件加入数据库
+//        holder.btn_bookmark.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(index == unpressed){
+//                    index = pressed;
+//                    bookmarkText = R.string.bookmarked;
+//                }else if(index == pressed){
+//                    index = unpressed;
+//                    bookmarkText = R.string.bookmark;
+//                }
+//                holder.btn_bookmark.setBackgroundResource(index);
+//                holder.btn_bookmark.setText(bookmarkText);
+//            }
+//        });
+
+        //通过接口回调来实现RecyclerView的点击事件
         holder.btn_bookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(index == unpressed){
-                    index = pressed;
-                    bookmarkText = R.string.bookmarked;
-                }else if(index == pressed){
-                    index = unpressed;
-                    bookmarkText = R.string.bookmark;
-                }
-                holder.btn_bookmark.setBackgroundResource(index);
-                holder.btn_bookmark.setText(bookmarkText);
+                int pos = holder.getLayoutPosition();
+                mOnItemClickListener.onItemClick(holder.itemView, pos);
+            }
+        });
+
+        holder.btn_bookmark.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int pos = holder.getLayoutPosition();
+                mOnLongItemClickListener.onLongItemClick(holder.itemView, pos);
+                return false;
             }
         });
 
@@ -147,6 +183,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public int getItemCount() {
         return newsBeen.size();
     }
+
+    @Override
+    public void onItemClick(View view, int position) {
+
+    }
+
+    @Override
+    public void onLongItemClick(View view, int position) {
+
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

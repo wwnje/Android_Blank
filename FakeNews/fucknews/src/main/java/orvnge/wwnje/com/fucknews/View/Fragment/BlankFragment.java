@@ -188,7 +188,6 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         @Override
         public Fragment getItem(int position) {
             return Fragments.get(position);
-            //return ContentFragment.newInstance(mProvider.getTextForPosition(position));
         }
 
         @Override
@@ -251,60 +250,14 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         Fragments = new ArrayList<>();
         Titles = new ArrayList<>();
 
-//        List<String> typeNames = new ArrayList<>();
-//        List<String> typeUrls = new ArrayList<>();
-//
-//        typeNames.add("Blank");
-//        typeUrls.add(BlankAPI.GET_NEWS_URL);//全部
-
-       /* *//**
-         * 读取本地local新闻类型
-         *//*
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        //查询所有数据
-        Cursor cursor = db.query(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL,//表明
-                null,//查询列名
-                null,//where约束条件
-                null ,//where具体值
-                null ,//group by的列
-                null,//进一步约束
-                null);//order by排列方式
-
-        if(cursor.moveToFirst()){//移到第一条数据
-            do{
-                //遍历cursor对象
-                String type_name = cursor.getString(cursor.getColumnIndex("type_name"));
-                String type_url = "http://www.wwnje.com/FakeNews/getNewsJSON_" + type_name + ".php";
-                //int type_id = cursor.getInt(cursor.getColumnIndex("type_id"));
-
-                //存放订阅后的标签页
-                typeNames.add(type_name);
-                typeUrls.add(type_url);
-            }while (cursor.moveToNext());
-        }
-        cursor.close();*/
-
         Fragment newfragment;
         Bundle data;
-
-//        for(int i = 0; i < typeNames.size(); i++){
-//            newfragment = new ContentFragment();
-//            data = new Bundle();
-//            data.putInt("id", i);
-//            data.putString("tags_title", typeNames.get(i));
-//            data.putString("tags_url", typeUrls.get(i));
-//
-//            newfragment.setArguments(data);
-//            Fragments.add(newfragment);
-//            Titles.add(typeNames.get(i));
-//        }
 
         for(int i = 0; i < Finder_List_Data.NEWS_TYPE_NAME.size(); i++){
             newfragment = new ContentFragment();
             data = new Bundle();
             data.putInt("id", i);
-            data.putString("tags_title", Finder_List_Data.NEWS_TYPE_NAME.get(i));
-            data.putString("tags_url", Finder_List_Data.NEWS_URL.get(i));
+            data.putString("type", Finder_List_Data.NEWS_TYPE_NAME.get(i));
 
             newfragment.setArguments(data);
             Fragments.add(newfragment);
@@ -325,15 +278,12 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         Bundle data;
         data = new Bundle();
 
-
-
         data.putInt("id", Fragments.size());
-        data.putString("tags_title", "test");
-        data.putString("tags_url", BlankAPI.GET_ARTS_URL);
+        data.putString("type", "Arts");
 
         newfragment.setArguments(data);
         Fragments.add(newfragment);
-        Titles.add("sss");
+        Titles.add("Arts");
 
         mAdapter.notifyDataSetChanged();
     }

@@ -12,13 +12,16 @@ public class BlankAPI {
     public static  String Register_Url = "http://www.wwnje.com/FakeNews/Android_Register.php";//帐号注册
     public static  String Login_Url = "http://www.wwnje.com/FakeNews/Android_Login.php";//帐号注册
     public static  String SHARE_NEWS = "http://www.wwnje.com/FakeNews/Android_Share_News.php";//分享文章
-    public static  String ADD_BOOKMARK = "http://www.wwnje.com/FakeNews/AndroidFinderAddBookmark.php";//添加书签
 
     /**
      * 订阅标签和新闻
      */
-    public static  String ADD_ITEMS_URL = "http://www.wwnje.com/FakeNews/API_AddItems.php";//获取所有内容类别
+    public static  String ADD_ITEMS_URL = "http://www.wwnje.com/FakeNews/API_Add_Items.php";//订阅标签或者新闻类别
 
+    /**
+     * 加入书签或者喜欢某个新闻
+     */
+    public static  String ADD_NEWS_ITEM_URL = "http://www.wwnje.com/FakeNews/API_Add_News_Items.php";
 
     /**
      * 获取列表
@@ -33,14 +36,6 @@ public class BlankAPI {
      */
     public static  String GET_NEWS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON.php";
     public static  String GET_ARTS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Arts.php";
-    public static  String GET_BOOK_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Book.php";
-    public static  String GET_CODE_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Code.php";
-    public static  String GET_DESIGN_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Design.php";
-    public static  String GET_GAME_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Game.php";
-    public static  String GET_LIFE_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Life.php";
-    public static  String GET_MOVIE_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Movie.php";
-    public static  String GET_TECHNOLOGY_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Technology.php";
-    public static  String GET_WORLD_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_World.php";
 
     //知乎
     public static String BASE_URL = "https://zhuanlan.zhihu.com/api/columns/";

@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -17,7 +19,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.orvnge.xutils.MyFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +32,10 @@ import java.util.Map;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.adapter.NewsAdapter;
 import orvnge.wwnje.com.fucknews.bean.NewsBean;
+import orvnge.wwnje.com.fucknews.data.FinderData;
+import orvnge.wwnje.com.fucknews.data.VariateName;
+import orvnge.wwnje.com.fucknews.ibean.IAdapeter;
+import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
 
 //TODO:列表显示的时候不转圈
@@ -40,6 +45,12 @@ import orvnge.wwnje.com.fucknews.utils.MyApplication;
  */
 public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    private int pressed = R.drawable.btn_bookmark_style_pressed;
+    private int unpressed = R.drawable.btn_bookmark_style_unpressed;
+
+    private int index;
+    private String bookmarkText;
+
     private static final String TAG = "ContentFragment";
     private RecyclerView.LayoutManager layoutManager;
 
@@ -47,20 +58,6 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private SwipeRefreshLayout swip;
     private NewsAdapter mNewsAdapter;
     private int page = 1;
-
-    private String mText;
-
-    public static ContentFragment newInstance(String text) {
-        ContentFragment f = new ContentFragment(text);
-        return f;
-    }
-
-    public ContentFragment() {
-    }
-
-    public ContentFragment(String text) {
-        this.mText = text;
-    }
 
 
     private List<NewsBean> newsNow = new ArrayList<>();//现在加载的新数据
@@ -83,6 +80,32 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
         initData();
         initView();
+        initClickEvenet();
+    }
+
+    /**
+     * 点击订阅按钮
+     */
+    private void initClickEvenet() {
+        mNewsAdapter.setOnItemClickListener(new IAdapeter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Button btn_bookmark = (Button) view.findViewById(R.id.btn_bookmark);
+                String text = btn_bookmark.getText().toString();
+
+                if(text.equals(VariateName.BookMark)){
+                    //BlankNetMehod.NewsClick(getContext(), );
+                    bookmarkText = VariateName.BookMarked;
+                    index = pressed;
+                }else{
+                    bookmarkText = VariateName.BookMark;
+                    index = unpressed;
+                }
+                btn_bookmark.setBackgroundResource(index);
+                btn_bookmark.setText(bookmarkText);
+                Toast.makeText(getActivity(), bookmarkText + "news_id:" + mNewsAdapter.newsBeen.get(position).getNews_id() + mNewsAdapter.newsBeen.get(position).getTitle(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**
@@ -138,17 +161,19 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 new LoadAllAppsTask().execute(start);
             }
         });
+
+
     }
 
-    private String mUrl;//文章url
-    private String mTitle;//文章标题
+    //private String mUrl;//文章url
+    private String mType;//文章标题
 
     /**
      * 获取items内容
      */
     private void initData() {
-        mUrl = this.getArguments().getString("tags_url");
-        mTitle = this.getArguments().getString("tags_title");
+        //mUrl = this.getArguments().getString("type");
+        mType = this.getArguments().getString("type");
     }
 
     /**
@@ -197,19 +222,24 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         Map<String, String> params = new HashMap<String, String>();
         params.put("limit", String.valueOf(limit));
         params.put("offset", String.valueOf(offset));
+        params.put("news_type", mType);
+        params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
+
+        Log.d(TAG, "getNews: " + mType);
         JSONObject paramJsonObject = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                mUrl,//相应标签 请求链接
+                BlankAPI.GET_NEWS_URL,//相应标签 请求链接
                 paramJsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray array = response.getJSONArray("user");
+                            JSONArray array = response.getJSONArray("news");
 
                             for (int j = 0; j < array.length(); j++) {
                                 add(array.getJSONObject(j));
+                                Log.d(TAG, "onResponse: "+ array.getJSONObject(j));
                             }
                             if(isLoadMore){
                                 mNewsAdapter.addMore(newsNow);
@@ -242,6 +272,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     private void add(JSONObject jsonObject) {
         try {
+            Integer news_id = jsonObject.getInt("news_id");
             String title = jsonObject.getString("title");
             String desc = jsonObject.getString("desc");
             String time = jsonObject.getString("time");
@@ -251,6 +282,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
             String finder = jsonObject.getString("finder");
 
             NewsBean data = new NewsBean();
+            data.setNews_id(news_id);
             data.setTitle(title);
             data.setDesc(desc);
             data.setTime(time);

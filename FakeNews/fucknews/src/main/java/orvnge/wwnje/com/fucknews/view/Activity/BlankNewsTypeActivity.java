@@ -109,8 +109,6 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
                 new LoadAllAppsTask().execute("Test AsyncTask");
             }
         });
-
-
     }
 
     //下拉刷新

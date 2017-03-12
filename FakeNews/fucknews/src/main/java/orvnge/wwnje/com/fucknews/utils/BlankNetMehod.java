@@ -36,7 +36,15 @@ public class BlankNetMehod {
 
     private static DatabaseHelper dbHelper;
     private static final String TAG = "BlankNetMehod";
-    //登录操作
+
+
+    /**
+     * 登录操作
+     * @param context
+     * @param name
+     * @param password
+     * @param menuItem
+     */
     public static void Login(final Context context, final String name, final String password, final MenuItem menuItem) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         String url = BlankAPI.Login_Url;
@@ -78,7 +86,13 @@ public class BlankNetMehod {
         requestQueue.add(stringRequest);
     }
 
-    //注册操作
+    /**
+     * 注册操作
+     * @param context
+     * @param show_if_success
+     * @param name
+     * @param password
+     */
     public static void Register(final Context context, final TextView show_if_success, final String name, final String password) {
         //判断注册信息是否正确
         // Instantiate the RequestQueue.
@@ -111,11 +125,12 @@ public class BlankNetMehod {
 
     /**
      * 订阅tags 和type共用
-     * news_type
      * @param context
-     * @param _id
+     * @param items_id
+     * @param subType
+     * @param isAdd
      */
-    public static void Subscribe(final Context context, final int _id, final String subType, final String sub) {
+    public static void Subscribe(final Context context, final int items_id, final String subType, final String isAdd) {
 
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -137,9 +152,49 @@ public class BlankNetMehod {
             protected Map getParams() throws AuthFailureError {
                 Map map = new HashMap();
                 map.put("finder_id", String.valueOf(FinderData.FINDER_ID));
-                map.put("items_id", String.valueOf(_id));
+                map.put("items_id", String.valueOf(items_id));//后台判定是tags_id还是type_id
                 map.put("subType", subType);//tags还是news
-                map.put("sub", sub);//true订阅否则取消
+                map.put("sub", isAdd);//true订阅否则取消
+                return map;
+            }
+        };
+        //把StringRequest对象加到请求队列里来
+        requestQueue.add(stringRequest);
+    }
+
+
+    /**
+     * 用户加入书签或者喜欢
+     * @param context
+     * @param news_id
+     * @param subType
+     * @param isAdd
+     */
+    public static void NewsClick(final Context context, final int news_id, final String subType, final String isAdd) {
+
+        // Instantiate the RequestQueue.
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        String url = BlankAPI.ADD_NEWS_ITEM_URL;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map getParams() throws AuthFailureError {
+                Map map = new HashMap();
+                map.put("finder_id", String.valueOf(FinderData.FINDER_ID));
+                map.put("news_id", String.valueOf(news_id));//后台判定是tags_id还是type_id
+                map.put("subType", subType);//tags还是news
+                map.put("sub", isAdd);//true订阅否则取消
                 return map;
             }
         };
@@ -194,7 +249,10 @@ public class BlankNetMehod {
         requestQueue.add(stringRequest);
     }
 
-    // 获取我的订阅数据更新版本号
+    /**
+     * 获取我的订阅数据更新版本号
+     * @param context
+     */
     public static void GetMyTags(final Context context) {//传递进来
         Map<String, String> params = new HashMap<String, String>();
 
