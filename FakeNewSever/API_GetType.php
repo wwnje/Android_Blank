@@ -23,7 +23,6 @@ $type_version = $obj ->type_version;
 $sql ="select * from type limit $limit offset $offset"; //SQL
 $result =mysql_query($sql);//执行SQL
 
-
 $json ="";
 $data =array(); //定义好一个数组.PHP中array相当于一个数据字典.
 
