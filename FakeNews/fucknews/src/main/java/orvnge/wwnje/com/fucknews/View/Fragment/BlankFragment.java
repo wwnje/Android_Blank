@@ -193,8 +193,8 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
         @Override
         public int getCount() {
-            //return mProvider.getCount();
-            return Finder_List_Data.Fragments.size();
+            return mProvider.getCount();
+            //return Finder_List_Data.Fragments.size();
         }
 
         @Override
