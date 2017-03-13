@@ -3,6 +3,7 @@ package orvnge.wwnje.com.fucknews.utils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -252,11 +253,11 @@ public class BlankNetMehod {
      * 获取我的订阅数据更新版本号
      * @param context
      */
-    public static void GetMyTags(final Context context) {//传递进来
+    public static void GetMyTags(final Context context, int offset, int limit) {//传递进来
         Map<String, String> params = new HashMap<String, String>();
 
-        params.put("limit", String.valueOf(1000));
-        params.put("offset", String.valueOf(0));
+        params.put("limit", String.valueOf(limit));
+        params.put("offset", String.valueOf(offset));
         params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
         params.put("myTags_version", String.valueOf(FinderData.MyTagsVersion));
 
@@ -302,7 +303,6 @@ public class BlankNetMehod {
      */
     public static void GetMyTypes(final Context context) {//传递进来
         Map<String, String> params = new HashMap<String, String>();
-        //dbHelper = new DatabaseHelper(context, DatabaseHelper.DATABASE_LOCAL_MESSAGE, null, DatabaseHelper.DATABASE_LOCAL_MESSAGE_VERSION);
 
         params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
 
@@ -317,23 +317,19 @@ public class BlankNetMehod {
                         try {
                             JSONArray array = response.getJSONArray("myTypes");
                             for (int j = 0; j < array.length(); j++) {
-
                                 int type_id = Integer.parseInt(array.getJSONObject(j).getString("type_id"));
                                 String type_name = array.getJSONObject(j).getString("type_name");
+                                //TODO 保存到数据库
+                                Finder_List_Data.ADD_ITEM(type_name, type_id);
 
-                                //Finder_List_Data.ADD_ITEM(type_name, type_id);
-                                //TODO 保存到数据库和List
-
-                                Toast.makeText(context, "获取新闻id: " + type_id + "类型名字" + type_name, Toast.LENGTH_SHORT).show();
-
-                              /*   SQLiteDatabase db = dbHelper.getWritableDatabase();
+                                /*   SQLiteDatabase db = dbHelper.getWritableDatabase();
                                 ContentValues values = new ContentValues();
                                 //开始组装第一条数据
                                 values.put("type_name", type_name);
                                 values.put("type_id", type_id);
                                 db.insert(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL, null, values);//插入第一条数据
                                 values.clear();*/
-
+                                Toast.makeText(context, "tags_id: " + type_id + "版本" + type_name, Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -342,7 +338,8 @@ public class BlankNetMehod {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "获取新闻订阅标签出错" + error.toString(), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "获取新闻订阅标签出错:" + error.toString());
+                Toast.makeText(context, "获取出错", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

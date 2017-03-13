@@ -60,9 +60,6 @@ public class HomeActivity extends BaseActivity {
 
         initData();
 
-        //获取第一次的版本号
-        BlankNetMehod.GetMyTags(getApplicationContext());
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         initNavigationViewHeader();
         initFragment(savedInstanceState);
@@ -76,9 +73,9 @@ public class HomeActivity extends BaseActivity {
         FinderData finderData = new FinderData(mActivity);//初始化数据
         //TODO
         //Finder_List_Data.Finder_List_Get(context);//本地用户订阅数据
+        //BlankNetMehod.GetMyTags(getApplicationContext(), 0, 1000);
 
-        Finder_List_Data.NEWS_TYPE_NAME = new ArrayList<>();
-        Finder_List_Data.NEWS_TYPE_NAME.add("Blank");
+        Finder_List_Data.Init();
         BlankNetMehod.GetMyTypes(context);//网络获取订阅数据
     }
 

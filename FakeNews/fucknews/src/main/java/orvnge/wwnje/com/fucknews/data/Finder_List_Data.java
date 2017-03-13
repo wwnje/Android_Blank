@@ -31,12 +31,15 @@ public class Finder_List_Data {
     //public static List<String> NEWS_URL = new ArrayList<>();
     public static String URL_ = "http://www.wwnje.com/FakeNews/getNewsJSON_";
 
+    public static void Init() {
+        Finder_List_Data.Fragments = new ArrayList<>();
+        Finder_List_Data.NEWS_TYPE_NAME = new ArrayList<>();
+    }
     /**
      * 用户登陆后获取新闻订阅列表
      */
     public static void ADD_ITEM(String type_name, int type_id){
         NEWS_TYPE_NAME.add(type_name);
-        //Finder_List_Data.NEWS_URL.add(Finder_List_Data.URL_ + type_name + ".php");
         NEWS_TYPE_ID.add(type_id);
         BlankFragment.AddNewItem(type_name);
     }
@@ -68,12 +71,5 @@ public class Finder_List_Data {
         }
         Toast.makeText(context, "获取新闻订阅列表完成", Toast.LENGTH_SHORT).show();
         cursor.close();
-    }
-
-    /**
-     * 用户登陆后设置新闻订阅列表
-     */
-    public static void Finder_List_Set(){
-
     }
 }

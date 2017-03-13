@@ -250,9 +250,8 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
     public void setupViewPager() {
 
-        //Fragments = new ArrayList<>();
-        //Fragment newfragment;
         Bundle data;
+        NEWS_TYPE_NAME.add("Blank");
 
         for(int i = 0; i < NEWS_TYPE_NAME.size(); i++){
             ContentFragment newfragment = new ContentFragment();
@@ -274,7 +273,6 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
      */
     public static  void AddNewItem(String type_name) {
 
-        //Fragment newfragment = new ContentFragment();
         ContentFragment newfragment = new ContentFragment();
 
         Bundle data;
@@ -286,12 +284,8 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         newfragment.setArguments(data);
         Fragments.add(newfragment);
 
-        //NEWS_TYPE_NAME.add(type_name);
-
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);
-
-
     }
 
     /**
