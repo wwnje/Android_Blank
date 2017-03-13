@@ -28,8 +28,6 @@ public class Finder_List_Data {
 
 
     public static List<Integer> NEWS_TYPE_ID = new ArrayList<>();
-    //public static List<String> NEWS_URL = new ArrayList<>();
-    public static String URL_ = "http://www.wwnje.com/FakeNews/getNewsJSON_";
 
     public static void Init() {
         Finder_List_Data.Fragments = new ArrayList<>();
@@ -45,6 +43,11 @@ public class Finder_List_Data {
     }
 
 
+    /**
+     * TODO
+     * 本地加载
+     * @param context
+     */
     public static void Finder_List_Get(Context context){
         NEWS_TYPE_NAME = new ArrayList<>();
         NEWS_TYPE_ID = new ArrayList<>();

@@ -42,8 +42,6 @@ import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
 
-import static orvnge.wwnje.com.fucknews.data.Finder_List_Data.Fragments;
-import static orvnge.wwnje.com.fucknews.data.Finder_List_Data.NEWS_TYPE_NAME;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -161,17 +159,17 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
     @Override
     public String getTextForPosition(int position) {
-        return NEWS_TYPE_NAME.get(position);
+        return Finder_List_Data.NEWS_TYPE_NAME.get(position);
     }
 
     @Override
     public int getCount() {
-        return NEWS_TYPE_NAME.size();
+        return Finder_List_Data.NEWS_TYPE_NAME.size();
     }
 
     @Override
     public Fragment getTrag(int position) {
-        return Fragments.get(position);
+        return Finder_List_Data.Fragments.get(position);
     }
 
     /**
@@ -189,7 +187,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         @Override
         public Fragment getItem(int position) {
             Log.d(TAG, "getItem: " + position);
-            return Fragments.get(position);
+            return Finder_List_Data.Fragments.get(position);
         }
 
         @Override
@@ -217,7 +215,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return NEWS_TYPE_NAME.get(position);//标题
+            return Finder_List_Data.NEWS_TYPE_NAME.get(position);//标题
         }
     }
 
@@ -251,17 +249,17 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
     public void setupViewPager() {
 
         Bundle data;
-        NEWS_TYPE_NAME.add("Blank");
+        Finder_List_Data.NEWS_TYPE_NAME.add("Blank");
 
-        for(int i = 0; i < NEWS_TYPE_NAME.size(); i++){
+        for(int i = 0; i < Finder_List_Data.NEWS_TYPE_NAME.size(); i++){
             ContentFragment newfragment = new ContentFragment();
             data = new Bundle();
             data.putInt("id", i);
-            data.putString("type", NEWS_TYPE_NAME.get(i));
+            data.putString("type", Finder_List_Data.NEWS_TYPE_NAME.get(i));
 
             newfragment.setArguments(data);
 
-            Fragments.add(newfragment);
+            Finder_List_Data.Fragments.add(newfragment);
             //Titles.add(NEWS_TYPE_NAME.get(i));
         }
         mAdapter = new MyPagerAdapter(getChildFragmentManager(),this);
@@ -282,7 +280,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         data.putString("type", type_name);
 
         newfragment.setArguments(data);
-        Fragments.add(newfragment);
+        Finder_List_Data.Fragments.add(newfragment);
 
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);
@@ -293,9 +291,9 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
      */
     public static void DeleteItem(int position) {
 
-        NEWS_TYPE_NAME.remove(position);
+        Finder_List_Data.NEWS_TYPE_NAME.remove(position);
         //Titles.remove(position);
-        Fragments.remove(position);
+        Finder_List_Data.Fragments.remove(position);
 
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);//更新
@@ -306,11 +304,10 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
      */
     public static void removeCurrentItem() {
         int position = viewPager.getCurrentItem();//当前view
+        String type = Finder_List_Data.Fragments.get(position).getArguments().getString("type");
 
-        NEWS_TYPE_NAME.remove(position);
-        //Titles.remove(position);
-        String type = Fragments.get(position).getArguments().getString("type");
-        Fragments.remove(position);
+        Finder_List_Data.Fragments.remove(position);
+        Finder_List_Data.NEWS_TYPE_NAME.remove(position);
 
         Log.d(TAG, "removeCurrentItem: " + type);
         mAdapter.notifyDataSetChanged();
