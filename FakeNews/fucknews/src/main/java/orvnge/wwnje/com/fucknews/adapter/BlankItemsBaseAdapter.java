@@ -108,7 +108,6 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
                 null ,//group by的列
                 null,//进一步约束
                 null);//order by排列方式
-
         /**
          * 订阅的显示红色
          * 否则为黑色

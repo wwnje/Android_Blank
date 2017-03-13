@@ -286,7 +286,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         newfragment.setArguments(data);
         Finder_List_Data.Fragments.add(newfragment);
 
-        mAdapter.notifyChangeInPosition(1);
+        //mAdapter.notifyChangeInPosition(1);
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);
     }
@@ -300,7 +300,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         //Titles.remove(position);
         Finder_List_Data.Fragments.remove(position);
 
-        mAdapter.notifyChangeInPosition(1);
+        //mAdapter.notifyChangeInPosition(1);
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);//更新
     }
@@ -317,7 +317,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
         Log.d(TAG, "removeCurrentItem: " + type);
 
-        mAdapter.notifyChangeInPosition(1);
+        //mAdapter.notifyChangeInPosition(1);
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);//更新
     }
