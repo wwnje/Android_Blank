@@ -187,19 +187,21 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         @Override
         public Fragment getItem(int position) {
             Log.d(TAG, "getItem: " + position);
+            //return mProvider.getTrag(position);
             return Finder_List_Data.Fragments.get(position);
         }
 
         @Override
         public int getCount() {
-            return mProvider.getCount();
+            //return mProvider.getCount();
+            return Finder_List_Data.Fragments.size();
         }
 
         @Override
         public long getItemId(int position) {
             // give an ID different from position when position has been changed
-            return position;
-            //return baseId + position;
+            //return position;
+            return baseId + position;
         }
 
         /**
@@ -248,6 +250,9 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
     public void setupViewPager() {
 
+        Finder_List_Data.NEWS_TYPE_NAME = new ArrayList<>();
+        Finder_List_Data.Fragments = new ArrayList<>();
+
         Bundle data;
         Finder_List_Data.NEWS_TYPE_NAME.add("Blank");
 
@@ -260,7 +265,6 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
             newfragment.setArguments(data);
 
             Finder_List_Data.Fragments.add(newfragment);
-            //Titles.add(NEWS_TYPE_NAME.get(i));
         }
         mAdapter = new MyPagerAdapter(getChildFragmentManager(),this);
         viewPager.setAdapter(mAdapter);
@@ -282,6 +286,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         newfragment.setArguments(data);
         Finder_List_Data.Fragments.add(newfragment);
 
+        mAdapter.notifyChangeInPosition(1);
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);
     }
@@ -295,6 +300,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         //Titles.remove(position);
         Finder_List_Data.Fragments.remove(position);
 
+        mAdapter.notifyChangeInPosition(1);
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);//更新
     }
@@ -310,6 +316,8 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         Finder_List_Data.NEWS_TYPE_NAME.remove(position);
 
         Log.d(TAG, "removeCurrentItem: " + type);
+
+        mAdapter.notifyChangeInPosition(1);
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);//更新
     }

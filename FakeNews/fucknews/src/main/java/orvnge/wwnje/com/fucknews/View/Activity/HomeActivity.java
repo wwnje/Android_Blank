@@ -75,7 +75,6 @@ public class HomeActivity extends BaseActivity {
         //Finder_List_Data.Finder_List_Get(context);//本地用户订阅数据
         //BlankNetMehod.GetMyTags(getApplicationContext(), 0, 1000);
 
-        Finder_List_Data.Init();
         BlankNetMehod.GetMyTypes(context);//网络获取订阅数据
     }
 

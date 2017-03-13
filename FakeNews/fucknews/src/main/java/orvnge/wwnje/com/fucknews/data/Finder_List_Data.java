@@ -29,10 +29,6 @@ public class Finder_List_Data {
 
     public static List<Integer> NEWS_TYPE_ID = new ArrayList<>();
 
-    public static void Init() {
-        Finder_List_Data.Fragments = new ArrayList<>();
-        Finder_List_Data.NEWS_TYPE_NAME = new ArrayList<>();
-    }
     /**
      * 用户登陆后获取新闻订阅列表
      */
