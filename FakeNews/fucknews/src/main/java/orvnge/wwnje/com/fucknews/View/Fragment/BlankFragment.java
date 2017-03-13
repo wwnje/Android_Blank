@@ -284,6 +284,8 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         data.putString("type", type_name);
 
         newfragment.setArguments(data);
+
+        Finder_List_Data.NEWS_TYPE_NAME.add(type_name);
         Finder_List_Data.Fragments.add(newfragment);
 
         //mAdapter.notifyChangeInPosition(1);
