@@ -62,7 +62,7 @@
 
         <!--  -->
         <activity android:name="com.orvnge.xutils.recyclevIew.RecycleViewActivity" />
-        <activity android:name=".view.Activity.SubscribeActivity" />
+        <activity android:name=".view.Activity.SubscribeTagsActivity" />
         <activity android:name=".view.Activity.DataActivity" />
         <activity android:name=".view.Activity.BookMarkActivity" />
         <activity android:name=".view.Activity.BlankNewsTypeActivity" />

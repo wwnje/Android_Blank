@@ -214,8 +214,8 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
             String tags_id = jsonObject.getString("tags_id");
 
             BlankBaseItemsBean data = new BlankBaseItemsBean();
-            data.setTags_name(tags_name);
-            data.setTags_id(Integer.parseInt(tags_id));
+            data.setItem_name(tags_name);
+            data.setItem_id(Integer.parseInt(tags_id));
             items.add(data);
 
             //blankItemsBaseAdapter.add(data);

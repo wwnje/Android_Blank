@@ -27,6 +27,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.orvnge.xutils.recyclevIew.RecycleViewActivity;
 
+import java.util.ArrayList;
+
 import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
 import orvnge.wwnje.com.fucknews.other.AppConstants;
@@ -72,7 +74,12 @@ public class HomeActivity extends BaseActivity {
     private void initData() {
         Toast.makeText(context, "初始化数据", Toast.LENGTH_SHORT).show();
         FinderData finderData = new FinderData(mActivity);//初始化数据
-        Finder_List_Data.Finder_List_Get(context);//获取用户订阅数据
+        //TODO
+        //Finder_List_Data.Finder_List_Get(context);//本地用户订阅数据
+
+        Finder_List_Data.NEWS_TYPE_NAME = new ArrayList<>();
+        Finder_List_Data.NEWS_TYPE_NAME.add("Blank");
+        BlankNetMehod.GetMyTypes(context);//网络获取订阅数据
     }
 
     private void initFragment(Bundle savedInstanceState) {
@@ -221,7 +228,7 @@ public class HomeActivity extends BaseActivity {
                  * 查看我的tags
                  */
                 case R.id.nav_my_tags:
-                    startActivity(new Intent(HomeActivity.this, SubscribeActivity.class));
+                    startActivity(new Intent(HomeActivity.this, SubscribeTagsActivity.class));
                     break;
 
                 /**

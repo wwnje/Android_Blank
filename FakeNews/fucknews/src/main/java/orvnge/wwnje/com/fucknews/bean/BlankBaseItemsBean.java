@@ -5,22 +5,22 @@ package orvnge.wwnje.com.fucknews.bean;
  */
 
 public class BlankBaseItemsBean {
-    private int tags_id;
-    private String tags_name;
+    private int item_id;
+    private String item_name;
 
-    public int getTags_id() {
-        return tags_id;
+    public int getItem_id() {
+        return item_id;
     }
 
-    public void setTags_id(int tags_id) {
-        this.tags_id = tags_id;
+    public void setItem_id(int tags_id) {
+        this.item_id = tags_id;
     }
 
-    public String getTags_name() {
-        return tags_name;
+    public String getItem_name() {
+        return item_name;
     }
 
-    public void setTags_name(String tags_name) {
-        this.tags_name = tags_name;
+    public void setItem_name(String tags_name) {
+        this.item_name = tags_name;
     }
 }

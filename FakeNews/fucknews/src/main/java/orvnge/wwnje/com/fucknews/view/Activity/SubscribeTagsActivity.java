@@ -1,6 +1,7 @@
 package orvnge.wwnje.com.fucknews.view.Activity;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -39,9 +40,9 @@ import orvnge.wwnje.com.fucknews.utils.MyUtils;
 /**
  * 用户订阅显示界面
  */
-public class SubscribeActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class SubscribeTagsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "SubscribeActivity";
+    private static final String TAG = "SubscribeTagsActivity";
 
     @Bind(R.id.itemsbase_recycleview)
     RecyclerView recycleView;
@@ -49,8 +50,7 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
     SwipeRefreshLayout swip;
 
     private BlankItemsBaseAdapter blankItemsBaseAdapter;
-
-    private List<String> mdata = new ArrayList<>();
+    private List<BlankBaseItemsBean> items = new ArrayList<>();
 
     private RecyclerView.LayoutManager layoutManager;
 
@@ -105,48 +105,36 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
             @Override
             public void run() {
                 swip.setRefreshing(true);
-                isRefresh = true;
-                page = 1;
-                //blankItemsBaseAdapter.clear();
-                setList();
+                new LoadAllAppsTask().execute("Test AsyncTask");
+
             }
         });
-        isPrepared = true;
     }
-
-
 
     //下拉刷新
     @Override
     public void onRefresh() {
-        if(!isRefresh){
-            isRefresh = true;
-            page = 1;
-            blankItemsBaseAdapter.clear();
-            setList();
-        }
+        page = 1;
+        new LoadAllAppsTask().execute("Test AsyncTask");
     }
 
     /**
      * 标签请求数据
      */
-    private void setList() {
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                int start = 20 * (page - 1);
-                if(MyUtils.isOpenNetwork(getApplicationContext())) {
-                    getMyTags(start, page * 20);
-                }else {
-                    Toast.makeText(getApplicationContext(), "没有网络连接", Toast.LENGTH_SHORT).show();
-                }
-                blankItemsBaseAdapter.notifyDataSetChanged();
-                swip.setRefreshing(false);
-            }
-        };
-        handler = new Handler();
-        handler.postDelayed(runnable, 500);
 
+    private class LoadAllAppsTask extends AsyncTask<String, Integer, Long> {
+
+        /**
+         * 后台处理 请求
+         *
+         * @param params
+         * @return
+         */
+        @Override
+        protected Long doInBackground(String... params) {
+            getMyTags(0, 20);//请求
+            return 100L;
+        }
     }
 
     @Override
@@ -183,6 +171,15 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
                             for (int j = 0; j < array.length(); j++) {
                                 add(array.getJSONObject(j));
                             }
+
+                            //请求完成
+                            blankItemsBaseAdapter.addAll(items);
+                            items = new ArrayList<>();//清除
+
+                            //处理完毕进行设置
+                            swip.setRefreshing(false);
+                            blankItemsBaseAdapter.notifyDataSetChanged();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -212,11 +209,10 @@ public class SubscribeActivity extends AppCompatActivity implements SwipeRefresh
             String tags_id = jsonObject.getString("tags_id");
 
             BlankBaseItemsBean data = new BlankBaseItemsBean();
-            data.setTags_name(tags_name);
-            data.setTags_id(Integer.parseInt(tags_id));
+            data.setItem_name(tags_name);
+            data.setItem_id(Integer.parseInt(tags_id));
+            items.add(data);
 
-            blankItemsBaseAdapter.add(data);
-//            Toast.makeText(this, "正在加载数据..." + data.getTags_name(), Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();
         }

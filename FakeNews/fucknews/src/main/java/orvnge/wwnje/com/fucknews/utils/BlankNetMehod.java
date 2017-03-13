@@ -25,7 +25,6 @@ import java.util.Map;
 
 import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
-import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
 
 /**
  * Created by Administrator on 2017/1/31.
@@ -303,14 +302,14 @@ public class BlankNetMehod {
      */
     public static void GetMyTypes(final Context context) {//传递进来
         Map<String, String> params = new HashMap<String, String>();
-        dbHelper = new DatabaseHelper(context, DatabaseHelper.DATABASE_LOCAL_MESSAGE, null, DatabaseHelper.DATABASE_LOCAL_MESSAGE_VERSION);
+        //dbHelper = new DatabaseHelper(context, DatabaseHelper.DATABASE_LOCAL_MESSAGE, null, DatabaseHelper.DATABASE_LOCAL_MESSAGE_VERSION);
 
         params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
 
         JSONObject paramJsonObject = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                BlankAPI.GET_MY_TAGS_URL,
+                BlankAPI.GET_MY_NEWS_TYPE_URL,
                 paramJsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -318,23 +317,23 @@ public class BlankNetMehod {
                         try {
                             JSONArray array = response.getJSONArray("myTypes");
                             for (int j = 0; j < array.length(); j++) {
-                                int type_id = Integer.parseInt(array.getJSONObject(j).getString("tags_id"));
+
+                                int type_id = Integer.parseInt(array.getJSONObject(j).getString("type_id"));
                                 String type_name = array.getJSONObject(j).getString("type_name");
 
+                                //Finder_List_Data.ADD_ITEM(type_name, type_id);
                                 //TODO 保存到数据库和List
-                                Finder_List_Data.NEWS_TYPE_NAME.add(type_name);
-                                Finder_List_Data.NEWS_URL.add(Finder_List_Data.URL_ + type_name + ".php");
-                                Finder_List_Data.NEWS_TYPE_ID.add(type_id);
 
-                                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                                Toast.makeText(context, "获取新闻id: " + type_id + "类型名字" + type_name, Toast.LENGTH_SHORT).show();
+
+                              /*   SQLiteDatabase db = dbHelper.getWritableDatabase();
                                 ContentValues values = new ContentValues();
                                 //开始组装第一条数据
                                 values.put("type_name", type_name);
                                 values.put("type_id", type_id);
                                 db.insert(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL, null, values);//插入第一条数据
-                                values.clear();
+                                values.clear();*/
 
-                                Toast.makeText(context, "id: " + type_id + "类型名字" + type_name, Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -343,7 +342,7 @@ public class BlankNetMehod {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "获取新闻订阅标签出错", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "获取新闻订阅标签出错" + error.toString(), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

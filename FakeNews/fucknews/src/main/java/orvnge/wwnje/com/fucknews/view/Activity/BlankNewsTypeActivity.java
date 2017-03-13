@@ -5,8 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,7 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +75,7 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_itemsbase);
-        setTitle("选择新闻类别");
+        setTitle("我订阅的新闻");
 
         //数据库名字，版本号
         dbHelper = new DatabaseHelper(this, DatabaseHelper.DATABASE_LOCAL_MESSAGE, null, DatabaseHelper.DATABASE_LOCAL_MESSAGE_VERSION);
@@ -88,8 +85,6 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
     }
 
     private void initView() {
-
-
         layoutManager = new LinearLayoutManager(this);
         recycleView.setLayoutManager(layoutManager);
 
@@ -127,8 +122,8 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
     @Override
     public void onItemClick(View view, int position) {
 
-        String type_name = blankItemsBaseAdapter.blankBaseItemsBeanList.get(position).getTags_name();
-        int type_id = blankItemsBaseAdapter.blankBaseItemsBeanList.get(position).getTags_id();
+        String type_name = blankItemsBaseAdapter.blankBaseItemsBeanList.get(position).getItem_name();
+        int type_id = blankItemsBaseAdapter.blankBaseItemsBeanList.get(position).getItem_id();
 
         TextView tv = (TextView) view.findViewById(R.id.item_tags_name);
         //如果字体本来是黑色就变成红色，反之就变为黑色
@@ -273,8 +268,8 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
 
             //先通用吧
             BlankBaseItemsBean data = new BlankBaseItemsBean();
-            data.setTags_name(tags_name);
-            data.setTags_id(Integer.parseInt(tags_id));
+            data.setItem_name(tags_name);
+            data.setItem_id(Integer.parseInt(tags_id));
             items.add(data);
 
             //blankItemsBaseAdapter.add(data);

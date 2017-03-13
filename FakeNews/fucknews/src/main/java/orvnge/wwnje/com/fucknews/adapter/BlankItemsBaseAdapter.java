@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,8 +96,8 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        String type_name = blankBaseItemsBeanList.get(position).getTags_name();
-        int type_id = blankBaseItemsBeanList.get(position).getTags_id();
+        String type_name = blankBaseItemsBeanList.get(position).getItem_name();
+        int type_id = blankBaseItemsBeanList.get(position).getItem_id();
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         //查询所有数据

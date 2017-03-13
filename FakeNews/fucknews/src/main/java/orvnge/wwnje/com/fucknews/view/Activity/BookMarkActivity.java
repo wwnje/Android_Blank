@@ -238,7 +238,7 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
             data.setType(type);
 
             bookMarkAdapter.add(data);
-//            Toast.makeText(this, "正在加载数据..." + data.getTags_name(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "正在加载数据..." + data.getItem_name(), Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();
         }

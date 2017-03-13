@@ -42,6 +42,7 @@ import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
 
+import static orvnge.wwnje.com.fucknews.data.Finder_List_Data.Fragments;
 import static orvnge.wwnje.com.fucknews.data.Finder_List_Data.NEWS_TYPE_NAME;
 
 /**
@@ -53,9 +54,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 //    public List<String> Frags;
 //    public List<String> FragsURL;
     private static final String TAG = "BlankFragment";
-    private DatabaseHelper dbHelper;
 
-    public static ArrayList<Fragment> Fragments = new ArrayList<>();
 
     public static ArrayList<String> Titles = new ArrayList<>();
 
@@ -81,8 +80,6 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.app_name);
-
-        dbHelper = new DatabaseHelper(getActivity(), DatabaseHelper.DATABASE_LOCAL_MESSAGE, null, DatabaseHelper.DATABASE_LOCAL_MESSAGE_VERSION);
 
         btn_share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,12 +161,12 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
     @Override
     public String getTextForPosition(int position) {
-        return Titles.get(position);
+        return NEWS_TYPE_NAME.get(position);
     }
 
     @Override
     public int getCount() {
-        return Titles.size();
+        return NEWS_TYPE_NAME.size();
     }
 
     @Override
@@ -203,7 +200,8 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         @Override
         public long getItemId(int position) {
             // give an ID different from position when position has been changed
-            return baseId + position;
+            return position;
+            //return baseId + position;
         }
 
         /**
@@ -216,9 +214,10 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
             baseId += getCount() + n;
         }
 
+
         @Override
         public CharSequence getPageTitle(int position) {
-            return Titles.get(position);
+            return NEWS_TYPE_NAME.get(position);//标题
         }
     }
 
@@ -251,10 +250,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
     public void setupViewPager() {
 
-        //初始化
-        Fragments = new ArrayList<>();
-        Titles = new ArrayList<>();
-
+        //Fragments = new ArrayList<>();
         //Fragment newfragment;
         Bundle data;
 
@@ -267,11 +263,10 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
             newfragment.setArguments(data);
 
             Fragments.add(newfragment);
-            Titles.add(NEWS_TYPE_NAME.get(i));
+            //Titles.add(NEWS_TYPE_NAME.get(i));
         }
         mAdapter = new MyPagerAdapter(getChildFragmentManager(),this);
         viewPager.setAdapter(mAdapter);
-
     }
 
     /**
@@ -285,16 +280,13 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         Bundle data;
         data = new Bundle();
 
-        data.putInt("id", Fragments.size());
+        //data.putInt("id", Fragments.size());
         data.putString("type", type_name);
 
         newfragment.setArguments(data);
-
-
         Fragments.add(newfragment);
 
-        Titles.add(type_name);
-        NEWS_TYPE_NAME.add(type_name);
+        //NEWS_TYPE_NAME.add(type_name);
 
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);
@@ -308,7 +300,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
     public static void DeleteItem(int position) {
 
         NEWS_TYPE_NAME.remove(position);
-        Titles.remove(position);
+        //Titles.remove(position);
         Fragments.remove(position);
 
         mAdapter.notifyDataSetChanged();
@@ -322,12 +314,12 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         int position = viewPager.getCurrentItem();//当前view
 
         NEWS_TYPE_NAME.remove(position);
-
-        Titles.remove(position);
+        //Titles.remove(position);
+        String type = Fragments.get(position).getArguments().getString("type");
         Fragments.remove(position);
 
+        Log.d(TAG, "removeCurrentItem: " + type);
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);//更新
     }
-
 }
