@@ -80,7 +80,7 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         recycleView.setHasFixedSize(true);
 
-        blankItemsBaseAdapter = new BlankItemsBaseAdapter(getApplicationContext());
+        blankItemsBaseAdapter = new BlankItemsBaseAdapter(getApplicationContext(), BlankItemsBaseAdapter.ItemType.NEWS_TAG);
         recycleView.setAdapter(blankItemsBaseAdapter);
 
         //点击进行订阅

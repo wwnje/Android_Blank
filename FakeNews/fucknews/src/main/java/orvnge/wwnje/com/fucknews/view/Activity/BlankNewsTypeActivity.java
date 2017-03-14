@@ -90,7 +90,7 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
 
         recycleView.setHasFixedSize(true);
 
-        blankItemsBaseAdapter = new BlankItemsBaseAdapter(getApplicationContext());
+        blankItemsBaseAdapter = new BlankItemsBaseAdapter(getApplicationContext(), BlankItemsBaseAdapter.ItemType.NEWS_TYPE);
         recycleView.setAdapter(blankItemsBaseAdapter);
 
 

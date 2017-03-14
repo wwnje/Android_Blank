@@ -35,7 +35,6 @@ import orvnge.wwnje.com.fucknews.bean.BlankBaseItemsBean;
 import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
-import orvnge.wwnje.com.fucknews.utils.MyUtils;
 
 /**
  * 用户订阅显示界面
@@ -78,7 +77,7 @@ public class SubscribeTagsActivity extends AppCompatActivity implements SwipeRef
         recycleView.setLayoutManager(layoutManager);
         recycleView.setHasFixedSize(true);
 
-        blankItemsBaseAdapter = new BlankItemsBaseAdapter(getApplicationContext());
+        blankItemsBaseAdapter = new BlankItemsBaseAdapter(getApplicationContext(), BlankItemsBaseAdapter.ItemType.NEWS_MY_TAG);
         recycleView.setAdapter(blankItemsBaseAdapter);
 
         //点击进行订阅

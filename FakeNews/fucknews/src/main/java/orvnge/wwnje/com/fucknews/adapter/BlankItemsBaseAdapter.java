@@ -23,11 +23,12 @@ import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
  */
 
 
-public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAdapter.ViewHolder>  {
+public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAdapter.ITEMS_ViewHolder>  {
 
-    public enum ItemType{
+    public static enum ItemType{
         NEWS_TYPE,
-        NEWS_TAG
+        NEWS_TAG,
+        NEWS_MY_TAG
     }
 
     private static final String TAG = "BlankItemsBaseAdapter";
@@ -35,14 +36,16 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
     public List<BlankBaseItemsBean> blankBaseItemsBeanList;
     private Context context;
     private DatabaseHelper dbHelper;
+    private ItemType itemType;
 
     /**
      * 初始化
      * @param context
      */
-    public BlankItemsBaseAdapter(Context context) {
+    public BlankItemsBaseAdapter(Context context, ItemType type) {
         blankBaseItemsBeanList = new ArrayList<>();
         this.context = context;
+        this.itemType = type;
     }
 
 
@@ -91,16 +94,16 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ITEMS_ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         //数据库名字，版本号
         dbHelper = new DatabaseHelper(context, DatabaseHelper.DATABASE_LOCAL_MESSAGE, null, DatabaseHelper.DATABASE_LOCAL_MESSAGE_VERSION);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tags, parent, false);
-        return new ViewHolder(view);
+        return new ITEMS_ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ITEMS_ViewHolder holder, final int position) {
 
         String type_name = blankBaseItemsBeanList.get(position).getItem_name();
         int type_id = blankBaseItemsBeanList.get(position).getItem_id();
@@ -154,13 +157,15 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-
+    /**
+     * All TAGS
+     */
+    public class ITEMS_ViewHolder extends RecyclerView.ViewHolder{
 
         TextView tags_name;
         CardView cardView;
 
-        public ViewHolder(View itemView) {
+        public ITEMS_ViewHolder(View itemView) {
             super(itemView);
             tags_name = (TextView) itemView.findViewById(R.id.item_tags_name);
             cardView = (CardView) itemView.findViewById(R.id.item_tags_cardView);
