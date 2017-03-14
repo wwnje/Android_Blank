@@ -3,8 +3,6 @@ package orvnge.wwnje.com.fucknews.view.Fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -55,9 +53,6 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
     private static final String TAG = "BlankFragment";
 
     public static ArrayList<String> Titles = new ArrayList<>();
-
-    public static ArrayList<Fragment> Fragments = new ArrayList<>();
-
 
     private Toolbar mToolbar;
     private static ViewPager viewPager;
@@ -172,8 +167,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
     @Override
     public Fragment getTrag(int position) {
-//        return Finder_List_Data.Fragments.get(position);
-        return Fragments.get(position);
+        return Finder_List_Data.Fragments.get(position);
     }
 
     /**
@@ -197,11 +191,10 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
          */
         @Override
         public Fragment getItem(int position) {
-            Log.d(TAG, "对应的Fragment: ------" + "position:" + position + Fragments.get(position).getArguments().getString("type"));
-            Log.d(TAG, "Fragment数量" + mProvider.getCount() + "，"+Fragments.size());
+            Log.d(TAG, "对应的Fragment: ------" + "position:" + position + Finder_List_Data.Fragments.get(position).getArguments().getString("type"));
+            Log.d(TAG, "Fragment数量" + mProvider.getCount() + "，"+Finder_List_Data.Fragments.size());
 
             return mProvider.getTrag(position);
-            //return ContentFragment.newInstance(mProvider.getTextForPosition(position));
             //return Finder_List_Data.Fragments.get(position);
         }
 
@@ -222,27 +215,14 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         public long getItemId(int position) {
             // give an ID different from position when position has been changed
             Log.d(TAG, "获取给定位置的项Id: --------" + "position" + position);
-            Log.d(TAG, "Fragment数量" + mProvider.getCount() + "，" + Fragments.size());
+            Log.d(TAG, "Fragment数量" + mProvider.getCount() + "，" + Finder_List_Data.Fragments.size());
 
-            for(int i = 0; i< Fragments.size(); i++){
-                Log.d(TAG, "Fragment里面的东西:" + Fragments.get(i).getArguments().getInt("id")
-                        + Fragments.get(i).getArguments().getString("type") );
+            for(int i = 0; i< Finder_List_Data.Fragments.size(); i++){
+                Log.d(TAG, "Fragment里面的东西:" + Finder_List_Data.Fragments.get(i).getArguments().getInt("id")
+                        + Finder_List_Data.Fragments.get(i).getArguments().getString("type") );
             }
             //return baseId + position;
-            return Fragments.get(position).getArguments().getInt("id");
-        }
-
-
-        /**
-         * Notify that the position of a fragment has been changed.
-         * Create a new ID for each position to force recreation of the fragment
-         * @param n number of items which have been changed
-         */
-        public void notifyChangeInPosition(int n) {
-            // shift the ID returned by getItemId outside the range of all previous fragments
-            baseId += getCount() + n;
-            //baseId += n;
-            Log.d(TAG, "修改位置：notifyChangeInPosition: " + "getCount" + getCount());
+            return Finder_List_Data.Fragments.get(position).getArguments().getInt("id");
         }
 
         //标题
@@ -281,11 +261,8 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
     public void setupViewPager() {
 
-        Fragments = new ArrayList<>();
-
+        Finder_List_Data.Fragments = new ArrayList<>();
         Finder_List_Data.NEWS_TYPE_NAME = new ArrayList<>();
-
-        //Finder_List_Data.Fragments = new ArrayList<>();
 
         Bundle data;
         Finder_List_Data.NEWS_TYPE_NAME.add("Blank");
@@ -298,8 +275,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
             newfragment.setArguments(data);
 
-            //Finder_List_Data.Fragments.add(newfragment);
-            Fragments.add(newfragment);
+            Finder_List_Data.Fragments.add(newfragment);
         }
 
         mAdapter = new MyPagerAdapter(getChildFragmentManager(),this);
@@ -322,9 +298,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         newfragment.setArguments(data);
 
         Finder_List_Data.NEWS_TYPE_NAME.add(type_name);
-        Fragments.add(newfragment);
-
-        //mAdapter.notifyChangeInPosition(1);
+        Finder_List_Data.Fragments.add(newfragment);
 
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);
@@ -336,11 +310,8 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
     public static void DeleteItem(int position) {
 
         Finder_List_Data.NEWS_TYPE_NAME.remove(position);
-        //Titles.remove(position);
-//        Finder_List_Data.Fragments.remove(position);
-        Fragments.remove(position);
+        Finder_List_Data.Fragments.remove(position);
 
-        //mAdapter.notifyChangeInPosition(1);
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);//更新
     }
@@ -353,11 +324,9 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
 
         Finder_List_Data.NEWS_TYPE_NAME.remove(position);
 
-        Fragments.remove(Fragments.get(position));
+        Finder_List_Data.Fragments.remove(position);
 
         Log.d(TAG, "删除的的位置: " + position);
-
-        mAdapter.notifyChangeInPosition(1);
 
         mAdapter.notifyDataSetChanged();
         viewPager.setAdapter(mAdapter);//更新

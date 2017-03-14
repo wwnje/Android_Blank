@@ -22,7 +22,13 @@ import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
  * Created by wwnje on 2017/2/19.
  */
 
+
 public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAdapter.ViewHolder>  {
+
+    public enum ItemType{
+        NEWS_TYPE,
+        NEWS_TAG
+    }
 
     private static final String TAG = "BlankItemsBaseAdapter";
 

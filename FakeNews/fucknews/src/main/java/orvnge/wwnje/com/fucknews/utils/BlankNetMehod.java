@@ -65,6 +65,9 @@ public class BlankNetMehod {
                     //保存信息
                     FinderData.SetLoginData(context, name, password, Integer.parseInt(finder_id));
                     menuItem.setTitle(FinderData.FinderName);
+
+                    Toast.makeText(context, "开始初始化用户信息", Toast.LENGTH_SHORT).show();
+                    GetMyTypes(context);
                 }
             }
         }, new Response.ErrorListener() {
