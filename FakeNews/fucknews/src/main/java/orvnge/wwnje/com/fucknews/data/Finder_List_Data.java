@@ -24,7 +24,7 @@ public class Finder_List_Data {
     private static DatabaseHelper dbHelper;
 
     public static List<String> NEWS_TYPE_NAME = new ArrayList<>();
-    public static ArrayList<Fragment> Fragments = new ArrayList<>();
+//    public static ArrayList<Fragment> Fragments = new ArrayList<>();
 
 
     public static List<Integer> NEWS_TYPE_ID = new ArrayList<>();

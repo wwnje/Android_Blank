@@ -67,6 +67,21 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public static final String ARGUMENT = "type";
 
 
+    private String mText;
+
+    public static ContentFragment newInstance(String text) {
+        ContentFragment f = new ContentFragment(text);
+        return f;
+    }
+
+    public ContentFragment() {
+    }
+
+    public ContentFragment(String text) {
+        this.mText = text;
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -177,12 +192,9 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
      */
     private void initData() {
 
-
         mType = this.getArguments().getString("type");
         int mInt = this.getArguments().getInt("id");
-
-        //mType = BlankFragment.Datas.get(1).getString("type");
-        Log.d(TAG, "initData: " + mType + mInt);
+        Log.d(TAG, "initData: mType:" + mType + "ID:" + mInt);
     }
 
     /**
