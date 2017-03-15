@@ -21,10 +21,7 @@ $limit = $obj->limit;
 $offset = $obj->offset;
 $book_version = $obj->book_version;
 $finder_id = $obj->finder_id;
-//$limit = 100;
-//$offset = 0;
-//$book_version = 0;
-//$finder_id = 1;
+
 
 $json = "";
 $data = array(); //定义好一个数组.PHP中array相当于一个数据字典.

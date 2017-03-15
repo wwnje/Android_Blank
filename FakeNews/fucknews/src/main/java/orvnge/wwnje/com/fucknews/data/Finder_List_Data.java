@@ -23,18 +23,42 @@ public class Finder_List_Data {
     private static final String TAG = "Finder_List_Data";
     private static DatabaseHelper dbHelper;
 
+    /**
+     * 我订阅的类型名字和Fragment
+     * TODOID还没做
+     */
     public static List<String> NEWS_TYPE_NAME = new ArrayList<>();
     public static ArrayList<Fragment> Fragments = new ArrayList<>();
-
-
     public static List<Integer> NEWS_TYPE_ID = new ArrayList<>();
 
+
     /**
-     * 用户登陆后获取新闻订阅列表
+     * 我订阅的TAGS
+     */
+    public static List<String> NEWS_MY_TAGS = new ArrayList<>();
+    public static List<Integer> NEWS_MY_TAGS_ID = new ArrayList<>();
+
+
+    /**
+     * 用户登陆后获取加入新闻订阅列表
      */
     public static void ADD_ITEM(String type_name, int type_id){
         NEWS_TYPE_ID.add(type_id);
         BlankFragment.AddNewItem(type_name);
+    }
+
+    /**
+     * 用户登陆后获取加入TAGS订阅列表
+     */
+
+    public static void INIT_MY_TAGS(){
+        NEWS_MY_TAGS = new ArrayList<>();
+        NEWS_MY_TAGS_ID = new ArrayList<>();
+    }
+
+    public static void ADD_MY_TAGS(String tags_name, int tags_id){
+        NEWS_MY_TAGS_ID.add(tags_id);
+        NEWS_MY_TAGS.add(tags_name);
     }
 
 

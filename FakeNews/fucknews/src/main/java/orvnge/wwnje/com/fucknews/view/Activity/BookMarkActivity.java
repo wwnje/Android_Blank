@@ -197,7 +197,7 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "刷新出错", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "刷新出错" + error.toString(), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

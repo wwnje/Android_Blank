@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,10 @@ import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.bean.BlankBaseItemsBean;
+import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
 import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
+
+import static orvnge.wwnje.com.fucknews.adapter.BlankItemsBaseAdapter.ItemType.*;
 
 /**
  * Created by wwnje on 2017/2/19.
@@ -105,31 +109,55 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
     @Override
     public void onBindViewHolder(final ITEMS_ViewHolder holder, final int position) {
 
-        String type_name = blankBaseItemsBeanList.get(position).getItem_name();
-        int type_id = blankBaseItemsBeanList.get(position).getItem_id();
+        String item_name = blankBaseItemsBeanList.get(position).getItem_name();
+        int item_id = blankBaseItemsBeanList.get(position).getItem_id();
 
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        //查询所有数据
-        Cursor cursor = db.query(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL,//表明
-                null,//查询列名
-                "type_id = ?",//where约束条件
-                new String[]{String.valueOf(type_id)} ,//where具体值
-                null ,//group by的列
-                null,//进一步约束
-                null);//order by排列方式
-        /**
-         * 订阅的显示红色
-         * 否则为黑色
-         */
+        holder.tags_name.setText(item_name +
+                "id:" + item_id);
+        switch (itemType){
+            case NEWS_TYPE:
+                //新闻类型 显示我订阅的和不订阅的
 
-        holder.tags_name.setText(type_name +
-                "id:" + type_id);
+                if(Finder_List_Data.NEWS_TYPE_NAME.contains(item_name)){
+                    holder.tags_name.setTextColor(Color.RED);
+                }else {
+                    holder.tags_name.setTextColor(Color.BLACK);
+                }
 
-        if(cursor.getCount() == 0){ //如果没有这个记录显示未订阅状态
-            holder.tags_name.setTextColor(Color.BLACK);
-        }else{
-            holder.tags_name.setTextColor(Color.RED);
+                break;
+            case NEWS_TAG:
+                if(Finder_List_Data.NEWS_MY_TAGS.contains(item_name)){
+                    holder.tags_name.setTextColor(Color.RED);
+                }else {
+                    holder.tags_name.setTextColor(Color.BLACK);
+                }
+                break;
+            case NEWS_MY_TAG:
+                holder.tags_name.setTextColor(Color.GRAY);
+                break;
         }
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//        //查询所有数据
+//        Cursor cursor = db.query(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL,//表明
+//                null,//查询列名
+//                "type_id = ?",//where约束条件
+//                new String[]{String.valueOf(type_id)} ,//where具体值
+//                null ,//group by的列
+//                null,//进一步约束
+//                null);//order by排列方式
+//        /**
+//         * 订阅的显示红色
+//         * 否则为黑色
+//         */
+//
+//        holder.tags_name.setText(type_name +
+//                "id:" + type_id);
+//
+//        if(cursor.getCount() == 0){ //如果没有这个记录显示未订阅状态
+//            holder.tags_name.setTextColor(Color.BLACK);
+//        }else{
+//            holder.tags_name.setTextColor(Color.RED);
+//        }
 
         //通过接口回调来实现RecyclerView的点击事件
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +193,7 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
         TextView tags_name;
         CardView cardView;
 
+        
         public ITEMS_ViewHolder(View itemView) {
             super(itemView);
             tags_name = (TextView) itemView.findViewById(R.id.item_tags_name);

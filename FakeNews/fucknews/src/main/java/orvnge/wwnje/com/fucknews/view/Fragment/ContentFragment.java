@@ -114,11 +114,11 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 int news_id = mNewsAdapter.newsBeen.get(position).getNews_id();
 
                 if(str_book.equals(VariateName.BookMark)){
-                    BlankNetMehod.NewsClick(getContext(), news_id, VariateName.ADDBOOKMARK,"true");
+                    BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getContext(), news_id, VariateName.ADDBOOKMARK,"true");
                     bookmarkText = VariateName.BookMarked;
                     index = pressed;
                 }else{
-                    BlankNetMehod.NewsClick(getContext(), news_id, VariateName.ADDBOOKMARK,"false");
+                    BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getContext(), news_id, VariateName.ADDBOOKMARK,"false");
                     bookmarkText = VariateName.BookMark;
                     index = unpressed;
                 }

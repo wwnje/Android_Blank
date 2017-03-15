@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -173,7 +174,7 @@ public class BlankNetMehod {
      * @param subType
      * @param isAdd
      */
-    public static void NewsClick(final Context context, final int news_id, final String subType, final String isAdd) {
+    public static void NewsClick_LIKE_OR_BOOKMARK(final Context context, final int news_id, final String subType, final String isAdd) {
 
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -253,11 +254,14 @@ public class BlankNetMehod {
     }
 
     /**
-     * 获取我的订阅数据更新版本号
+     * 获取我的订阅Tags
      * @param context
      */
     public static void GetMyTags(final Context context, int offset, int limit) {//传递进来
         Map<String, String> params = new HashMap<String, String>();
+
+        Finder_List_Data.INIT_MY_TAGS();
+        Toast.makeText(context, "正在获取我订阅的标签", Toast.LENGTH_SHORT).show();
 
         params.put("limit", String.valueOf(limit));
         params.put("offset", String.valueOf(offset));
@@ -276,10 +280,13 @@ public class BlankNetMehod {
                             JSONArray array = response.getJSONArray("tags");
                             for (int j = 0; j < array.length(); j++) {
                                 int tags_id = Integer.parseInt(array.getJSONObject(j).getString("tags_id"));
-                                int myTagsVersion = Integer.parseInt(array.getJSONObject(j).getString("myTags_version"));
+                                //int myTagsVersion = Integer.parseInt(array.getJSONObject(j).getString("myTags_version"));
+                                String tags_name = array.getJSONObject(j).getString("tags_name");
+
+                                Finder_List_Data.ADD_MY_TAGS(tags_name,tags_id);
                                 //TODO 保存到数据库
-                                Toast.makeText(context, "tags_id: " + tags_id + "版本" + myTagsVersion, Toast.LENGTH_SHORT).show();
                             }
+                            Toast.makeText(context, "获取订阅标签完成", Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -287,7 +294,7 @@ public class BlankNetMehod {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "获取出错", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "获取订阅标签出错" + error.toString(), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -308,6 +315,7 @@ public class BlankNetMehod {
         Map<String, String> params = new HashMap<String, String>();
 
         params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
+        Toast.makeText(context, "正在获取我的订阅新闻类型", Toast.LENGTH_SHORT).show();
 
         JSONObject paramJsonObject = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -332,8 +340,8 @@ public class BlankNetMehod {
                                 values.put("type_id", type_id);
                                 db.insert(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL, null, values);//插入第一条数据
                                 values.clear();*/
-                                Toast.makeText(context, "tags_id: " + type_id + "版本" + type_name, Toast.LENGTH_SHORT).show();
                             }
+                            Toast.makeText(context, "获取新闻订阅标签完成", Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

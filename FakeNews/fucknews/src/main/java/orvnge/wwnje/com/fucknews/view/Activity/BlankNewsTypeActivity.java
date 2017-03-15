@@ -131,15 +131,15 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
 
             //网络请求订阅
             BlankNetMehod.Subscribe(getApplicationContext(), type_id, "news", "true");
-
-            //本地插入订阅数据
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            ContentValues values = new ContentValues();
-
-            values.put("type_name", type_name);
-            values.put("type_id", type_id);
-
-            db.insert(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL, "or ", values);//插入数据
+//
+//            //本地插入订阅数据
+//            SQLiteDatabase db = dbHelper.getWritableDatabase();
+//            ContentValues values = new ContentValues();
+//
+//            values.put("type_name", type_name);
+//            values.put("type_id", type_id);
+//
+//            db.insert(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL, "or ", values);//插入数据
 
             //更新UI
             BlankFragment.AddNewItem(type_name);

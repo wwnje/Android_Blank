@@ -90,12 +90,12 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
                 //此处实现onItemClick的接口
                 TextView tvRecycleViewItemText = (TextView) view.findViewById(R.id.item_tags_name);
                 //如果字体本来是黑色就变成红色，反之就变为黑色
-                if (tvRecycleViewItemText.getCurrentTextColor() == Color.BLACK) {
-                    tvRecycleViewItemText.setTextColor(Color.RED);
-                    //订阅
-                } else {
-                    tvRecycleViewItemText.setTextColor(Color.BLACK);
-                }
+//                if (tvRecycleViewItemText.getCurrentTextColor() == Color.BLACK) {
+//                    tvRecycleViewItemText.setTextColor(Color.RED);
+//                    //订阅
+//                } else {
+//                    tvRecycleViewItemText.setTextColor(Color.BLACK);
+//                }
             }
         });
 
