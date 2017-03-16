@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,18 +15,31 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.lang.reflect.InvocationTargetException;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.R;
 
-public class BrowseActivity extends AppCompatActivity {
+public class BrowseActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private WebView webView;
     String title;
     String content_url;
     Snackbar snackbar;
+
+    @Bind(R.id.brown_webView)
+    WebView webView;
+
+    @Bind(R.id.btn_like)
+    Button btn_like;
+
+    @Bind(R.id.brown_ProgressBar)
+    ProgressBar brown_ProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +53,8 @@ public class BrowseActivity extends AppCompatActivity {
         //设置是否有返回箭头
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //进度条
-        final ProgressBar bar = (ProgressBar) findViewById(R.id.myProgressBar);
-        webView = (WebView) findViewById(R.id.webView);
+        ButterKnife.bind(this);
+
         WebSettings wSet = webView.getSettings();
 
         wSet.setJavaScriptEnabled(true);//js
@@ -50,12 +64,12 @@ public class BrowseActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 if (newProgress == 100) {
-                    bar.setVisibility(View.INVISIBLE);
+                    brown_ProgressBar.setVisibility(View.INVISIBLE);
                 } else {
-                    if (View.INVISIBLE == bar.getVisibility()) {
-                        bar.setVisibility(View.VISIBLE);
+                    if (View.INVISIBLE == brown_ProgressBar.getVisibility()) {
+                        brown_ProgressBar.setVisibility(View.VISIBLE);
                     }
-                    bar.setProgress(newProgress);
+                    brown_ProgressBar.setProgress(newProgress);
                 }
                 super.onProgressChanged(view, newProgress);
             }
@@ -70,6 +84,8 @@ public class BrowseActivity extends AppCompatActivity {
 
         content_url = getIntent().getStringExtra("content_url");
         webView.loadUrl(content_url);
+
+        btn_like.setOnClickListener(this);
     }
 
     @Override
@@ -170,4 +186,8 @@ public class BrowseActivity extends AppCompatActivity {
         super.onResume();
     }
 
+    @Override
+    public void onClick(View v) {
+        Toast.makeText(this, "你喜欢这个啊", Toast.LENGTH_SHORT).show();
+    }
 }
