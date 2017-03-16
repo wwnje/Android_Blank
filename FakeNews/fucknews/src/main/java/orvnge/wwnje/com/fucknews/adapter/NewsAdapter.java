@@ -155,18 +155,24 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
                 if(MyUtils.WhichUrl(newsBeen.get(position).getContent_url()) != null){
                     Log.d(TAG, "onClick: " + MyUtils.WhichUrl(newsBeen.get(position).getContent_url()));
                     Intent intent = new Intent(context, ZhiHuActivity.class);
+
                     intent.putExtra("img", newsBeen.get(position).getPic_url());//参数给下一个activity
                     intent.putExtra("title", newsBeen.get(position).getTitle());//参数给下一个activity
                     intent.putExtra("slug", MyUtils.WhichUrl(newsBeen.get(position).getContent_url()));//参数给下一个activity
+                    intent.putExtra("news_id", newsBeen.get(position).getNews_id());//参数给下一个activity
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                     context.startActivity(intent);
                 }else{
                     Intent intent = new Intent(context, BrowseActivity.class);
                     intent.putExtra("content_url", newsBeen.get(position).getContent_url());//参数给下一个activity
                     intent.putExtra("img", newsBeen.get(position).getPic_url());//参数给下一个activity
                     intent.putExtra("title", newsBeen.get(position).getTitle());//参数给下一个activity
+                    intent.putExtra("news_id", newsBeen.get(position).getNews_id());//参数给下一个activity
+
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                     context.startActivity(intent);
                 }
 

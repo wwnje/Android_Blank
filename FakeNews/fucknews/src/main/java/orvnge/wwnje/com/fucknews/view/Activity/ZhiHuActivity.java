@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -28,10 +29,12 @@ import com.google.gson.Gson;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.VolleySingleton;
 import orvnge.wwnje.com.fucknews.bean.ZhuanLan;
+import orvnge.wwnje.com.fucknews.data.VariateName;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
+import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
 
 
-public class ZhiHuActivity extends AppCompatActivity {
+public class ZhiHuActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "ZhiHuActivity";
     private FloatingActionButton fab;
     private WebView wbMain;
@@ -42,6 +45,7 @@ public class ZhiHuActivity extends AppCompatActivity {
 
     private String slug;
     private String title;
+    int news_id;
 
     private Gson gson = new Gson();
     private ZhuanLan detail;
@@ -62,6 +66,7 @@ public class ZhiHuActivity extends AppCompatActivity {
 
         title = intent.getStringExtra("title");
         slug = intent.getStringExtra("slug");
+        news_id = getIntent().getIntExtra("news_id", 0);
 
         Toast.makeText(ZhiHuActivity.this, "slug" + slug, Toast.LENGTH_SHORT).show();
         setCollapsingToolbarLayoutTitle(title);
@@ -137,15 +142,9 @@ public class ZhiHuActivity extends AppCompatActivity {
 
         VolleySingleton.getVolleySingleton(this).addToRequestQueue(request);
 
- /*       fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent shareIntent = new Intent().setAction(Intent.ACTION_SEND).setType("text/plain");
-                String shareText = title + " " + "https://zhuanlan.zhihu.com/p/" + slug;
-                shareIntent.putExtra(Intent.EXTRA_TEXT,shareText);
-                startActivity(Intent.createChooser(shareIntent,getString(R.string.share_to)));
-            }
-        });*/
+        fab.setOnClickListener(this);
+
+
     }
 
     private void initViews() {
@@ -210,4 +209,9 @@ public class ZhiHuActivity extends AppCompatActivity {
         super.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    public void onClick(View v) {
+        BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getApplicationContext(), news_id, VariateName.ADDLIKE,"true");
+        Toast.makeText(this, "你喜欢这个啊" + news_id + title, Toast.LENGTH_SHORT).show();
+    }
 }

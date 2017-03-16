@@ -1,5 +1,6 @@
 package orvnge.wwnje.com.fucknews.view.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,11 +25,15 @@ import java.lang.reflect.InvocationTargetException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.R;
+import orvnge.wwnje.com.fucknews.data.VariateName;
+import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
 
 public class BrowseActivity extends AppCompatActivity implements View.OnClickListener {
 
+    Context context;
     String title;
     String content_url;
+    int news_id;
     Snackbar snackbar;
 
     @Bind(R.id.brown_webView)
@@ -47,6 +52,8 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         title = getIntent().getStringExtra("title");
+        news_id = getIntent().getIntExtra("news_id", 0);
+
         toolbar.setTitle(title);
 
         setSupportActionBar(toolbar);
@@ -56,6 +63,8 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         ButterKnife.bind(this);
 
         WebSettings wSet = webView.getSettings();
+
+        context = getApplicationContext();
 
         wSet.setJavaScriptEnabled(true);//js
         wSet.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//没有网络读取缓存
@@ -188,6 +197,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(this, "你喜欢这个啊", Toast.LENGTH_SHORT).show();
+        BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(context, news_id, VariateName.ADDLIKE,"true");
+        Toast.makeText(this, "你喜欢这个啊" + news_id + title, Toast.LENGTH_SHORT).show();
     }
 }
