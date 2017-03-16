@@ -3,6 +3,7 @@ package orvnge.wwnje.com.fucknews.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
+import orvnge.wwnje.com.fucknews.bean.BlankBaseItemsBean;
 import orvnge.wwnje.com.fucknews.bean.BookMarkBean;
 
 /**
@@ -21,20 +23,12 @@ import orvnge.wwnje.com.fucknews.bean.BookMarkBean;
 public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.ViewHolder> {
 
     private static final String TAG = "BookMarkAdapter";
-    private List<String> mData;
 
-    private List<BookMarkBean> bookMarkBeen;
+    private List<BookMarkBean> bookMarkBeenList;
     private Context context;
 
-    public BookMarkAdapter(Context context, List<String> data) {
-        mData = data;
-
-        bookMarkBeen = new ArrayList<>();
-        this.context = context;
-    }
-
     public BookMarkAdapter(Context context) {
-        bookMarkBeen = new ArrayList<>();
+        bookMarkBeenList = new ArrayList<>();
         this.context = context;
     }
 
@@ -53,41 +47,46 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.ViewHo
 
     /**
      * 添加
-     *
-     * @param bookmark
      */
 
-    public void add(BookMarkBean bookmark) {
-        bookMarkBeen.add(bookmark);
+    public void addAll(List<BookMarkBean> bookmarks){
+        bookMarkBeenList.clear();
+        bookMarkBeenList.addAll(bookmarks);
+    }
 
-        notifyItemInserted(bookMarkBeen.size() - 1);
+    public void add(BookMarkBean bookmark) {
+        bookMarkBeenList.add(bookmark);
+
+        notifyItemInserted(getItemCount() - 1);
     }
 
     public void clear() {
-        bookMarkBeen.clear();
+        bookMarkBeenList.clear();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //TODO 只出现第一条数据 改为null
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tags, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tags, parent, false);
+
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tags_name.setText(bookMarkBeen.get(position).getBookmark_id() +
-                bookMarkBeen.get(position).getFinder_id() +
-                bookMarkBeen.get(position).getFinder_name() +
-                bookMarkBeen.get(position).getNews_title() +
-                bookMarkBeen.get(position).getNews_content_url() +
-                bookMarkBeen.get(position).getType()
+        Log.d(TAG, "onBindViewHolder: " + bookMarkBeenList.get(position).getNews_title());
+        holder.tags_name.setText(bookMarkBeenList.get(position).getBookmark_id() +
+                bookMarkBeenList.get(position).getFinder_id() +
+                bookMarkBeenList.get(position).getFinder_name() +
+                bookMarkBeenList.get(position).getNews_title() +
+                bookMarkBeenList.get(position).getNews_content_url() +
+                bookMarkBeenList.get(position).getType()
         );
     }
 
     @Override
     public int getItemCount() {
-        return bookMarkBeen.size();
+        return bookMarkBeenList.size();
     }
 
 

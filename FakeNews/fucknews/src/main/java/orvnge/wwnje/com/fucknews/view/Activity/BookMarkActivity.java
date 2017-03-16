@@ -2,12 +2,14 @@
 package orvnge.wwnje.com.fucknews.view.Activity;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -51,7 +53,7 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
     SwipeRefreshLayout swip;
 
     private BookMarkAdapter bookMarkAdapter;
-    private List<String> mdata = new ArrayList<>();
+    private List<BookMarkBean> books = new ArrayList<>();
     private RecyclerView.LayoutManager layoutManager;
 
     private Handler handler;
@@ -79,7 +81,7 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
         recycleView.setLayoutManager(layoutManager);
         recycleView.setHasFixedSize(true);
 
-        bookMarkAdapter = new BookMarkAdapter(getApplicationContext(), mdata);
+        bookMarkAdapter = new BookMarkAdapter(getApplicationContext());
         recycleView.setAdapter(bookMarkAdapter);
 
         //点击进行订阅
@@ -98,13 +100,6 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
             }
         });
 
-        //禁止刷新移动  放刷新最下面
-        recycleView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return isRefresh;
-            }
-        });
         swip.setOnRefreshListener(this);
 
         //进入就刷新
@@ -112,49 +107,55 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
             @Override
             public void run() {
                 swip.setRefreshing(true);
-                isRefresh = true;
-                page = 1;
-                bookMarkAdapter.clear();
-                setList();
+                new LoadAllAppsTask().execute("Test AsyncTask");
             }
         });
-        isPrepared = true;
     }
 
 
     //下拉刷新
     @Override
     public void onRefresh() {
-        if (!isRefresh) {
-            isRefresh = true;
-            page = 1;
-            bookMarkAdapter.clear();
-            setList();
-        }
+        page = 1;
+        new LoadAllAppsTask().execute("Test AsyncTask");
     }
 
     /**
      * 标签请求数据
      */
-    private void setList() {
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                int start = 20 * (page - 1);
-                if (MyUtils.isOpenNetwork(getApplicationContext())) {
-                    getALLTags(start, page * 20);
-                } else {
-                    Toast.makeText(getApplicationContext(), "没有网络连接", Toast.LENGTH_SHORT).show();
-                }
-                bookMarkAdapter.notifyDataSetChanged();
-                swip.setRefreshing(false);
-                isRefresh = false;
-            }
-        };
-        handler = new Handler();
-        handler.postDelayed(runnable, 500);
+    private class LoadAllAppsTask extends AsyncTask<String, Integer, Long> {
 
+        /**
+         * 后台处理 请求
+         *
+         * @param params
+         * @return
+         */
+        @Override
+        protected Long doInBackground(String... params) {
+            getBookMarks(0, 20);//请求
+            return 100L;
+        }
     }
+//    private void setList() {
+//        runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                int start = 20 * (page - 1);
+//                if (MyUtils.isOpenNetwork(getApplicationContext())) {
+//                    getALLTags(start, page * 20);
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "没有网络连接", Toast.LENGTH_SHORT).show();
+//                }
+//                bookMarkAdapter.notifyDataSetChanged();
+//                swip.setRefreshing(false);
+//                isRefresh = false;
+//            }
+//        };
+//        handler = new Handler();
+//        handler.postDelayed(runnable, 500);
+//
+//    }
 
     @Override
     public void onDestroy() {
@@ -169,12 +170,12 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
     * offset起始点
     * limit最多条数
      */
-    public void getALLTags(int offset, int limit) {//传递进来
-//        Toast.makeText(this, "正在发起请求", Toast.LENGTH_SHORT).show();
+    public void getBookMarks(int offset, int limit) {//传递进来
         Map<String, String> params = new HashMap<String, String>();
+
         params.put("limit", String.valueOf(limit));
         params.put("offset", String.valueOf(offset));
-        params.put("FINDER_ID", String.valueOf(FinderData.FINDER_ID));
+        params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
         params.put("book_version", String.valueOf(FinderData.BookVersion));
 
         JSONObject paramJsonObject = new JSONObject(params);
@@ -185,11 +186,22 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d(TAG, "onResponse: " + response.toString());
                         try {
                             JSONArray array = response.getJSONArray("bookmarks");
                             for (int j = 0; j < array.length(); j++) {
                                 add(array.getJSONObject(j));
                             }
+                            //请求完成
+                            bookMarkAdapter.addAll(books);
+                            books = new ArrayList<>();//清除
+
+                            //处理完毕进行设置
+                            swip.setRefreshing(false);
+                            bookMarkAdapter.notifyDataSetChanged();
+
+                            Toast.makeText(BookMarkActivity.this, "获取书签成功", Toast.LENGTH_SHORT).show();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -197,6 +209,7 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                swip.setRefreshing(false);
                 Toast.makeText(getApplicationContext(), "刷新出错" + error.toString(), Toast.LENGTH_SHORT).show();
             }
         }) {
@@ -220,7 +233,7 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
             String news_desc = jsonObject.getString("news_desc");
             String news_content_url = jsonObject.getString("news_pic_url");
             String type = jsonObject.getString("type");
-            String finder_id = jsonObject.getString("FINDER_ID");
+            String finder_id = jsonObject.getString("finder_id");
             String finder_name = jsonObject.getString("finder_name");
             String book_version = jsonObject.getString("book_version");
             String news_pic_url = jsonObject.getString("news_pic_url");
@@ -237,7 +250,7 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
             data.setNews_title(news_title);
             data.setType(type);
 
-            bookMarkAdapter.add(data);
+            books.add(data);
 //            Toast.makeText(this, "正在加载数据..." + data.getItem_name(), Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();

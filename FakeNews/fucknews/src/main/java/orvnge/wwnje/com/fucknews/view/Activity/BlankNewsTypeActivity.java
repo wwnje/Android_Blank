@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -207,7 +208,6 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
     * limit最多条数
      */
     public void getNewsType(int offset, int limit) {//传递进来
-//        Toast.makeText(this, "正在发起请求", Toast.LENGTH_SHORT).show();
         Map<String, String> params = new HashMap<String, String>();
         params.put("limit", String.valueOf(limit));
         params.put("offset", String.valueOf(offset));
@@ -223,6 +223,7 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d(TAG, "onResponse: " + response.toString());
                         try {
                             JSONArray array = response.getJSONArray("type");
                             for (int j = 0; j < array.length(); j++) {
@@ -244,6 +245,7 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                swip.setRefreshing(false);
                 Toast.makeText(getApplicationContext(), "刷新出错", Toast.LENGTH_SHORT).show();
             }
         }) {
