@@ -11,4 +11,9 @@ public class VariateName {
     public static String ADDBOOKMARK = "bookmark";
     public static String ADDLIKE = "like";
 
+    /**
+     * if Like
+     */
+    public static String LIKED = "LIKED";
+    public static String LIKE = "LIKE";
 }

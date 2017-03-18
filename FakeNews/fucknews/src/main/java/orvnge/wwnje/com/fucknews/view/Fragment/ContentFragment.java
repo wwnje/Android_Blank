@@ -1,6 +1,7 @@
 package orvnge.wwnje.com.fucknews.view.Fragment;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -57,7 +58,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout swip;
-    private NewsAdapter mNewsAdapter;
+    public  NewsAdapter mNewsAdapter;
     private int page = 1;
 
     private List<NewsBean> newsNow = new ArrayList<>();//现在加载的新数据
@@ -66,21 +67,8 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     public static final String ARGUMENT = "type";
 
-
-    private String mText;
-
-    public static ContentFragment newInstance(String text) {
-        ContentFragment f = new ContentFragment(text);
-        return f;
-    }
-
-    public ContentFragment() {
-    }
-
-    public ContentFragment(String text) {
-        this.mText = text;
-    }
-
+    private int mInt;
+    private String mType;//文章标题
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -124,10 +112,10 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 }
                 btn_bookmark.setBackgroundResource(index);
                 btn_bookmark.setText(bookmarkText);
-                //Toast.makeText(getActivity(), bookmarkText + "news_name:"  + mNewsAdapter.newsBeen.get(position).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     /**
      * 界面设置
@@ -138,7 +126,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         mRecyclerView.setLayoutManager(layoutManager);
 
         mRecyclerView.setHasFixedSize(true);
-        mNewsAdapter = new NewsAdapter(getActivity());
+        mNewsAdapter = new NewsAdapter(getActivity(), mInt);
         mRecyclerView.setAdapter(mNewsAdapter);
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -181,11 +169,8 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 new LoadAllAppsTask().execute(start);
             }
         });
-
-
     }
 
-    private String mType;//文章标题
 
     /**
      * 获取items内容
@@ -193,7 +178,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private void initData() {
 
         mType = this.getArguments().getString("type");
-        int mInt = this.getArguments().getInt("id");
+        mInt = this.getArguments().getInt("id");
         Log.d(TAG, "initData: mType:" + mType + "ID:" + mInt);
     }
 

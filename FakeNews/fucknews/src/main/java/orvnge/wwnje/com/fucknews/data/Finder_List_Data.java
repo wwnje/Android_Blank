@@ -10,9 +10,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import orvnge.wwnje.com.fucknews.bean.NewsBean;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
 import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
+import orvnge.wwnje.com.fucknews.view.Fragment.ContentFragment;
 
 /**
  * Created by wwnje on 2017/3/8.
@@ -28,8 +30,14 @@ public class Finder_List_Data {
      * TODOID还没做
      */
     public static List<String> NEWS_TYPE_NAME = new ArrayList<>();
-    public static ArrayList<Fragment> Fragments = new ArrayList<>();
+    public static ArrayList<ContentFragment> Fragments = new ArrayList<>();
     public static List<Integer> NEWS_TYPE_ID = new ArrayList<>();
+
+
+    /**
+     * 我的新闻列表
+     */
+    //public  static List<NewsBean> newsBeen;
 
 
     /**

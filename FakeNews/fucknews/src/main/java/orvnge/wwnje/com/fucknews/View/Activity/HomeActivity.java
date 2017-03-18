@@ -16,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,8 +41,11 @@ import orvnge.wwnje.com.fucknews.utils.myCheckTools;
 import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
 import orvnge.wwnje.com.fucknews.view.Fragment.TwentyFragment;
 
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+
 public class HomeActivity extends BaseActivity {
 
+    private static final String TAG = "HomeActivity";
     private Snackbar snackbar;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;

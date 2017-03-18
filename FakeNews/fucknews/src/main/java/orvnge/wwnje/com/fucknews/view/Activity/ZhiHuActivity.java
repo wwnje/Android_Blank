@@ -15,6 +15,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,9 +27,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.VolleySingleton;
 import orvnge.wwnje.com.fucknews.bean.ZhuanLan;
+import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
 import orvnge.wwnje.com.fucknews.data.VariateName;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
@@ -46,6 +50,9 @@ public class ZhiHuActivity extends AppCompatActivity implements View.OnClickList
     private String slug;
     private String title;
     int news_id;
+    boolean isLike;
+    int position;
+    int frag_id;
 
     private Gson gson = new Gson();
     private ZhuanLan detail;
@@ -53,10 +60,15 @@ public class ZhiHuActivity extends AppCompatActivity implements View.OnClickList
     private int likesCount;
     private int commentsCount;
 
+    @Bind(R.id.btn_like)
+    Button btn_like;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zhi_hu);
+
+        ButterKnife.bind(this);
 
         initViews();
 
@@ -67,6 +79,9 @@ public class ZhiHuActivity extends AppCompatActivity implements View.OnClickList
         title = intent.getStringExtra("title");
         slug = intent.getStringExtra("slug");
         news_id = getIntent().getIntExtra("news_id", 0);
+        isLike = getIntent().getBooleanExtra("is_like", false);
+        position = getIntent().getIntExtra("position", 0);
+        frag_id = getIntent().getIntExtra("frag_id", 0);
 
         Toast.makeText(ZhiHuActivity.this, "slug" + slug, Toast.LENGTH_SHORT).show();
         setCollapsingToolbarLayoutTitle(title);
@@ -142,9 +157,16 @@ public class ZhiHuActivity extends AppCompatActivity implements View.OnClickList
 
         VolleySingleton.getVolleySingleton(this).addToRequestQueue(request);
 
-        fab.setOnClickListener(this);
+        //TODO 喜欢和不喜欢的显示
+        if(isLike){
+            btn_like.setText(VariateName.LIKED);
+        }else {
+            btn_like.setText(VariateName.LIKE);
+        }
 
+        btn_like.setOnClickListener(this);
 
+        //fab.setOnClickListener(this);
     }
 
     private void initViews() {
@@ -211,7 +233,20 @@ public class ZhiHuActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getApplicationContext(), news_id, VariateName.ADDLIKE,"true");
-        Toast.makeText(this, "你喜欢这个啊" + news_id + title, Toast.LENGTH_SHORT).show();
+        String text;
+        if(btn_like.getText() == VariateName.LIKED){
+            BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getApplicationContext(), news_id, VariateName.ADDLIKE,"false");
+            isLike = false;
+            text = VariateName.LIKE;
+        }else {
+            BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getApplicationContext(), news_id, VariateName.ADDLIKE,"true");
+            isLike = true;
+            text = VariateName.LIKED;
+        }
+        Finder_List_Data.Fragments.get(frag_id).mNewsAdapter.newsBeen.get(position).setLike(isLike);
+        Log.d(TAG, "onClick: " + Finder_List_Data.Fragments.get(frag_id).getArguments().getString("type"));
+        btn_like.setText(text);
+        Toast.makeText(this, text + news_id + title, Toast.LENGTH_SHORT).show();
+        //对应Frag的bean更改 isLike
     }
 }

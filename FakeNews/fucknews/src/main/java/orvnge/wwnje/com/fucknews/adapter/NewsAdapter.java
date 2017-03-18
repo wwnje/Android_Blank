@@ -2,6 +2,7 @@ package orvnge.wwnje.com.fucknews.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,15 +25,14 @@ import orvnge.wwnje.com.fucknews.utils.MyUtils;
 import orvnge.wwnje.com.fucknews.view.Activity.BrowseActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.ZhiHuActivity;
 
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
-
 
 /**
  * 新闻列表适配器
  */
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> implements IAdapeter.OnItemClickListener,IAdapeter.OnLongItemClickListener {
 
-    public List<NewsBean> newsBeen;
+    private static final String TAG = "NewsAdapter";
+    public  List<NewsBean> newsBeen;
     private Context context;
 
     private int pressed = R.drawable.btn_bookmark_style_pressed;
@@ -41,6 +41,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
 
     private int bookmarkText = R.string.bookmark;
 
+    private int frag_id;
 
     //定义一个监听对象，用来存储监听事件
     public IAdapeter.OnItemClickListener mOnItemClickListener;
@@ -54,10 +55,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
         mOnLongItemClickListener = itemLongClickListener;
     }
 
-    public NewsAdapter(Context context){
+    public NewsAdapter(Context context, int frag_id){
         newsBeen = new ArrayList<>();
         //inflater = LayoutInflater.from(MyApplication.getContext());
         this.context = context;
+        this.frag_id = frag_id;
     }
 
     public void add(NewsBean news) {
@@ -152,6 +154,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
             public void onClick(View v) {
                 //DetailActivity.startActivity(context, getLayoutPosition(), showImage);
 
+                boolean isLike;
+                if(newsBeen.get(position).getLike() == false){
+                    isLike = false;
+                }else{
+                    isLike = true;
+                }
+
                 if(MyUtils.WhichUrl(newsBeen.get(position).getContent_url()) != null){
                     Log.d(TAG, "onClick: " + MyUtils.WhichUrl(newsBeen.get(position).getContent_url()));
                     Intent intent = new Intent(context, ZhiHuActivity.class);
@@ -160,6 +169,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
                     intent.putExtra("title", newsBeen.get(position).getTitle());//参数给下一个activity
                     intent.putExtra("slug", MyUtils.WhichUrl(newsBeen.get(position).getContent_url()));//参数给下一个activity
                     intent.putExtra("news_id", newsBeen.get(position).getNews_id());//参数给下一个activity
+                    intent.putExtra("is_like", isLike);//参数给下一个activity
+                    intent.putExtra("position", position);//参数给下一个activity
+                    intent.putExtra("frag_id", frag_id);//参数给下一个activity
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -170,6 +182,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
                     intent.putExtra("img", newsBeen.get(position).getPic_url());//参数给下一个activity
                     intent.putExtra("title", newsBeen.get(position).getTitle());//参数给下一个activity
                     intent.putExtra("news_id", newsBeen.get(position).getNews_id());//参数给下一个activity
+                    intent.putExtra("is_like", isLike);//参数给下一个activity
+                    intent.putExtra("position", position);//参数给下一个activity
+                    intent.putExtra("frag_id", frag_id);//参数给下一个activity
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -223,4 +238,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
             cardView = (CardView) itemView.findViewById(R.id.fragment_movie_item);
         }
     }
+
+
 }

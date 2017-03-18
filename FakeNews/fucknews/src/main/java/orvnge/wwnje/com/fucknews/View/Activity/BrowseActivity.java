@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,16 +24,21 @@ import java.lang.reflect.InvocationTargetException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.R;
+import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
 import orvnge.wwnje.com.fucknews.data.VariateName;
 import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
 
 public class BrowseActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "BrowseActivity";
     Context context;
     String title;
     String content_url;
     int news_id;
     Snackbar snackbar;
+    boolean isLike;
+    int position;
+    int frag_id;
 
     @Bind(R.id.brown_webView)
     WebView webView;
@@ -53,6 +57,9 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         title = getIntent().getStringExtra("title");
         news_id = getIntent().getIntExtra("news_id", 0);
+        frag_id = getIntent().getIntExtra("frag_id", 0);
+        isLike = getIntent().getBooleanExtra("is_like", false);
+        position = getIntent().getIntExtra("position", 0);
 
         toolbar.setTitle(title);
 
@@ -94,6 +101,12 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         content_url = getIntent().getStringExtra("content_url");
         webView.loadUrl(content_url);
 
+
+        if(isLike){
+            btn_like.setText(VariateName.LIKED);
+        }else {
+            btn_like.setText(VariateName.LIKE);
+        }
         btn_like.setOnClickListener(this);
     }
 
@@ -197,7 +210,20 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(context, news_id, VariateName.ADDLIKE,"true");
-        Toast.makeText(this, "你喜欢这个啊" + news_id + title, Toast.LENGTH_SHORT).show();
+        String text;
+        if(btn_like.getText() == VariateName.LIKED){
+            BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getApplicationContext(), news_id, VariateName.ADDLIKE,"false");
+            isLike = false;
+            text = VariateName.LIKE;
+        }else {
+            BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getApplicationContext(), news_id, VariateName.ADDLIKE,"true");
+            isLike = true;
+            text = VariateName.LIKED;
+        }
+        Finder_List_Data.Fragments.get(frag_id).mNewsAdapter.newsBeen.get(position).setLike(isLike);
+        Log.d(TAG, "onClick: " + Finder_List_Data.Fragments.get(frag_id).getArguments().getString("type"));
+        btn_like.setText(text);
+        Toast.makeText(this, text + news_id + title, Toast.LENGTH_SHORT).show();
+        //对应Frag的bean更改 isLike
     }
 }
