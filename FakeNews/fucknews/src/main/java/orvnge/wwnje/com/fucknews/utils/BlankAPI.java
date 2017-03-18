@@ -31,6 +31,7 @@ public class BlankAPI {
     public static  String GET_MY_TAGS_URL = "http://www.wwnje.com/FakeNews/API_GetMyTags.php";//获取订阅标签
     public static  String GET_MY_NEWS_TYPE_URL = "http://www.wwnje.com/FakeNews/API_GetMyNews_Type.php";//获取新闻类型标签
     public static  String GET_BOOKMARK_URL = "http://www.wwnje.com/FakeNews/API_GetBookMark.php";//获取所有书签
+    public static  String GET_LIKELIST_URL = "http://www.wwnje.com/FakeNews/API_GetLikeList.php";//获取喜欢的列表
 
     /**
      * 获取新闻内容

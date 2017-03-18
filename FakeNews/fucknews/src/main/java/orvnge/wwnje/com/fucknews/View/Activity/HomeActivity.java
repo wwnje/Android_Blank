@@ -237,7 +237,9 @@ public class HomeActivity extends BaseActivity {
                 case R.id.nav_bookmark://书签
                     startActivity(new Intent(HomeActivity.this, BookMarkActivity.class));
                     break;
-
+                case R.id.nav_like://喜欢
+                    startActivity(new Intent(HomeActivity.this, LikeActivity.class));
+                    break;
                 case R.id.v_score: //评分
                     try {
                         Uri uri = Uri.parse("market://details?id=" + getPackageName());

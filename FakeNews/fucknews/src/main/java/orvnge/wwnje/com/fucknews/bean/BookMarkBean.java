@@ -2,6 +2,7 @@ package orvnge.wwnje.com.fucknews.bean;
 
 /**
  * Created by wwnje on 2017/2/22.
+ * 书签和喜欢的共用
  */
 
 public class BookMarkBean {

@@ -68,6 +68,7 @@
         <activity android:name=".view.Activity.BlankNewsTypeActivity" />
         <activity android:name="com.orvnge.xutils.ViewPagerActivity" />
         <activity android:name=".BlankActivity"></activity>
+        <activity android:name=".view.Activity.LikeActivity"></activity>
     </application>
 
 </manifest>

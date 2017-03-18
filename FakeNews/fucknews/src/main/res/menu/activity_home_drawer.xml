@@ -19,6 +19,9 @@
                 android:id="@+id/nav_bookmark"
                 android:title="书签待阅读" />
             <item
+                android:id="@+id/nav_like"
+                android:title="喜欢的" />
+            <item
                 android:id="@+id/nav_news_type"
                 android:title="显示新闻类别包括我的订阅" />
         </menu>
