@@ -9,7 +9,7 @@ android {
         applicationId "orvnge.wwnje.com.fucknews"
         minSdkVersion 19
         targetSdkVersion 22
-        versionCode 3
+        versionCode 4
         versionName "1.3 beta"
     }
     buildTypes {
