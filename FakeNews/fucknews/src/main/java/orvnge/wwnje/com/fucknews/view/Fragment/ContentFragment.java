@@ -112,11 +112,8 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     bookmarkText = VariateName.BookMark;
                     index = unpressed;
                 }
-                //btn_bookmark.setBackgroundResource(index);
                 btn_bookmark.setBackgroundResource(pressed);
                 btn_bookmark.setText(bookmarkText);
-
-
             }
         });
     }

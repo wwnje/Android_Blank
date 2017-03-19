@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.orvnge.xutils.MyFragment;
 import com.orvnge.xutils.TextProvider;
@@ -80,7 +81,9 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         btn_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ShareNewsActivity.class));
+                Toast.makeText(mActivity, "Sorry,暂未测试分享界面", Toast.LENGTH_SHORT).show();
+
+                //startActivity(new Intent(getActivity(), ShareNewsActivity.class));
             }
         });
 
@@ -146,8 +149,13 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                    case R.id.action_copyright:
-                        showToast("测试使用");
-                       startActivity(new Intent(getActivity(), TestActivity.class));
+                       new AlertDialog.Builder(getActivity()).setTitle("标题")
+                               .setMessage(R.string.copyright_content)
+                               .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                   @Override
+                                   public void onClick(DialogInterface dialog, int which) {
+                                   }
+                               }).show();
                         break;
                 }
                 return true;

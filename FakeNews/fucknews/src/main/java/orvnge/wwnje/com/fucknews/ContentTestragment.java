@@ -23,15 +23,14 @@ public class ContentTestragment extends Fragment {
 
     private String mText;
 
-    public static ContentTestragment newInstance(String text) {
-        ContentTestragment f = new ContentTestragment(text);
-        return f;
-    }
-
-
-    public ContentTestragment(String text) {
-        this.mText = text;
-    }
+//    public static ContentTestragment newInstance(String text) {
+//        ContentTestragment f = new ContentTestragment(text);
+//        return f;
+//    }
+//
+//    public ContentTestragment(String text) {
+//        this.mText = text;
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

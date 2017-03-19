@@ -154,8 +154,8 @@ public class HomeActivity extends BaseActivity {
                 case R.id.nav_login_or_me://进入我的界面
                     if (FinderData.isLogin) {
                         //如果登陆了
-                        Toast.makeText(mActivity, "进入我的界面", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(HomeActivity.this, FinderActivity.class));
+                        Toast.makeText(mActivity, "Sorry,暂未测试我的界面", Toast.LENGTH_SHORT).show();
+                        //startActivity(new Intent(HomeActivity.this, FinderActivity.class));
                     } else {
                         login_InitView();
                         new AlertDialog.Builder(HomeActivity.this).setTitle("hello 发现者")
@@ -218,20 +218,6 @@ public class HomeActivity extends BaseActivity {
                                     });
                     snackbar.show();
                     break;
-
-                /**
-                 * 查看tags
-                 */
-                case R.id.nav_tags:
-                    startActivity(new Intent(HomeActivity.this, TagsActivity.class));
-                    break;
-                /**
-                 * 查看我的tags
-                 */
-                case R.id.nav_my_tags:
-                    startActivity(new Intent(HomeActivity.this, SubscribeTagsActivity.class));
-                    break;
-
                 /**
                  * news_type订阅和第一次的查看
                  */
@@ -255,63 +241,6 @@ public class HomeActivity extends BaseActivity {
                         Snackbar.make(mDrawerLayout, R.string.no_market_app, Snackbar.LENGTH_SHORT).show();
                     }
                     break;
-
-                case R.id.v_t:
-                    Toast.makeText(mActivity, test.get("hello"), Toast.LENGTH_SHORT).show();
-                    //startActivity(new Intent(HomeActivity.this, GitHubActivity.class));
-                    startActivity(new Intent(HomeActivity.this, RecycleViewActivity.class));
-                    break;
-
-                case R.id.v_data:
-                    startActivity(new Intent(HomeActivity.this, DataActivity.class));
-                    break;
-
-                case R.id.v_add:
-                    BlankFragment.AddNewItem("测试");
-                    break;
-
-                case R.id.v_remove:
-                    BlankFragment.removeCurrentItem();
-                    break;
-
-             /*   case R.id.navigation_item_night:
-                    SharedPreferencesUtil.setBoolean(mActivity, AppConstants.ISNIGHT, true);
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    recreate();
-                    return true;
-                case R.id.navigation_item_day:
-                    SharedPreferencesUtil.setBoolean(mActivity, AppConstants.ISNIGHT, false);
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    recreate();
-                    return true;*/
-                /*case R.id.navigation_item_1:
-                    currentIndex = 0;
-                    menuItem.setChecked(true);
-                    currentFragment = new FristFragment();
-                    switchContent(currentFragment);
-                    return true;
-                case R.id.navigation_item_2:
-                    currentIndex = 2;
-                    menuItem.setChecked(true);
-                    currentFragment = new ThirdFragment();
-                    switchContent(currentFragment);
-                    return true;
-                case R.id.navigation_item_3:
-                    currentIndex = 1;
-                    menuItem.setChecked(true);
-                    currentFragment = new SecondFragment();
-                    switchContent(currentFragment);
-                    return true;
-                case R.id.navigation_item_night:
-                    SharedPreferencesUtil.setBoolean(mActivity, AppConstants.ISNIGHT, true);
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    recreate();
-                    return true;
-                case R.id.navigation_item_day:
-                    SharedPreferencesUtil.setBoolean(mActivity, AppConstants.ISNIGHT, false);
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    recreate();
-                    return true;*/
                 default:
                     return true;
             }

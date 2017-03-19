@@ -83,7 +83,6 @@ public class ZhiHuActivity extends AppCompatActivity implements View.OnClickList
         position = getIntent().getIntExtra("position", 0);
         frag_id = getIntent().getIntExtra("frag_id", 0);
 
-        Toast.makeText(ZhiHuActivity.this, "slug" + slug, Toast.LENGTH_SHORT).show();
         setCollapsingToolbarLayoutTitle(title);
 
         if (imgUrl == null || imgUrl.equals("")){
@@ -166,7 +165,15 @@ public class ZhiHuActivity extends AppCompatActivity implements View.OnClickList
 
         btn_like.setOnClickListener(this);
 
-        //fab.setOnClickListener(this);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shareIntent = new Intent().setAction(Intent.ACTION_SEND).setType("text/plain");
+                String shareText = title + "链接" + BlankAPI.ZHUHU_POST_URL + slug;
+                shareIntent.putExtra(Intent.EXTRA_TEXT,shareText);
+                startActivity(Intent.createChooser(shareIntent,getString(R.string.share_to)));
+            }
+        });
     }
 
     private void initViews() {
@@ -246,7 +253,5 @@ public class ZhiHuActivity extends AppCompatActivity implements View.OnClickList
         Finder_List_Data.Fragments.get(frag_id).mNewsAdapter.newsBeen.get(position).setLike(isLike);
         Log.d(TAG, "onClick: " + Finder_List_Data.Fragments.get(frag_id).getArguments().getString("type"));
         btn_like.setText(text);
-        Toast.makeText(this, text + news_id + title, Toast.LENGTH_SHORT).show();
-        //对应Frag的bean更改 isLike
     }
 }

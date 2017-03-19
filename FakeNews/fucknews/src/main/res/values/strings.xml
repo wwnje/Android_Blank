@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Blank</string>
+    <string name="app_name">Blank 测试版</string>
     <string name="app_tags">NewsBean</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -25,12 +25,17 @@
 
     <string name="copyright_content">
         fakenews所使用资源若有侵权可告知以便及时删除\n
-        Beta版本问题较多若发现Bug可在侧栏about\n
-        提交建议 应该是最后一次beta版本了\n
-        本次更新包括UI更改,图片缓存加入\n
-        加入用户手机端分享文章测试\n
-        感谢你的使用\n\nAndroid 5.0以下在浏览新闻时\n
-        可能界面有不稳定的现象
+        本版本仅为毕业设计UI主体测试\n
+        主体可能比较简陋\n
+        本次更新加入用户注册登录\n
+        订阅新闻类型\n
+        增加图片缓存\n
+        修复若干bug\n
+        大概在3月底和4月更新加入用户分享文章\n
+        增加社交分享,自定义增加标签\n
+        4月中旬加入推荐算法\n
+        Blank 仅为本人毕业设计项目\n
+        以推荐算法为核心的内容分享平台
     </string>
 
     <string name="loading">加载中…</string>

@@ -82,22 +82,6 @@ public class LikeActivity extends AppCompatActivity implements SwipeRefreshLayou
         bookMarkAdapter = new BookMarkAdapter(getApplicationContext());
         recycleView.setAdapter(bookMarkAdapter);
 
-        //点击进行订阅
-        bookMarkAdapter.setOnItemClickListener(new BookMarkAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                //此处实现onItemClick的接口
-                TextView tvRecycleViewItemText = (TextView) view.findViewById(R.id.item_tags_name);
-//                //如果字体本来是黑色就变成红色，反之就变为黑色
-//                if (tvRecycleViewItemText.getCurrentTextColor() == Color.BLACK) {
-//                    tvRecycleViewItemText.setTextColor(Color.RED);
-//                    //订阅
-//                } else {
-//                    tvRecycleViewItemText.setTextColor(Color.BLACK);
-//                }
-            }
-        });
-
         swip.setOnRefreshListener(this);
 
         //进入就刷新

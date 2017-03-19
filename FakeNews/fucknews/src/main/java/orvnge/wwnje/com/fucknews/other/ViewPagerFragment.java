@@ -127,7 +127,9 @@ public class ViewPagerFragment extends Fragment   implements TextProvider {
 
         @Override
         public Fragment getItem(int position) {
-            return ContentTestragment.newInstance(mProvider.getTextForPosition(position));
+            //return ContentTestragment.newInstance(mProvider.getTextForPosition(position));
+            ContentTestragment a = new ContentTestragment();
+            return a;
         }
 
         @Override

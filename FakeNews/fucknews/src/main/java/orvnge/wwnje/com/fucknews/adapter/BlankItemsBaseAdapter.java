@@ -112,8 +112,7 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
         String item_name = blankBaseItemsBeanList.get(position).getItem_name();
         int item_id = blankBaseItemsBeanList.get(position).getItem_id();
 
-        holder.tags_name.setText(item_name +
-                "id:" + item_id);
+        holder.tags_name.setText(item_name);
         switch (itemType){
             case NEWS_TYPE:
                 //新闻类型 显示我订阅的和不订阅的

@@ -81,12 +81,9 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: " + bookMarkBeenList.get(position).getNews_title());
 
-        holder.tags_name.setText(bookMarkBeenList.get(position).getBookmark_id() +
-                bookMarkBeenList.get(position).getFinder_id() +
-                bookMarkBeenList.get(position).getFinder_name() +
-                bookMarkBeenList.get(position).getNews_title() +
-                bookMarkBeenList.get(position).getNews_content_url() +
-                bookMarkBeenList.get(position).getType()
+        holder.tags_name.setText(
+                bookMarkBeenList.get(position).getNews_title()
+
         );
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
