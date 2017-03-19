@@ -126,7 +126,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
             bookmarkText = R.string.bookmarked;
         }
 
-        holder.btn_bookmark.setBackgroundResource(index);
+        //TODO 加入书签的样式
+//        holder.btn_bookmark.setBackgroundResource(index);
         holder.btn_bookmark.setText(bookmarkText);
 
         //通过接口回调来实现RecyclerView的点击事件
@@ -172,6 +173,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
                     intent.putExtra("is_like", isLike);//参数给下一个activity
                     intent.putExtra("position", position);//参数给下一个activity
                     intent.putExtra("frag_id", frag_id);//参数给下一个activity
+                    intent.putExtra(" bool_show_like", true);
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -185,6 +187,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
                     intent.putExtra("is_like", isLike);//参数给下一个activity
                     intent.putExtra("position", position);//参数给下一个activity
                     intent.putExtra("frag_id", frag_id);//参数给下一个activity
+                    intent.putExtra("bool_show_like", true);
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

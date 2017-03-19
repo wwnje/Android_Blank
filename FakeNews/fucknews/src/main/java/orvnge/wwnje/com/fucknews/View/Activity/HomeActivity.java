@@ -134,7 +134,8 @@ public class HomeActivity extends BaseActivity {
         if (FinderData.isLogin) {
             _menuItem_finder.setTitle((String) SharedPreferencesUtils.getParam("finder", getApplicationContext(), "name", "Finder未登录"));
         } else {
-            _menuItem_finder.setTitle("Finder未登录");
+            //未登录显示
+            _menuItem_finder.setTitle("Finder Miss");
         }
 
         //View mNavigationViewHeader = View.inflate(HomeActivity.this, R.layout.drawer_header, null);
@@ -166,7 +167,7 @@ public class HomeActivity extends BaseActivity {
                                         //注册操作
                                         String name = edit_name.getText().toString();
                                         String pwd = edit_password.getText().toString();
-                                        if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10) && !name.isEmpty() && !name.isEmpty()) {
+                                        if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10) && !name.isEmpty() && !pwd.isEmpty()) {
                                             BlankNetMehod.Register(getApplicationContext(), show_if_success, name, pwd);
                                             Toast.makeText(mActivity, "正在注册,稍等", Toast.LENGTH_SHORT).show();
                                         } else {
@@ -180,7 +181,7 @@ public class HomeActivity extends BaseActivity {
                                         //登陆操作
                                         String name = edit_name.getText().toString();
                                         String pwd = edit_password.getText().toString();
-                                        if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10)) {
+                                        if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10)&& !name.isEmpty() && !pwd.isEmpty()) {
                                             BlankNetMehod.Login(getApplicationContext(), name, pwd, menuItem);
                                             Toast.makeText(HomeActivity.this, "正在登录,请稍等", Toast.LENGTH_SHORT).show();
                                         } else {

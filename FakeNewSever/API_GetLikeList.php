@@ -28,6 +28,7 @@ $data = array(); //定义好一个数组.PHP中array相当于一个数据字典.
 class Like
 {
     public $like_id;//书签号  用于之后删除
+    public $news_id;
     /**
      * @var 内容本身信息
      */
@@ -61,6 +62,7 @@ while ($row1 = mysql_fetch_assoc($result1))//将result结果集中查询结果�
         $book = new Like();
 
         $book->like_id = $like_id;
+        $book->news_id = $row["news_id"];
         $book->news_title = $row["title"];
         $book->news_desc = $row["desc"];
         $book->news_content_url = $row["content_url"];

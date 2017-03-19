@@ -8,22 +8,22 @@
         <menu>
             <item
                 android:id="@+id/nav_login_or_me"
-                android:title="Finder未登录" />
+                android:title="Finder Miss" />
             <item
                 android:id="@+id/nav_tags"
-                android:title="所有标签Tag页面" />
+                android:title="ALL TAGS" />
             <item
                 android:id="@+id/nav_my_tags"
-                android:title="所有我订阅的Tag页面" />
+                android:title="MY TAGS" />
             <item
                 android:id="@+id/nav_bookmark"
-                android:title="书签待阅读" />
+                android:title="BOOKMARK:" />
             <item
                 android:id="@+id/nav_like"
-                android:title="喜欢的" />
+                android:title="LIKE LIST:" />
             <item
                 android:id="@+id/nav_news_type"
-                android:title="显示新闻类别包括我的订阅" />
+                android:title="NEWS_TYPE:" />
         </menu>
     </item>
 

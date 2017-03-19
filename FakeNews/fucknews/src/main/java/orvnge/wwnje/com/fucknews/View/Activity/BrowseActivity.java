@@ -60,6 +60,7 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         frag_id = getIntent().getIntExtra("frag_id", 0);
         isLike = getIntent().getBooleanExtra("is_like", false);
         position = getIntent().getIntExtra("position", 0);
+        boolean show_like = getIntent().getBooleanExtra("bool_show_like", false);
 
         toolbar.setTitle(title);
 
@@ -102,12 +103,17 @@ public class BrowseActivity extends AppCompatActivity implements View.OnClickLis
         webView.loadUrl(content_url);
 
 
-        if(isLike){
-            btn_like.setText(VariateName.LIKED);
+        if(show_like){
+            if(isLike){
+                btn_like.setText(VariateName.LIKED);
+            }else {
+                btn_like.setText(VariateName.LIKE);
+            }
+            btn_like.setOnClickListener(this);
         }else {
-            btn_like.setText(VariateName.LIKE);
+            btn_like.setVisibility(View.GONE);
         }
-        btn_like.setOnClickListener(this);
+
     }
 
     @Override

@@ -88,13 +88,13 @@ public class LikeActivity extends AppCompatActivity implements SwipeRefreshLayou
             public void onItemClick(View view, int position) {
                 //此处实现onItemClick的接口
                 TextView tvRecycleViewItemText = (TextView) view.findViewById(R.id.item_tags_name);
-                //如果字体本来是黑色就变成红色，反之就变为黑色
-                if (tvRecycleViewItemText.getCurrentTextColor() == Color.BLACK) {
-                    tvRecycleViewItemText.setTextColor(Color.RED);
-                    //订阅
-                } else {
-                    tvRecycleViewItemText.setTextColor(Color.BLACK);
-                }
+//                //如果字体本来是黑色就变成红色，反之就变为黑色
+//                if (tvRecycleViewItemText.getCurrentTextColor() == Color.BLACK) {
+//                    tvRecycleViewItemText.setTextColor(Color.RED);
+//                    //订阅
+//                } else {
+//                    tvRecycleViewItemText.setTextColor(Color.BLACK);
+//                }
             }
         });
 
@@ -228,14 +228,16 @@ public class LikeActivity extends AppCompatActivity implements SwipeRefreshLayou
             String bookmark_id = jsonObject.getString("like_id");
             String news_title = jsonObject.getString("news_title");
             String news_desc = jsonObject.getString("news_desc");
-            String news_content_url = jsonObject.getString("news_pic_url");
+            String news_content_url = jsonObject.getString("news_content_url");
             String type = jsonObject.getString("type");
             String finder_id = jsonObject.getString("finder_id");
             String finder_name = jsonObject.getString("finder_name");
             String news_pic_url = jsonObject.getString("news_pic_url");
+            int news_id = jsonObject.getInt("news_id");
 
             BookMarkBean data = new BookMarkBean();
 
+            data.setNew_id(news_id);
             data.setBookmark_id(bookmark_id);
             data.setFinder_id(finder_id);
             data.setFinder_name(finder_name);

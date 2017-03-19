@@ -29,6 +29,16 @@ public class BookMarkBean {
     private String finder_name;
     private int book_version;
 
+    public int getNew_id() {
+        return new_id;
+    }
+
+    public void setNew_id(int new_id) {
+        this.new_id = new_id;
+    }
+
+    private int new_id;
+
     public String getBookmark_id() {
         return bookmark_id;
     }

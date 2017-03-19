@@ -58,7 +58,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout swip;
-    public  NewsAdapter mNewsAdapter;
+    public NewsAdapter mNewsAdapter;
     private int page = 1;
 
     private List<NewsBean> newsNow = new ArrayList<>();//现在加载的新数据
@@ -97,21 +97,26 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         mNewsAdapter.setOnItemClickListener(new IAdapeter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+
+
                 Button btn_bookmark = (Button) view.findViewById(R.id.btn_bookmark);
                 String str_book = btn_bookmark.getText().toString();
                 int news_id = mNewsAdapter.newsBeen.get(position).getNews_id();
 
-                if(str_book.equals(VariateName.BookMark)){
-                    BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getContext(), news_id, VariateName.ADDBOOKMARK,"true");
+                if (str_book.equals(VariateName.BookMark)) {
+                    BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getContext(), news_id, VariateName.ADDBOOKMARK, "true");
                     bookmarkText = VariateName.BookMarked;
                     index = pressed;
-                }else{
-                    BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getContext(), news_id, VariateName.ADDBOOKMARK,"false");
+                } else {
+                    BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getContext(), news_id, VariateName.ADDBOOKMARK, "false");
                     bookmarkText = VariateName.BookMark;
                     index = unpressed;
                 }
-                btn_bookmark.setBackgroundResource(index);
+                //btn_bookmark.setBackgroundResource(index);
+                btn_bookmark.setBackgroundResource(pressed);
                 btn_bookmark.setText(bookmarkText);
+
+
             }
         });
     }
@@ -139,18 +144,18 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
                 //得到当前显示的最后一个item的view
-                View lastChildView = recyclerView.getLayoutManager().getChildAt(recyclerView.getLayoutManager().getChildCount()-1);
+                View lastChildView = recyclerView.getLayoutManager().getChildAt(recyclerView.getLayoutManager().getChildCount() - 1);
                 //得到lastChildView的bottom坐标值
                 int lastChildBottom = lastChildView.getBottom();
                 //得到Recyclerview的底部坐标减去底部padding值，也就是显示内容最底部的坐标
-                int recyclerBottom =  recyclerView.getBottom()-recyclerView.getPaddingBottom();
+                int recyclerBottom = recyclerView.getBottom() - recyclerView.getPaddingBottom();
                 //通过这个lastChildView得到这个view当前的position值
-                int lastPosition  = recyclerView.getLayoutManager().getPosition(lastChildView);
+                int lastPosition = recyclerView.getLayoutManager().getPosition(lastChildView);
 
                 //判断lastChildView的bottom值跟recyclerBottom
                 //判断lastPosition是不是最后一个position
                 //如果两个条件都满足则说明是真正的滑动到了底部
-                if(lastChildBottom == recyclerBottom && lastPosition == recyclerView.getLayoutManager().getItemCount()-1 ){
+                if (lastChildBottom == recyclerBottom && lastPosition == recyclerView.getLayoutManager().getItemCount() - 1) {
                     Toast.makeText(getActivity(), "滑动到底了", Toast.LENGTH_SHORT).show();
                     swip.setRefreshing(true);
                     new LoadAllAppsTask().execute(loadMore());//下拉刷新请求
@@ -184,12 +189,13 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     /**
      * 下拉刷新
+     *
      * @return
      */
     private Integer loadMore() {
         isLoadMore = true;
         page++;
-        return  20 * (page - 1);
+        return 20 * (page - 1);
         //new LoadAllAppsTask().execute(start);
     }
 
@@ -245,9 +251,9 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                             for (int j = 0; j < array.length(); j++) {
                                 add(array.getJSONObject(j));
                             }
-                            if(isLoadMore){
+                            if (isLoadMore) {
                                 mNewsAdapter.addMore(newsNow);
-                            }else {
+                            } else {
                                 mNewsAdapter.addAll(newsNow);
                             }
                             newsNow = new ArrayList<>();//清除，防止重复加入

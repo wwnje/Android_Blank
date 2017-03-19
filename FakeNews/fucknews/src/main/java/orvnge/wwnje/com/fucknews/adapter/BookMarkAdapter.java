@@ -1,6 +1,7 @@
 package orvnge.wwnje.com.fucknews.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,9 +16,13 @@ import java.util.List;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.bean.BlankBaseItemsBean;
 import orvnge.wwnje.com.fucknews.bean.BookMarkBean;
+import orvnge.wwnje.com.fucknews.utils.MyUtils;
+import orvnge.wwnje.com.fucknews.view.Activity.BrowseActivity;
+import orvnge.wwnje.com.fucknews.view.Activity.ZhiHuActivity;
 
 /**
  * Created by wwnje on 2017/2/19.
+ * Like && BookMark
  */
 
 public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.ViewHolder> {
@@ -73,8 +78,9 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: " + bookMarkBeenList.get(position).getNews_title());
+
         holder.tags_name.setText(bookMarkBeenList.get(position).getBookmark_id() +
                 bookMarkBeenList.get(position).getFinder_id() +
                 bookMarkBeenList.get(position).getFinder_name() +
@@ -82,6 +88,23 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.ViewHo
                 bookMarkBeenList.get(position).getNews_content_url() +
                 bookMarkBeenList.get(position).getType()
         );
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent = new Intent(context, BrowseActivity.class);
+                    intent.putExtra("content_url", bookMarkBeenList.get(position).getNews_content_url());//参数给下一个activity
+                    intent.putExtra("img", bookMarkBeenList.get(position).getNews_pic_url());//参数给下一个activity
+                    intent.putExtra("title", bookMarkBeenList.get(position).getNews_title());//参数给下一个activity
+                    intent.putExtra("news_id", bookMarkBeenList.get(position).getNew_id());//参数给下一个activity
+                    intent.putExtra("position", position);//参数给下一个activity
+                    intent.putExtra(" bool_show_like", false);
+                    //intent.putExtra("frag_id", frag_id);//参数给下一个activity
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override

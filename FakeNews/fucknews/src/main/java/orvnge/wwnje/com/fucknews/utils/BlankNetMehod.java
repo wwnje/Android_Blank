@@ -136,6 +136,11 @@ public class BlankNetMehod {
      */
     public static void Subscribe(final Context context, final int items_id, final String subType, final String isAdd) {
 
+        if(!FinderData.isLogin){
+            Toast.makeText(context, "Sorry, u don;t Login in...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         String url = BlankAPI.ADD_ITEMS_URL;
@@ -176,6 +181,11 @@ public class BlankNetMehod {
      */
     public static void NewsClick_LIKE_OR_BOOKMARK(final Context context, final int news_id, final String subType, final String isAdd) {
 
+        if(!FinderData.isLogin){
+            Toast.makeText(context, "Sorry, u don;t Login in...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         String url = BlankAPI.ADD_NEWS_ITEM_URL;
@@ -211,6 +221,11 @@ public class BlankNetMehod {
      * 分享内容
      */
     public static void Share_NEWS(final Context context, final String _news_tag, final String _news_title, final String _news_desc, final String _news_link, final String _news_img_link) {
+
+        if(!FinderData.isLogin){
+            Toast.makeText(context, "Sorry, u don;t Login in...", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -260,6 +275,11 @@ public class BlankNetMehod {
      */
     public static void GetMyTags(final Context context, int offset, int limit) {//传递进来
         Map<String, String> params = new HashMap<String, String>();
+
+        if(!FinderData.isLogin){
+            Toast.makeText(context, "Sorry, u don;t Login in...", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Finder_List_Data.INIT_MY_TAGS();
         Toast.makeText(context, "正在获取我订阅的标签", Toast.LENGTH_SHORT).show();
