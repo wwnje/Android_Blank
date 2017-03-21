@@ -46,7 +46,6 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
 
     private static final String TAG = "ShareNewsActivity";
 
-    @Bind(R.id.add_btn_news_link) Button add_news_link;
     @Bind(R.id.add_btn_pic) Button add_img_link;
     private ArrayAdapter<String> arrayAdapter;
 
@@ -136,7 +135,6 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
         tv_desc.setText(Finder_News_Data.DESC);
         tv_desc.setOnClickListener(this);
 
-        add_news_link.setOnClickListener(this);
         add_img_link.setOnClickListener(this);
 
         news_link = Finder_News_Data.News_URL;
@@ -276,27 +274,6 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                             }
                         }).show();
                 break;
-            case R.id.add_btn_news_link:
-                final View View_Publish = getLayoutInflater().inflate(R.layout.dialog_add_newslink, null);
-                final EditText edit_link = (EditText) View_Publish.findViewById(R.id.add_news_link);
-                edit_link.setText(Finder_News_Data.News_URL);
-
-                if(share_link != null){
-                    edit_link.setText(share_link);
-                }
-
-                new AlertDialog.Builder(this).setTitle("Add a Link")
-                        .setView(View_Publish)
-                        .setNegativeButton("cancel", null)
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                news_link =  edit_link.getText().toString();
-                                SharedPreferencesUtils.setParam("finder_news_save", context, "News_URL", news_link);
-                                Toast.makeText(ShareNewsActivity.this, "添加链接" + news_link, Toast.LENGTH_SHORT).show();
-                            }
-                        }).show();
-                break;
             case R.id.add_btn_pic://img link
                 final View View_Publish2 = getLayoutInflater().inflate(R.layout.dialog_add_pic_link, null);
                 final EditText edit_link2 = (EditText) View_Publish2.findViewById(R.id.add_img_link);
@@ -354,6 +331,10 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                         .setPositiveButton("Publish", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
+                                //从SP中获取信息
+                                getShareData();
+
                                 news_tag = edit_tag.getSelectedItem().toString();
 
                                 if(news_title ==null || news_link == null){
@@ -364,6 +345,7 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                                 }else {
                                     BlankNetMehod.Share_NEWS(context,news_tag, news_title, news_desc, news_link, news_img_link);
                                 }
+
                             }
                         }).show();
 
@@ -373,5 +355,9 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    private void getShareData(){
+
     }
 }

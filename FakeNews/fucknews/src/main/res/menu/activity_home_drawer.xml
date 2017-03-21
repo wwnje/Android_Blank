@@ -8,22 +8,22 @@
         <menu>
             <item
                 android:id="@+id/nav_login_or_me"
-                android:title="Finder Miss" />
+                android:title="@string/nav_me" />
             <item
                 android:id="@+id/nav_tags"
-                android:title="ALL TAGS" />
+                android:title="@string/nav_tags" />
             <item
                 android:id="@+id/nav_my_tags"
-                android:title="MY TAGS" />
+                android:title="@string/nav_my_tags" />
             <item
                 android:id="@+id/nav_bookmark"
-                android:title="BOOKMARK:" />
+                android:title="@string/nav_bookmark" />
             <item
                 android:id="@+id/nav_like"
-                android:title="LIKE LIST:" />
+                android:title="@string/nav_likelist" />
             <item
                 android:id="@+id/nav_news_type"
-                android:title="NEWS_TYPE:" />
+                android:title="@string/nav_types" />
         </menu>
     </item>
 

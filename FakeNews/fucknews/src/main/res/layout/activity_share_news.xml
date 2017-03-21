@@ -61,12 +61,6 @@
         android:layout_below="@+id/add_btn_shot"/>
 
     <Button
-    android:id="@+id/add_btn_news_link"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="添加文章url"/>
-
-    <Button
         android:id="@+id/add_btn_pic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -36,7 +36,7 @@
     <string name="loading">加载中…</string>
 
     <!-- browserActivity-->
-    <string name="share_to">Share to</string>
+    <string name="share_to">分享给</string>
     <string name="what_1">文章缺失</string>
     <string name="what_2">文章排版有错</string>
     <string name="article">文章：</string>
@@ -45,9 +45,9 @@
 
     <!--nav-->
     <string name="no_market_app">没有安装市场类App</string>
-    <string name="versionName">版本: v 1.3</string>
+    <string name="versionName">当前版本: v1.3.1</string>
     <string name="v_score">评分建议</string>
-    <string name="v_bug">提交 bug</string>
+    <string name="v_bug">提交问题</string>
 
     <string name="open">open</string>
     <string name="close">close</string>
@@ -63,5 +63,12 @@
     <string name="eg_title">关卡、难度与叙事：献给神秘海域的花束关卡、难度与叙事：献给神秘海域的花束不超过41</string>
     <string name="date">10 days ago</string>
 
+    <!--侧边栏目录-->
+    <string name="nav_bookmark">书签:</string>
+    <string name="nav_likelist">喜欢列表:</string>
+    <string name="nav_me">Blank:</string>
+    <string name="nav_tags">所有标签:</string>
+    <string name="nav_my_tags">我订阅的标签:</string>
+    <string name="nav_types">类型:</string>
 
 </resources>

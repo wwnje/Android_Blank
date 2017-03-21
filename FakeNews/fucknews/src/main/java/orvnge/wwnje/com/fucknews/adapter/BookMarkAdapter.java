@@ -14,11 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import orvnge.wwnje.com.fucknews.R;
-import orvnge.wwnje.com.fucknews.bean.BlankBaseItemsBean;
 import orvnge.wwnje.com.fucknews.bean.BookMarkBean;
-import orvnge.wwnje.com.fucknews.utils.MyUtils;
 import orvnge.wwnje.com.fucknews.view.Activity.BrowseActivity;
-import orvnge.wwnje.com.fucknews.view.Activity.ZhiHuActivity;
 
 /**
  * Created by wwnje on 2017/2/19.

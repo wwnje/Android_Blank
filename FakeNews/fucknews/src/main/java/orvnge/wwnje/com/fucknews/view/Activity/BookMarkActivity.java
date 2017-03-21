@@ -1,7 +1,6 @@
 
 package orvnge.wwnje.com.fucknews.view.Activity;
 
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +36,6 @@ import orvnge.wwnje.com.fucknews.bean.BookMarkBean;
 import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
-import orvnge.wwnje.com.fucknews.utils.MyUtils;
 
 /**
  * 书签待阅读
@@ -142,7 +139,7 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
 //            @Override
 //            public void run() {
 //                int start = 20 * (page - 1);
-//                if (MyUtils.isOpenNetwork(getApplicationContext())) {
+//                if (BlankUtils.isOpenNetwork(getApplicationContext())) {
 //                    getALLTags(start, page * 20);
 //                } else {
 //                    Toast.makeText(getApplicationContext(), "没有网络连接", Toast.LENGTH_SHORT).show();

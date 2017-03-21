@@ -20,6 +20,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.orvnge.xutils.MyFragment;
 import com.orvnge.xutils.TextProvider;
@@ -35,8 +38,10 @@ import orvnge.wwnje.com.fucknews.TestActivity;
 import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
 import orvnge.wwnje.com.fucknews.data.Finder_News_Data;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
+import orvnge.wwnje.com.fucknews.utils.BlankUtils;
 import orvnge.wwnje.com.fucknews.utils.CODE;
 import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
+import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
 import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
@@ -45,7 +50,7 @@ import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BlankFragment extends BaseFragment  implements TextProvider {
+public class BlankFragment extends BaseFragment  implements TextProvider, View.OnClickListener {
 
 
 //    public List<String> Frags;
@@ -70,6 +75,22 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         return view;
     }
 
+
+    /**
+     * Login 界面初始化
+     */
+    View View_Desc;
+    EditText edit_name;
+    EditText edit_password;
+    TextView show_if_success;
+
+    private void login_InitView() {
+        View_Desc = getActivity().getLayoutInflater().inflate(R.layout.dialog_login, null);
+        edit_name = (EditText) View_Desc.findViewById(R.id.login_name_dialog_edit);
+        edit_password = (EditText) View_Desc.findViewById(R.id.login_pwd_dialog_edit);
+        show_if_success = (TextView) View_Desc.findViewById(R.id.login_show_dialog);
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -77,12 +98,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.app_name);
 
-        btn_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ShareNewsActivity.class));
-            }
-        });
+        btn_share.setOnClickListener(this);
 
         //设置标题居中
         //mToolbar.setTitle("");
@@ -168,6 +184,33 @@ public class BlankFragment extends BaseFragment  implements TextProvider {
     @Override
     public Fragment getTrag(int position) {
         return Finder_List_Data.Fragments.get(position);
+    }
+
+    @Override
+    public void onClick(View v) {
+        new AlertDialog.Builder(getActivity()).setTitle("Add a Link")
+                .setNegativeButton("取消", null)
+                .setNeutralButton("粘贴", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String news_link = BlankUtils.Paste(getContext());
+                        if(news_link.equals("")){
+                            Toast.makeText(mActivity, "粘贴的是空值", Toast.LENGTH_SHORT).show();
+                        }else{
+                            SharedPreferencesUtils.setParam("finder_news_save", getContext(), "News_URL", news_link);
+                            Toast.makeText(mActivity, "粘贴的链接是" + news_link, Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getActivity(), ShareNewsActivity.class));
+                        }
+                    }
+                })
+                .setPositiveButton("复制/无内容", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        BlankUtils.CopyForm("你噶或啊", getContext());
+                        //登陆操作
+                        startActivity(new Intent(getActivity(), ShareNewsActivity.class));
+                    }
+                }).show();
     }
 
     /**

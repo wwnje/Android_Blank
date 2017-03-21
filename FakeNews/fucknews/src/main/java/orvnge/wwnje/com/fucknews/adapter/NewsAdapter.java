@@ -2,7 +2,6 @@ package orvnge.wwnje.com.fucknews.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,7 +20,7 @@ import java.util.List;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.bean.NewsBean;
 import orvnge.wwnje.com.fucknews.ibean.IAdapeter;
-import orvnge.wwnje.com.fucknews.utils.MyUtils;
+import orvnge.wwnje.com.fucknews.utils.BlankUtils;
 import orvnge.wwnje.com.fucknews.view.Activity.BrowseActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.ZhiHuActivity;
 
@@ -162,13 +161,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
                     isLike = true;
                 }
 
-                if(MyUtils.WhichUrl(newsBeen.get(position).getContent_url()) != null){
-                    Log.d(TAG, "onClick: " + MyUtils.WhichUrl(newsBeen.get(position).getContent_url()));
+                if(BlankUtils.WhichUrl(newsBeen.get(position).getContent_url()) != null){
+                    Log.d(TAG, "onClick: " + BlankUtils.WhichUrl(newsBeen.get(position).getContent_url()));
                     Intent intent = new Intent(context, ZhiHuActivity.class);
 
                     intent.putExtra("img", newsBeen.get(position).getPic_url());//参数给下一个activity
                     intent.putExtra("title", newsBeen.get(position).getTitle());//参数给下一个activity
-                    intent.putExtra("slug", MyUtils.WhichUrl(newsBeen.get(position).getContent_url()));//参数给下一个activity
+                    intent.putExtra("slug", BlankUtils.WhichUrl(newsBeen.get(position).getContent_url()));//参数给下一个activity
                     intent.putExtra("news_id", newsBeen.get(position).getNews_id());//参数给下一个activity
                     intent.putExtra("is_like", isLike);//参数给下一个activity
                     intent.putExtra("position", position);//参数给下一个activity
