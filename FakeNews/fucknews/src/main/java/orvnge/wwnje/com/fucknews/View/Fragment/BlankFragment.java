@@ -10,7 +10,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
@@ -24,24 +23,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.orvnge.xutils.MyFragment;
 import com.orvnge.xutils.TextProvider;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.TestActivity;
+import orvnge.wwnje.com.fucknews.data.CheckString;
 import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
-import orvnge.wwnje.com.fucknews.data.Finder_News_Data;
-import orvnge.wwnje.com.fucknews.utils.BlankAPI;
+import orvnge.wwnje.com.fucknews.data.SPData;
 import orvnge.wwnje.com.fucknews.utils.BlankUtils;
 import orvnge.wwnje.com.fucknews.utils.CODE;
-import orvnge.wwnje.com.fucknews.utils.DatabaseHelper;
-import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
+import orvnge.wwnje.com.fucknews.utils.SPUtils;
 import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
@@ -91,6 +87,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
         show_if_success = (TextView) View_Desc.findViewById(R.id.login_show_dialog);
     }
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -109,6 +106,45 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
         initTabLayout(view);
         inflateMenu();
         initSearchView();
+    }
+
+    /**
+     * 粘贴内容链接
+     */
+    @Override
+    public void onClick(View v) {
+
+        Toast.makeText(mActivity, CheckString.Share_1, Toast.LENGTH_SHORT).show();
+
+        new AlertDialog.Builder(getActivity()).setTitle("Add a Link")
+                .setNegativeButton("取消", null)
+                .setNeutralButton("粘贴", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String news_link = BlankUtils.Paste(getContext());
+                        if(news_link.isEmpty()){
+                            Toast.makeText(mActivity, "粘贴的是空值", Toast.LENGTH_SHORT).show();
+                        }else{
+                            SPUtils.setParam(SPData.ss_news_name, getContext(), SPData.news_url, news_link);
+                            Toast.makeText(mActivity, CheckString.Share_2, Toast.LENGTH_SHORT).show();
+
+                            if(true){
+                                Toast.makeText(mActivity, CheckString.Share_3, Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getActivity(), ShareNewsActivity.class));
+                            }else{
+                                Toast.makeText(mActivity, "链接格式不正确", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                })
+                .setPositiveButton("复制/无内容", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        BlankUtils.CopyForm("你噶或啊", getContext());
+                        //登陆操作
+                        startActivity(new Intent(getActivity(), ShareNewsActivity.class));
+                    }
+                }).show();
     }
 
     /**
@@ -186,32 +222,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
         return Finder_List_Data.Fragments.get(position);
     }
 
-    @Override
-    public void onClick(View v) {
-        new AlertDialog.Builder(getActivity()).setTitle("Add a Link")
-                .setNegativeButton("取消", null)
-                .setNeutralButton("粘贴", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String news_link = BlankUtils.Paste(getContext());
-                        if(news_link.equals("")){
-                            Toast.makeText(mActivity, "粘贴的是空值", Toast.LENGTH_SHORT).show();
-                        }else{
-                            SharedPreferencesUtils.setParam("finder_news_save", getContext(), "News_URL", news_link);
-                            Toast.makeText(mActivity, "粘贴的链接是" + news_link, Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getActivity(), ShareNewsActivity.class));
-                        }
-                    }
-                })
-                .setPositiveButton("复制/无内容", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        BlankUtils.CopyForm("你噶或啊", getContext());
-                        //登陆操作
-                        startActivity(new Intent(getActivity(), ShareNewsActivity.class));
-                    }
-                }).show();
-    }
+
 
     /**
      * ViewPager设置

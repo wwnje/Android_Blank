@@ -21,7 +21,7 @@ public class BlankAPI {
     /**
      * 加入书签或者喜欢某个新闻
      */
-    public static  String ADD_NEWS_ITEM_URL = "http://www.wwnje.com/FakeNews/API_Add_News_Items.php";
+    public static  String ADD_NEWS_ITEM_URL = "http://www.wwnje.com/FakeNews/API_LIKE_OR_BOOKMARK_News_Items.php";
 
     /**
      * 获取列表
@@ -33,11 +33,12 @@ public class BlankAPI {
     public static  String GET_BOOKMARK_URL = "http://www.wwnje.com/FakeNews/API_GetBookMark.php";//获取所有书签
     public static  String GET_LIKELIST_URL = "http://www.wwnje.com/FakeNews/API_GetLikeList.php";//获取喜欢的列表
 
+    public static  String GET_MY_NEWS_URL = "http://www.wwnje.com/FakeNews/API_Get_My_Shared_News.php.php";//获取我所有发布的
+
     /**
      * 获取新闻内容
      */
-    public static  String GET_NEWS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON.php";
-    public static  String GET_ARTS_URL = "http://www.wwnje.com/FakeNews/getNewsJSON_Arts.php";
+    public static  String GET_NEWS_URL = "http://www.wwnje.com/FakeNews/APi_Get_NEWS.php";
 
     //知乎
     public static String BASE_URL = "https://zhuanlan.zhihu.com/api/columns/";

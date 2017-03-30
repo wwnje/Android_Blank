@@ -2,7 +2,7 @@ package orvnge.wwnje.com.fucknews.data;
 
 import android.content.Context;
 
-import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
+import orvnge.wwnje.com.fucknews.utils.SPUtils;
 
 /**
  * Created by wwnje on 2017/2/20.
@@ -28,15 +28,15 @@ public class FinderData {
 
     //初始化数据
     public FinderData(Context context){
-        isLogin = (boolean) SharedPreferencesUtils.getParam("finder", context, "isLogin", false);
-        TagsVersion = (int) SharedPreferencesUtils.getParam("finder", context, "TagsVersion", 0);
-        MyTagsVersion = (int) SharedPreferencesUtils.getParam("finder", context, "MyTagsVersion", 0);
-        BookVersion = (int) SharedPreferencesUtils.getParam("finder", context, "book_version", 0);
+        isLogin = (boolean) SPUtils.getParam("finder", context, "isLogin", false);
+        TagsVersion = (int) SPUtils.getParam("finder", context, "TagsVersion", 0);
+        MyTagsVersion = (int) SPUtils.getParam("finder", context, "MyTagsVersion", 0);
+        BookVersion = (int) SPUtils.getParam("finder", context, "book_version", 0);
 
 
-        FinderName = (String)SharedPreferencesUtils.getParam("finder", context, "name", "Finder未登录");
-        Password = (String)SharedPreferencesUtils.getParam("finder", context, "password", "Finder未登录");
-        FINDER_ID = (int) SharedPreferencesUtils.getParam("finder", context, "FINDER_ID", 0);
+        FinderName = (String) SPUtils.getParam("finder", context, "name", "Finder未登录");
+        Password = (String) SPUtils.getParam("finder", context, "password", "Finder未登录");
+        FINDER_ID = (int) SPUtils.getParam("finder", context, "FINDER_ID", 0);
     }
 
     //第一次打开设置数据
@@ -46,15 +46,15 @@ public class FinderData {
 
     //设置登录数据
     public static void SetLoginData(Context context, String name, String password, int id){
-        SharedPreferencesUtils.setParam("finder", context, "name", name);
-        SharedPreferencesUtils.setParam("finder", context, "password", password);
-        SharedPreferencesUtils.setParam("finder", context, "isLogin", true);
-        SharedPreferencesUtils.setParam("finder", context, "FINDER_ID", id);
+        SPUtils.setParam("finder", context, "name", name);
+        SPUtils.setParam("finder", context, "password", password);
+        SPUtils.setParam("finder", context, "isLogin", true);
+        SPUtils.setParam("finder", context, "FINDER_ID", id);
 
-        FinderName = (String)SharedPreferencesUtils.getParam("finder", context, "name", "Finder未登录");
-        Password = (String)SharedPreferencesUtils.getParam("finder", context, "password", "Finder未登录");
-        isLogin = (boolean) SharedPreferencesUtils.getParam("finder", context, "isLogin", false);
-        FINDER_ID = (int) SharedPreferencesUtils.getParam("finder", context, "FINDER_ID", id);
+        FinderName = (String) SPUtils.getParam("finder", context, "name", "Finder未登录");
+        Password = (String) SPUtils.getParam("finder", context, "password", "Finder未登录");
+        isLogin = (boolean) SPUtils.getParam("finder", context, "isLogin", false);
+        FINDER_ID = (int) SPUtils.getParam("finder", context, "FINDER_ID", id);
     }
 
     public static String GetALLData(){

@@ -253,7 +253,7 @@ public class BlankNetMehod {
             protected Map getParams() throws AuthFailureError {
                 Map map = new HashMap();
                 map.put("finder_id", String.valueOf(FinderData.FINDER_ID));
-                map.put("tag", _news_tag);
+                map.put("type", _news_tag);
                 map.put("title", _news_title);
                 map.put("desc", _news_desc);
                 map.put("news_link", _news_link);

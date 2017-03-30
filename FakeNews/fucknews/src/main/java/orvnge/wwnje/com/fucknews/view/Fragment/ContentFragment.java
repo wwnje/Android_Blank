@@ -97,8 +97,6 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         mNewsAdapter.setOnItemClickListener(new IAdapeter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
-
                 Button btn_bookmark = (Button) view.findViewById(R.id.btn_bookmark);
                 String str_book = btn_bookmark.getText().toString();
                 int news_id = mNewsAdapter.newsBeen.get(position).getNews_id();

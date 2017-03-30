@@ -7,7 +7,7 @@ import android.util.Log;
 /**
  * Created by wwnje on 2016/5/24.
  */
-public class SharedPreferencesUtils {
+public class SPUtils {
     /**
      * 保存在手机里面的文件名
      */

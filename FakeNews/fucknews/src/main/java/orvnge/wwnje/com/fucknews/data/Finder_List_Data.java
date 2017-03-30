@@ -35,9 +35,9 @@ public class Finder_List_Data {
 
 
     /**
-     * 我的新闻列表
+     * 我的订阅标签
      */
-    //public  static List<NewsBean> newsBeen;
+    public static List<String> NEWS_TAGS = new ArrayList<>();
 
 
     /**

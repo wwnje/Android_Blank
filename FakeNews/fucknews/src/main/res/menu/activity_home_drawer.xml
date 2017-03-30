@@ -50,7 +50,7 @@
                 android:title="查看数据" />
             <item
                 android:id="@+id/v_add"
-                android:title="增加" />
+                android:title="模拟测试" />
             <item
                 android:id="@+id/v_remove"
                 android:title="去除" />

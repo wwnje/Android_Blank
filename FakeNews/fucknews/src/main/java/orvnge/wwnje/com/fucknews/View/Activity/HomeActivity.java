@@ -16,7 +16,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,20 +27,16 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.orvnge.xutils.recyclevIew.RecycleViewActivity;
 
-import java.util.ArrayList;
-
 import orvnge.wwnje.com.fucknews.data.FinderData;
-import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
 import orvnge.wwnje.com.fucknews.other.AppConstants;
 import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
+import orvnge.wwnje.com.fucknews.test.testUserActivity;
 import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
-import orvnge.wwnje.com.fucknews.utils.SharedPreferencesUtils;
+import orvnge.wwnje.com.fucknews.utils.SPUtils;
 import orvnge.wwnje.com.fucknews.utils.myCheckTools;
 import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
 import orvnge.wwnje.com.fucknews.view.Fragment.TwentyFragment;
-
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 public class HomeActivity extends BaseActivity {
 
@@ -127,12 +122,12 @@ public class HomeActivity extends BaseActivity {
                 .into(view2);
 
         _menuItem_finder = navigationView.getMenu().findItem(R.id.nav_login_or_me);
-        //FinderData.isLogin = (boolean) SharedPreferencesUtils.getParam("finder", getApplicationContext(), "isLogin", false);
+        //FinderData.isLogin = (boolean) SPUtils.getParam("finder", getApplicationContext(), "isLogin", false);
 
-        //navigationView.getMenu().getItem(0).setTitle((String) SharedPreferencesUtils.getParam("finder", getApplicationContext(), "name", "Finder未登录"));
+        //navigationView.getMenu().getItem(0).setTitle((String) SPUtils.getParam("finder", getApplicationContext(), "name", "Finder未登录"));
 
         if (FinderData.isLogin) {
-            _menuItem_finder.setTitle((String) SharedPreferencesUtils.getParam("finder", getApplicationContext(), "name", "Finder未登录"));
+            _menuItem_finder.setTitle((String) SPUtils.getParam("finder", getApplicationContext(), "name", "Finder未登录"));
         } else {
             //未登录显示
             _menuItem_finder.setTitle("Finder Miss");
@@ -267,7 +262,8 @@ public class HomeActivity extends BaseActivity {
                     break;
 
                 case R.id.v_add:
-                    BlankFragment.AddNewItem("测试");
+                    startActivity(new Intent(HomeActivity.this, testUserActivity.class));
+                    //BlankFragment.AddNewItem("测试");
                     break;
 
                 case R.id.v_remove:

@@ -36,7 +36,7 @@
     </TextView>
 
     <TextView
-        android:id="@+id/add_article"
+        android:id="@+id/add_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="我是文章内容地址"

@@ -141,7 +141,7 @@ public class LikeActivity extends AppCompatActivity implements SwipeRefreshLayou
 //            public void run() {
 //                int start = 20 * (page - 1);
 //                if (BlankUtils.isOpenNetwork(getApplicationContext())) {
-//                    getALLTags(start, page * 20);
+//                    getALLMyNews(start, page * 20);
 //                } else {
 //                    Toast.makeText(getApplicationContext(), "没有网络连接", Toast.LENGTH_SHORT).show();
 //                }
