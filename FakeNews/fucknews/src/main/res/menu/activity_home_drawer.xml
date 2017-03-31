@@ -55,6 +55,9 @@
                 android:id="@+id/v_remove"
                 android:title="去除" />
 
+            <item
+                android:id="@+id/v_login"
+                android:title="登录" />
           <!--  <item
                 android:id="@+id/navigation_item_night"
                 android:icon="@drawable/abc_btn_radio_material"

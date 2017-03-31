@@ -1,6 +1,7 @@
 package orvnge.wwnje.com.fucknews.view.Fragment;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,10 +49,9 @@ import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
  */
 public class BlankFragment extends BaseFragment  implements TextProvider, View.OnClickListener {
 
-
-//    public List<String> Frags;
-//    public List<String> FragsURL;
     private static final String TAG = "BlankFragment";
+
+    private Context context;
 
     public static ArrayList<String> Titles = new ArrayList<>();
 
@@ -70,7 +70,6 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
         ButterKnife.bind(this,view);
         return view;
     }
-
 
     /**
      * Login 界面初始化
@@ -95,6 +94,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.app_name);
 
+        context = getActivity();
         btn_share.setOnClickListener(this);
 
         //设置标题居中
@@ -128,6 +128,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
                             SPUtils.setParam(SPData.ss_news_name, getContext(), SPData.news_url, news_link);
                             Toast.makeText(mActivity, CheckString.Share_2, Toast.LENGTH_SHORT).show();
 
+                            //TODO 检测链接格式
                             if(true){
                                 Toast.makeText(mActivity, CheckString.Share_3, Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getActivity(), ShareNewsActivity.class));
@@ -137,12 +138,21 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
                         }
                     }
                 })
-                .setPositiveButton("复制/无内容", new DialogInterface.OnClickListener() {
+                .setPositiveButton("使用上次的链接", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        BlankUtils.CopyForm("你噶或啊", getContext());
-                        //登陆操作
-                        startActivity(new Intent(getActivity(), ShareNewsActivity.class));
+                        String news_link = (String) SPUtils.getParam(
+                                SPData.ss_news_name,
+                                context,
+                                SPData.news_url,
+                                "");
+                        if(!news_link.isEmpty()){
+                            SPUtils.setParam(SPData.ss_news_name, context, SPData.news_url, news_link);
+                            Toast.makeText(context, news_link, Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getActivity(), ShareNewsActivity.class));
+                        }else{
+                            Toast.makeText(context, "空值", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }).show();
     }

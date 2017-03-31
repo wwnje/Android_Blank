@@ -60,7 +60,7 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
     @Bind(R.id.add_imageview) ImageView imageview;
 
 
-    private ArrayAdapter<String> arrayAdapter;
+
 
     private static int CAMERA_REQUEST_CODE = 1;
     private static int GALLERY_REQUEST_CODE = 2;
@@ -351,6 +351,7 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                 new AlertDialog.Builder(this).setTitle("Select a Tag")
                         .setView(View_Publish)
                         .setNegativeButton("cancel", null)
+
                         .setPositiveButton("Publish", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

@@ -36,8 +36,9 @@ class Like
     public $news_desc;
     public $news_content_url;
     public $news_pic_url;
-    public $type;//暂时定一个大类  数量最多的
-
+    public $type_name;//暂时定一个大类  数量最多的
+    public $tags_id;
+    public $type_id;
     /**
      * @var finder信息 用于好友关系
      */
@@ -67,8 +68,16 @@ while ($row1 = mysql_fetch_assoc($result1))//将result结果集中查询结果�
         $book->news_desc = $row["desc"];
         $book->news_content_url = $row["content_url"];
         $book->news_pic_url = $row["pic_url"];
-        $book->type = $row["type"];
         $book->finder_id = $row["finder_id"];
+
+        $result_type = mysql_query("select * from type WHERE type_id = '" . $row["type_id"] . "'");
+        while($r_type = mysql_fetch_array($result_type))
+        {
+            $book->type_name = $r_type["type_name"];
+        }
+
+        $book->type_id = $row["type_id"];
+        $book->tags_id = $row["tags_id"];
 
         //查找推荐人的信息
         $sql_finder = "select name from finder WHERE finder_id = '" . $row["finder_id"] . "'"; //查找finder

@@ -49,7 +49,6 @@ public class BlankUtils {
     /**
      * 复制
      */
-
     public static void CopyForm(String content, Context context) {
 
         // Gets a handle to the clipboard service.
@@ -65,6 +64,11 @@ public class BlankUtils {
         mClipboard.setPrimaryClip(clip);
     }
 
+    /**
+     * 粘贴
+     * @param context
+     * @return
+     */
     public static String Paste(Context context) {
         // Gets a handle to the clipboard service.
         if (null == mClipboard) {

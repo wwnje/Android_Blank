@@ -7,6 +7,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:name=".utils.MyApplication"
         android:allowBackup="true"
@@ -70,7 +75,10 @@
         <activity android:name=".BlankActivity" />
         <activity android:name=".view.Activity.LikeActivity" />
         <activity android:name=".test.testUserActivity" />
-        <activity android:name=".view.Activity.NewTagsActivity"></activity>
+        <activity android:name=".view.Activity.NewTagsActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"></activity>
     </application>
 
 </manifest>

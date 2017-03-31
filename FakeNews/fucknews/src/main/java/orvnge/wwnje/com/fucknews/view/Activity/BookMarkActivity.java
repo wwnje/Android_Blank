@@ -229,12 +229,14 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
             String news_title = jsonObject.getString("news_title");
             String news_desc = jsonObject.getString("news_desc");
             String news_content_url = jsonObject.getString("news_content_url");
-            String type = jsonObject.getString("type");
+            String type = jsonObject.getString("type_name");
             String finder_id = jsonObject.getString("finder_id");
             String finder_name = jsonObject.getString("finder_name");
             String book_version = jsonObject.getString("book_version");
             String news_pic_url = jsonObject.getString("news_pic_url");
             int news_id = jsonObject.getInt("news_id");
+            Integer tags_id = jsonObject.getInt("tags_id");
+            Integer type_id = jsonObject.getInt("type_id");
 
             BookMarkBean data = new BookMarkBean();
 
@@ -247,6 +249,10 @@ public class BookMarkActivity extends AppCompatActivity implements SwipeRefreshL
             data.setNews_desc(news_desc);
             data.setNews_pic_url(news_pic_url);
             data.setNews_title(news_title);
+
+            data.setType_id(type_id);
+            data.setTags_id(tags_id);
+
             data.setType(type);
 
             books.add(data);
