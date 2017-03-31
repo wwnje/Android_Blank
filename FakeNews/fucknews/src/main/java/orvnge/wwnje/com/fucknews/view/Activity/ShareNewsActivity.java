@@ -68,7 +68,7 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
     private String news_link;
     private String news_title;
     private String news_desc;
-    private String news_type;
+    private String news_tags;
     private String news_img_link;
 
     private String share_title;
@@ -85,7 +85,7 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
 
         setTitle("分享你喜欢的文章");
         ButterKnife.bind(this);
-        context = getApplicationContext();
+        context = ShareNewsActivity.this;
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -302,6 +302,9 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(ShareNewsActivity.this, edit_link2.getText(), Toast.LENGTH_SHORT).show();
                                 news_img_link = edit_link2.getText().toString();
+
+                                SPUtils.setParam(SPData.ss_news_name, context,SPData.news_img_url, news_img_link);
+
                             }
                         }).show();
                 break;
@@ -336,19 +339,28 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                 Toast.makeText(context, CheckString.Share_4, Toast.LENGTH_SHORT).show();
 
                 final View View_Publish = getLayoutInflater().inflate(R.layout.dialog_tag, null);
-                final Spinner edit_tag = (Spinner) View_Publish.findViewById(R.id.spinner_select_tag);
+
+                //选择tags
+                //新建tags输入
+                final Spinner spinner_tag = (Spinner) View_Publish.findViewById(R.id.spinner_select_tag);
+                final EditText edit_tag = (EditText) View_Publish.findViewById(R.id.dialog_tag_edit);
 
                 arrayAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item, Finder_List_Data.NEWS_TYPE_NAME);
-                edit_tag.setAdapter(arrayAdapter);
+                spinner_tag.setAdapter(arrayAdapter);
 
                 new AlertDialog.Builder(this).setTitle("Select a Tag")
                         .setView(View_Publish)
                         .setNegativeButton("cancel", null)
-                        .setNeutralButton("新建tags", new DialogInterface.OnClickListener() {
+                        .setNeutralButton("使用新的tags并直接分享", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(context, "新建tags", Toast.LENGTH_SHORT).show();
 
+                                String news_tags = edit_tag.getText().toString();
+                                if(news_tags.isEmpty()){
+                                    Toast.makeText(context, "新建tags不能为空", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    BlankNetMehod.CHECK_TAGS(context, news_tags);
+                                }
                             }
                         })
                         .setPositiveButton("Publish", new DialogInterface.OnClickListener() {
@@ -359,15 +371,17 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                                 //从SP中获取信息
                                 getShareData();
 
-                                news_type = edit_tag.getSelectedItem().toString();
+                                news_tags = spinner_tag.getSelectedItem().toString();
+
+                                SPUtils.setParam(SPData.ss_news_name, context, SPData.news_tags_name, news_tags);
 
                                 if(news_title ==null || news_link == null){
                                     Toast.makeText(ShareNewsActivity.this, "输入信息不完整：" +
                                             "标题" + news_title +
                                             "链接" + news_link +
-                                            "类型" + news_type, Toast.LENGTH_LONG).show();
+                                            "类型" + news_tags, Toast.LENGTH_LONG).show();
                                 }else {
-                                    BlankNetMehod.Share_NEWS(context, news_type, news_title, news_desc, news_link, news_img_link);
+                                    BlankNetMehod.Share_NEWS(context);
                                 }
 
                             }

@@ -30,9 +30,10 @@ import static orvnge.wwnje.com.fucknews.adapter.BlankItemsBaseAdapter.ItemType.*
 public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAdapter.ITEMS_ViewHolder>  {
 
     public static enum ItemType{
-        NEWS_TYPE,
-        NEWS_TAG,
-        NEWS_MY_TAG
+        NEWS_TYPE,//type
+        NEWS_TAG,//所有tags
+        NEWS_MY_TAG,//我的tags
+        NEWS_TYPE_CHOICE//新建tags选择type
     }
 
     private static final String TAG = "BlankItemsBaseAdapter";
@@ -133,6 +134,9 @@ public class BlankItemsBaseAdapter extends RecyclerView.Adapter<BlankItemsBaseAd
                 }
                 break;
             case NEWS_MY_TAG:
+                holder.tags_name.setTextColor(Color.GRAY);
+                break;
+             case NEWS_TYPE_CHOICE:
                 holder.tags_name.setTextColor(Color.GRAY);
                 break;
         }

@@ -24,6 +24,11 @@ public class BlankAPI {
     public static  String ADD_NEWS_ITEM_URL = "http://www.wwnje.com/FakeNews/API_LIKE_OR_BOOKMARK_News_Items.php";
 
     /**
+     * 检查或者新建tags
+     */
+    public static  String URL_CHECK_OR_NEW_TAGS = "http://www.wwnje.com/FakeNews/API_CHECK_OR_NEW_TAGS.php";
+
+    /**
      * 获取列表
      */
     public static  String GET_TYPE_URL = "http://www.wwnje.com/FakeNews/API_GetType.php";//获取所有内容类别

@@ -8,6 +8,15 @@ package orvnge.wwnje.com.fucknews.data;
 
 
 public class CheckString {
+
+    /**
+     *
+     */
+    public static String NOT_FOUND_404 = "404";//没有找到
+    public static String SUCCESS_200 = "200";//成功
+    public static String INSERT_ERROR_201 = "201";//插入失败
+
+
     /**
      * 1-1用户上传分享
      * Share
@@ -18,6 +27,10 @@ public class CheckString {
     public static String Share_4 = "1-4：进入选择tags标签或者新建一个标签";
     public static String Share_5 = "1-5：进行发布";
 
-    public static String Share_6 = "1-6：进行发布";
+    public static String Share_6 = "1-6：新建tags，准备选择类型";
+    public static String Share_7 = "1-7：发布完成";
+
+
+
 
 }

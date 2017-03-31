@@ -69,7 +69,8 @@
         <activity android:name="com.orvnge.xutils.ViewPagerActivity" />
         <activity android:name=".BlankActivity" />
         <activity android:name=".view.Activity.LikeActivity" />
-        <activity android:name=".test.testUserActivity"></activity>
+        <activity android:name=".test.testUserActivity" />
+        <activity android:name=".view.Activity.NewTagsActivity"></activity>
     </application>
 
 </manifest>

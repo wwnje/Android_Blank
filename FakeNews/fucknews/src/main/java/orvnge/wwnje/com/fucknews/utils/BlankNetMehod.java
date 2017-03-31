@@ -2,6 +2,7 @@ package orvnge.wwnje.com.fucknews.utils;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.MenuItem;
@@ -25,8 +26,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import orvnge.wwnje.com.fucknews.data.CheckString;
 import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
+import orvnge.wwnje.com.fucknews.data.SPData;
+import orvnge.wwnje.com.fucknews.view.Activity.NewTagsActivity;
+import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
 
 /**
  * Created by Administrator on 2017/1/31.
@@ -171,7 +176,6 @@ public class BlankNetMehod {
         requestQueue.add(stringRequest);
     }
 
-
     /**
      * 用户加入书签或者喜欢
      * @param context
@@ -218,9 +222,155 @@ public class BlankNetMehod {
 
 
     /**
-     * 分享内容
+     * 1-0:分享内容
+     * 新建或者查看是否有此标签
+     * @param context
      */
-    public static void Share_NEWS(final Context context, final String _news_tag, final String _news_title, final String _news_desc, final String _news_link, final String _news_img_link) {
+    public static void CHECK_TAGS(final Context context, final String tags_name) {
+
+        if(!FinderData.isLogin){
+            Toast.makeText(context, "Sorry, u don;t Login in...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Instantiate the RequestQueue.
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        String url = BlankAPI.URL_CHECK_OR_NEW_TAGS;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                String r = response.toString();
+
+                SPUtils.setParam(SPData.ss_news_name, context, SPData.news_tags_name, tags_name);
+
+                Toast.makeText(context, r, Toast.LENGTH_SHORT).show();
+
+                if(r.equals("404")){
+
+                    //没有进行添加
+
+                    Toast.makeText(context, CheckString.Share_6 + tags_name, Toast.LENGTH_SHORT).show();
+
+                    context.startActivity(new Intent(context, NewTagsActivity.class));
+
+                }else if (r.equals("200")){
+
+                    //存在直接分享
+
+                    Toast.makeText(context, CheckString.Share_5, Toast.LENGTH_SHORT).show();
+                    Share_NEWS(context);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map getParams() throws AuthFailureError {
+                Map map = new HashMap();
+                map.put("item_name", tags_name);//上传输入的tags名字 检测
+                map.put("isCheck", "true");//先进行检测
+
+                return map;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
+    /**
+     * 1-1:是否添加标签成功
+     * 新建或者查看是否有此标签
+     * @param context
+     */
+    public static boolean isAddTagYes;
+
+    public static boolean ADD_TAGS(final Context context,final String type_id){
+
+        if(!FinderData.isLogin){
+            Toast.makeText(context, "Sorry, u don;t Login in...", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        final String _news_tag = (String) SPUtils.getParam(
+                SPData.ss_news_name,
+                context,
+                SPData.news_tags_name,
+                "");
+
+        // Instantiate the RequestQueue.
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        String url = BlankAPI.URL_CHECK_OR_NEW_TAGS;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                String r = response.toString();
+
+                if(r.equals(CheckString.INSERT_ERROR_201)){
+                    Toast.makeText(context, "插入失败", Toast.LENGTH_SHORT).show();
+                    isAddTagYes = false;
+                }else if(r.equals(CheckString.SUCCESS_200)){
+                    Toast.makeText(context, "插入成功, 准备直接上传", Toast.LENGTH_SHORT).show();
+                    isAddTagYes = true;
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+                isAddTagYes = false;
+            }
+        }) {
+            @Override
+            protected Map getParams() throws AuthFailureError {
+                Map map = new HashMap();
+                map.put("item_name", _news_tag);//上传输入的tags名字 检测
+                map.put("isCheck", "false");//先进行检测
+                map.put("type_id", type_id);//news_id
+                return map;
+            }
+        };
+        requestQueue.add(stringRequest);
+
+        return isAddTagYes;
+    }
+    /**
+     * 1-2:分享内容
+     * 分享上传
+     */
+    public static void Share_NEWS(final Context context) {
+
+        final String _news_title = (String) SPUtils.getParam(
+                SPData.ss_news_name,
+                context,
+                SPData.news_title,
+                "");
+        final String _news_tag = (String) SPUtils.getParam(
+                SPData.ss_news_name,
+                context,
+                SPData.news_tags_name,
+                "");
+        final String _news_link = (String) SPUtils.getParam(
+                SPData.ss_news_name,
+                context,
+                SPData.news_url,
+                "");
+        final String _news_img_link = (String) SPUtils.getParam(
+                SPData.ss_news_name,
+                context,
+                SPData.news_img_url, "");
+        final String _news_desc = (String) SPUtils.getParam(
+                SPData.ss_news_name,
+                context,
+                SPData.news_desc, "");
+
 
         if(!FinderData.isLogin){
             Toast.makeText(context, "Sorry, u don;t Login in...", Toast.LENGTH_SHORT).show();
@@ -238,7 +388,7 @@ public class BlankNetMehod {
                 //成功时
                 String tip = response.toString();
                 if(tip.equals("200")){
-                    Toast.makeText(context, "分享成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, CheckString.Share_7, Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(context, tip, Toast.LENGTH_LONG).show();
                 }
@@ -252,16 +402,12 @@ public class BlankNetMehod {
             @Override
             protected Map getParams() throws AuthFailureError {
                 Map map = new HashMap();
-                map.put("finder_id", String.valueOf(FinderData.FINDER_ID));
-                map.put("type", _news_tag);
-                map.put("title", _news_title);
-                map.put("desc", _news_desc);
+                map.put("finder_id", String.valueOf(FinderData.FINDER_ID));//用户id
+                map.put("tags_name", _news_tag);//标签名字
+                map.put("title", _news_title);//
+                map.put("desc", _news_desc);//
                 map.put("news_link", _news_link);
-
-                //TODO 有问题 图片URL要判断
-//                if(_news_link != null){
-//                    map.put("news_img_link", _news_img_link);
-//                }
+                map.put("news_img_link", _news_img_link);
                 return map;
             }
         };

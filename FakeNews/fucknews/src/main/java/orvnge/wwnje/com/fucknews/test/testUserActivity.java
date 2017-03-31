@@ -53,7 +53,7 @@ public class testUserActivity extends AppCompatActivity {
             String new_type = Finder_List_Data.NEWS_TYPE_NAME.get(news_type_id);
 
             //类型,标题,描述,链接
-            BlankNetMehod.Share_NEWS(context,new_type, i+"", i+"", news_link, news_img_link);
+            BlankNetMehod.Share_NEWS(context);
         }
     }
 
