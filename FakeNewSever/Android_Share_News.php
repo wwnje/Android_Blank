@@ -3,16 +3,30 @@ header("Content-type: text/html; charset=utf-8");
 
 require 'mysql_connect.php';
 
-echo "测试";
 $title = $_POST['title'];
 $desc = $_POST['desc'];
 $content_url = $_POST['news_link'];
 $pic_url = $_POST['news_img_link'];
-$type = $_POST['tag'];
 $finder_id = $_POST['finder_id'];
 
-//增加
-$sql="insert into `news`(`title`,`desc`,`content_url`,`pic_url`,`type`,`finder_id`)values('$title','$desc','$content_url','$pic_url','$type', '$finder_id')";
+$tags_name = $_POST['tags_name'];
+
+$tags_id = "";
+$type_id = "";
+
+
+$pre = mysql_query("select * from tags where tags_name = '$tags_name' ");
+$number = mysql_num_rows($pre);
+
+if($number != 0){
+    while($row = mysql_fetch_array($pre))
+    {
+        $tags_id = $row['tags_id'];
+        $type_id = $row['type_id'];
+    }
+}
+
+$sql="insert into `news`(`title`,`desc`,`content_url`,`pic_url`,`finder_id`,`type_id`,`tags_id`)values('$title','$desc','$content_url','$pic_url', '$finder_id','$type_id','$tags_id')";
 
 $set=mysql_query($sql);
 

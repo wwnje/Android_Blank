@@ -387,8 +387,10 @@ public class BlankNetMehod {
             public void onResponse(String response) {
                 //成功时
                 String tip = response.toString();
+
                 if(tip.equals("200")){
                     Toast.makeText(context, CheckString.Share_7, Toast.LENGTH_SHORT).show();
+                    SPData.Clear_SS_NEWS_NAME(context);
                 }else {
                     Toast.makeText(context, tip, Toast.LENGTH_LONG).show();
                 }
@@ -495,10 +497,13 @@ public class BlankNetMehod {
                         try {
                             JSONArray array = response.getJSONArray("myTypes");
                             for (int j = 0; j < array.length(); j++) {
+
                                 int type_id = Integer.parseInt(array.getJSONObject(j).getString("type_id"));
+
                                 String type_name = array.getJSONObject(j).getString("type_name");
                                 //TODO 保存到数据库
                                 Finder_List_Data.ADD_ITEM(type_name, type_id);
+
 
                                 /*   SQLiteDatabase db = dbHelper.getWritableDatabase();
                                 ContentValues values = new ContentValues();

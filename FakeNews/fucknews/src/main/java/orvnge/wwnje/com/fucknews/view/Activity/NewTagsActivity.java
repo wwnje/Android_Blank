@@ -138,6 +138,7 @@ public class NewTagsActivity extends AppCompatActivity implements SwipeRefreshLa
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             BlankNetMehod.Share_NEWS(context);
+                            finish();
                         }
                     }).show();
         }

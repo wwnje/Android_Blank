@@ -69,6 +69,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     private int mInt;
     private String mType;//文章标题
+    private int type_id;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,7 +81,6 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.content_RecyclerView);
         swip = (SwipeRefreshLayout) view.findViewById(R.id.content_swip);
@@ -174,13 +174,14 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         });
     }
 
-
     /**
      * 获取items内容
      */
     private void initData() {
 
         mType = this.getArguments().getString("type");
+        type_id = this.getArguments().getInt("type_id");//news_type_id
+
         mInt = this.getArguments().getInt("id");
         Log.d(TAG, "initData: mType:" + mType + "ID:" + mInt);
     }
@@ -232,7 +233,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         Map<String, String> params = new HashMap<String, String>();
         params.put("limit", String.valueOf(limit));
         params.put("offset", String.valueOf(offset));
-        params.put("news_type", mType);
+        params.put("type_id", String.valueOf(type_id));
         params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
 
         JSONObject paramJsonObject = new JSONObject(params);
@@ -265,7 +266,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "刷新出错", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "刷新出错" + error.toString(), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

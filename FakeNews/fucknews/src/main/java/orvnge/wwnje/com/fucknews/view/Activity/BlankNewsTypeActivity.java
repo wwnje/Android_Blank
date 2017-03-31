@@ -143,7 +143,7 @@ public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRef
 //            db.insert(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL, "or ", values);//插入数据
 
             //更新UI
-            BlankFragment.AddNewItem(type_name);
+            BlankFragment.AddNewItem(type_name, type_id);
 
             tv.setTextColor(Color.RED);
             //订阅

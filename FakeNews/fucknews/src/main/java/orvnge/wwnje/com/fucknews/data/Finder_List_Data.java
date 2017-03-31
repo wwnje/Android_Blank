@@ -51,8 +51,7 @@ public class Finder_List_Data {
      * 用户登陆后获取加入新闻订阅列表
      */
     public static void ADD_ITEM(String type_name, int type_id){
-        NEWS_TYPE_ID.add(type_id);
-        BlankFragment.AddNewItem(type_name);
+        BlankFragment.AddNewItem(type_name, type_id);
     }
 
     /**

@@ -320,12 +320,15 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
 
         Bundle data;
         Finder_List_Data.NEWS_TYPE_NAME.add("Blank");
+        Finder_List_Data.NEWS_TYPE_ID.add(0);
+
 
         for(int i = 0; i < Finder_List_Data.NEWS_TYPE_NAME.size(); i++){
             ContentFragment newfragment = new ContentFragment();
             data = new Bundle();
             data.putInt("id", i);
             data.putString("type", Finder_List_Data.NEWS_TYPE_NAME.get(i));
+            data.putInt("type_id", Finder_List_Data.NEWS_TYPE_ID.get(i));
 
             newfragment.setArguments(data);
 
@@ -339,7 +342,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
     /**
      * 增加
      */
-    public static  void AddNewItem(String type_name) {
+    public static  void AddNewItem(String type_name, int type_id) {
 
         ContentFragment newfragment = new ContentFragment();
 
@@ -348,10 +351,13 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
 
         data.putInt("id", Finder_List_Data.NEWS_TYPE_NAME.size());
         data.putString("type", type_name);
+        data.putInt("type_id", type_id);
 
         newfragment.setArguments(data);
 
         Finder_List_Data.NEWS_TYPE_NAME.add(type_name);
+        Finder_List_Data.NEWS_TYPE_ID.add(type_id);
+
         Finder_List_Data.Fragments.add(newfragment);
 
         mAdapter.notifyDataSetChanged();
@@ -364,6 +370,8 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
     public static void DeleteItem(int position) {
 
         Finder_List_Data.NEWS_TYPE_NAME.remove(position);
+        Finder_List_Data.NEWS_TYPE_ID.remove(position);
+
         Finder_List_Data.Fragments.remove(position);
 
         mAdapter.notifyDataSetChanged();
@@ -377,6 +385,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
         int position = viewPager.getCurrentItem();//当前view
 
         Finder_List_Data.NEWS_TYPE_NAME.remove(position);
+        Finder_List_Data.NEWS_TYPE_ID.remove(position);
 
         Finder_List_Data.Fragments.remove(position);
 
