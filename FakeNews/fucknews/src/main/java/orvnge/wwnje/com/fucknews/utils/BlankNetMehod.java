@@ -246,21 +246,17 @@ public class BlankNetMehod {
 
                 SPUtils.setParam(SPData.ss_news_name, context, SPData.news_tags_name, tags_name);
 
-                Toast.makeText(context, r, Toast.LENGTH_SHORT).show();
-
-                if(r.equals("404")){
+                if(r.equals(CheckString.NOT_FOUND_404)){
 
                     //没有进行添加
-
                     Toast.makeText(context, CheckString.Share_6 + tags_name, Toast.LENGTH_SHORT).show();
-
                     context.startActivity(new Intent(context, NewTagsActivity.class));
 
-                }else if (r.equals("200")){
-
-                    //存在直接分享
-
+                }else{
+                    //存在就直接分享和订阅
                     Toast.makeText(context, CheckString.Share_5, Toast.LENGTH_SHORT).show();
+
+                    Subscribe(context, Integer.parseInt(r), "tags", "true");
                     Share_NEWS(context);
                 }
             }
@@ -316,9 +312,11 @@ public class BlankNetMehod {
                 if(r.equals(CheckString.INSERT_ERROR_201)){
                     Toast.makeText(context, "插入失败", Toast.LENGTH_SHORT).show();
                     isAddTagYes = false;
-                }else if(r.equals(CheckString.SUCCESS_200)){
+                }else{
                     Toast.makeText(context, "插入成功, 准备直接上传", Toast.LENGTH_SHORT).show();
                     isAddTagYes = true;
+                    //顺便直接订阅了
+                    Subscribe(context, Integer.parseInt(r), "tags", "true");
                 }
             }
         }, new Response.ErrorListener() {
@@ -430,7 +428,8 @@ public class BlankNetMehod {
         }
 
         Finder_List_Data.INIT_MY_TAGS();
-        Toast.makeText(context, "正在获取我订阅的标签", Toast.LENGTH_SHORT).show();
+
+//        Toast.makeText(context, "正在获取我订阅的标签", Toast.LENGTH_SHORT).show();
 
         params.put("limit", String.valueOf(limit));
         params.put("offset", String.valueOf(offset));
@@ -448,11 +447,12 @@ public class BlankNetMehod {
                         try {
                             JSONArray array = response.getJSONArray("tags");
                             for (int j = 0; j < array.length(); j++) {
+
                                 int tags_id = Integer.parseInt(array.getJSONObject(j).getString("tags_id"));
-                                //int myTagsVersion = Integer.parseInt(array.getJSONObject(j).getString("myTags_version"));
                                 String tags_name = array.getJSONObject(j).getString("tags_name");
 
                                 Finder_List_Data.ADD_MY_TAGS(tags_name,tags_id);
+
                                 //TODO 保存到数据库
                             }
                             Toast.makeText(context, "获取订阅标签完成", Toast.LENGTH_SHORT).show();

@@ -12,6 +12,25 @@ public class NewsBean {
 	private Boolean isBook;//是否加入了书签
 	private Boolean isLike;//是否是喜欢
 	private int news_id;
+	private int tags_id;
+
+	public int getTags_id() {
+		return tags_id;
+	}
+
+	public void setTags_id(int tags_id) {
+		this.tags_id = tags_id;
+	}
+
+	public int getType_id() {
+		return type_id;
+	}
+
+	public void setType_id(int type_id) {
+		this.type_id = type_id;
+	}
+
+	private int type_id;
 
 	public int getNews_id() {
 		return news_id;

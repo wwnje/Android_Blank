@@ -10,7 +10,7 @@
         android:supportsRtl="true">
         <activity android:name=".GitHubActivity" />
         <activity android:name=".recyclevIew.RecycleViewActivity" />
-        <activity android:name=".ViewPagerActivity"></activity>
+        <activity android:name=".ViewPagerActivity" />
     </application>
 
 </manifest>

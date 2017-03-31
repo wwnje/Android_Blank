@@ -70,11 +70,14 @@ public class HomeActivity extends BaseActivity {
     private void initData() {
         Toast.makeText(context, "初始化数据", Toast.LENGTH_SHORT).show();
         FinderData finderData = new FinderData(mActivity);//初始化数据
+
         //TODO
         //Finder_List_Data.Finder_List_Get(context);//本地用户订阅数据
 
         BlankNetMehod.GetMyTags(getApplicationContext(), 0, 1000);
         BlankNetMehod.GetMyTypes(context);//网络获取订阅数据
+
+
     }
 
     private void initFragment(Bundle savedInstanceState) {

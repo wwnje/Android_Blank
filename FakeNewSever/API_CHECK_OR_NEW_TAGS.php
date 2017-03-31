@@ -23,17 +23,28 @@ require 'mysql_connect.php';
     //如果没有此人
 	if($r == 0){
         if($isCheck == "true"){
-            echo "404";
+            echo "404_NOT_FOUND";
         }else{
             $sql = "insert into tags (tags_name, type_id) values('$tags_name', '$type_id') ";
 
             if(!mysql_query($sql, $con)){
-                echo "201".mysql_error();//添加失败
+                echo "201_ERROR".mysql_error();//添加失败
             } else {
-                echo "200";//添加成功
+                get_tags_id($tags_name);
             }
         }
 	}else{
-		echo "200";//存在
+        get_tags_id($tags_name);//存在
 	}
+
+	function get_tags_id($tags_name){
+        $tags_id = "";
+
+        $pre = mysql_query("select * from tags where tags_name = '$tags_name' ");
+        while($row = mysql_fetch_array($pre))
+        {
+            $tags_id = $row['tags_id'];
+        }
+        echo $tags_id;
+    }
 ?>

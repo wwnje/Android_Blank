@@ -12,9 +12,9 @@ public class CheckString {
     /**
      *
      */
-    public static String NOT_FOUND_404 = "404";//没有找到
+    public static String NOT_FOUND_404 = "404_NOT_FOUND";//没有找到
     public static String SUCCESS_200 = "200";//成功
-    public static String INSERT_ERROR_201 = "201";//插入失败
+    public static String INSERT_ERROR_201 = "201_ERROR";//插入失败
 
 
     /**
@@ -29,8 +29,4 @@ public class CheckString {
 
     public static String Share_6 = "1-6：新建tags，准备选择类型";
     public static String Share_7 = "1-7：发布完成";
-
-
-
-
 }

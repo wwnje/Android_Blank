@@ -13,21 +13,11 @@ $obj = json_decode($obj);
 
 $limit = $obj->limit;
 $offset = $obj->offset;
-$news_id = $obj->type_id;
+$type_id = $obj->type_id;
 $finder_id = $obj->finder_id;
 
 $sql = "";
 
-//TODO 为啥  $news_type不加单引号识别不了
-
-//未登录用户
-if ($news_id == "0") {
-    $sql = "select * from news order by news_id desc limit $limit offset $offset"; //SQL
-} else {
-    $sql = "select * from news where type_id = $news_id order by news_id desc limit $limit offset $offset"; //SQL
-}
-
-$result = mysql_query($sql);//执行SQL
 
 $json = "";
 $data = array(); //定义好一个数组.PHP中array相当于一个数据字典.
@@ -41,11 +31,26 @@ class News
     public $time;
     public $content_url;
     public $pic_url;
-    public $type;
+    public $type_name;
     public $finder;
     public $isBooked;//是否是加入书签的
     public $isLike;//是否是喜欢的
+    public $tags_id;
+    public $type_id;
 }
+
+//TODO 为啥  $news_type不加单引号识别不了
+
+//未登录用户
+if ($type_id == "0") {
+    $sql = "select * from news order by news_id desc limit $limit offset $offset"; //SQL
+} else {
+    $sql = "select * from news where type_id = $type_id order by news_id desc limit $limit offset $offset"; //SQL
+}
+
+$result = mysql_query($sql);//执行SQL
+
+
 
 while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
 
@@ -58,14 +63,23 @@ while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
         $user->time = $row["time"];
         $user->content_url = $row["content_url"];
         $user->pic_url = $row["pic_url"];
-        $user->type = $row["type"];
 
+
+        $user->type_id = $row["type_id"];
+        $user->tags_id = $row["tags_id"];
 
         $result_finder = mysql_query("select * from finder WHERE finder_id = '" . $row["finder_id"] . "'");
         while($r_finder = mysql_fetch_array($result_finder))
         {
             $user->finder = $r_finder["name"];
         }
+
+        $result_type = mysql_query("select * from type WHERE type_id = '" . $row["type_id"] . "'");
+        while($r_type = mysql_fetch_array($result_type))
+        {
+            $user->type_name = $r_type["type_name"];
+        }
+
         $user->isBooked = false;
         $user->isLike = false;
 
@@ -100,8 +114,15 @@ while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
         $user->time = $row["time"];
         $user->content_url = $row["content_url"];
         $user->pic_url = $row["pic_url"];
-        $user->type = $row["type"];
-        //$user->finder = $row["finder_id"];
+
+        $result_type = mysql_query("select * from type WHERE type_id = '" . $row["type_id"] . "'");
+        while($r_type = mysql_fetch_array($result_type))
+        {
+            $user->type_name = $r_type["type_name"];
+        }
+
+        $user->type_id = $row["type_id"];
+        $user->tags_id = $row["tags_id"];
 
         $result_finder = mysql_query("select * from finder WHERE finder_id = '" . $row["finder_id"] . "'");
 

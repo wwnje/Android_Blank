@@ -287,10 +287,13 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
             String time = jsonObject.getString("time");
             String content_url = jsonObject.getString("content_url");
             String pic_url = jsonObject.getString("pic_url");
-            String type = jsonObject.getString("type");
+            String type = jsonObject.getString("type_name");
             String finder = jsonObject.getString("finder");
             Boolean isLike = jsonObject.getBoolean("isLike");
             Boolean isBook = jsonObject.getBoolean("isBooked");
+
+            Integer tags_id = jsonObject.getInt("tags_id");
+            Integer type_id = jsonObject.getInt("type_id");
 
             NewsBean data = new NewsBean();
             data.setNews_id(news_id);
@@ -303,6 +306,8 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
             data.setFinder(finder);
             data.setBook(isBook);
             data.setLike(isLike);
+            data.setType_id(type_id);
+            data.setTags_id(tags_id);
 
             newsNow.add(data);
             //mNewsAdapter.add(data);

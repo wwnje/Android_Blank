@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 
 import butterknife.Bind;
@@ -304,7 +306,6 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
                                 news_img_link = edit_link2.getText().toString();
 
                                 SPUtils.setParam(SPData.ss_news_name, context,SPData.news_img_url, news_img_link);
-
                             }
                         }).show();
                 break;
@@ -340,50 +341,28 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
 
                 final View View_Publish = getLayoutInflater().inflate(R.layout.dialog_tag, null);
 
-                //选择tags
-                //新建tags输入
-                final Spinner spinner_tag = (Spinner) View_Publish.findViewById(R.id.spinner_select_tag);
-                final EditText edit_tag = (EditText) View_Publish.findViewById(R.id.dialog_tag_edit);
+                final AutoCompleteTextView auto = (AutoCompleteTextView) View_Publish.findViewById(R.id.auto);
 
-                arrayAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item, Finder_List_Data.NEWS_TYPE_NAME);
-                spinner_tag.setAdapter(arrayAdapter);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, Finder_List_Data.NEWS_MY_TAGS);
+
+                auto.setAdapter(adapter);
+                auto.setThreshold(1);
 
                 new AlertDialog.Builder(this).setTitle("Select a Tag")
                         .setView(View_Publish)
                         .setNegativeButton("cancel", null)
-                        .setNeutralButton("使用新的tags并直接分享", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Publish", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                String news_tags = edit_tag.getText().toString();
+                                String news_tags = auto.getText().toString();
+                                SPUtils.setParam(SPData.ss_news_name, context, SPData.news_tags_name, news_tags);
+
                                 if(news_tags.isEmpty()){
                                     Toast.makeText(context, "新建tags不能为空", Toast.LENGTH_SHORT).show();
                                 }else{
                                     BlankNetMehod.CHECK_TAGS(context, news_tags);
                                 }
-                            }
-                        })
-                        .setPositiveButton("Publish", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                Toast.makeText(context, CheckString.Share_5, Toast.LENGTH_SHORT).show();
-                                //从SP中获取信息
-                                getShareData();
-
-                                news_tags = spinner_tag.getSelectedItem().toString();
-
-                                SPUtils.setParam(SPData.ss_news_name, context, SPData.news_tags_name, news_tags);
-
-                                if(news_title ==null || news_link == null){
-                                    Toast.makeText(ShareNewsActivity.this, "输入信息不完整：" +
-                                            "标题" + news_title +
-                                            "链接" + news_link +
-                                            "类型" + news_tags, Toast.LENGTH_LONG).show();
-                                }else {
-                                    BlankNetMehod.Share_NEWS(context);
-                                }
-
                             }
                         }).show();
 
@@ -395,7 +374,4 @@ public class ShareNewsActivity extends AppCompatActivity implements View.OnClick
         return true;
     }
 
-    private void getShareData(){
-
-    }
 }
