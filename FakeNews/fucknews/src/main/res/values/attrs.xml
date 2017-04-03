@@ -3,20 +3,20 @@
     <declare-styleable name="PageIndicator">
         <!-- Whether or not the selected indicator fades. -->
         <attr name="fades" format="boolean" />
-        
+
         <!-- Length of the delay to fade the indicator. -->
         <attr name="fadeDelay" format="integer" />
-        
+
         <!-- Length of the indicator fade to transparent. -->
         <attr name="fadeLength" format="integer" />
-        
-        
+
+
         <!-- Color of the selected line that represents the current page. -->
-        <attr name="selectedColor" format="color"/>
-        
-        
+        <attr name="selectedColor" format="color" />
+
+
         <!-- View background -->
-        <attr name="android:background"/>
+        <attr name="android:background" />
     </declare-styleable>
 
 
@@ -27,5 +27,14 @@
         <attr name="mutate_background" format="boolean" />
         <attr name="oval" format="boolean" />
         <attr name="android:scaleType" />
+    </declare-styleable>
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 </resources>

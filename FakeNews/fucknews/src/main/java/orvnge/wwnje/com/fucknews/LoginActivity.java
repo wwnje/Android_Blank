@@ -3,6 +3,10 @@ package orvnge.wwnje.com.fucknews;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -16,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,44 +30,71 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.nio.Buffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import orvnge.wwnje.com.fucknews.data.FinderData;
+import orvnge.wwnje.com.fucknews.utils.BlankAPI;
+import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
+import orvnge.wwnje.com.fucknews.utils.myCheckTools;
+import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
+import orvnge.wwnje.com.fucknews.view.Activity.WelcomeActivity;
 
 
 /**
  * A login screen that offers login via email/password.
- * 登录
+ * 启动屏登录项
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
+    private static final String TAG = "LoginActivity";
+
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
+     * demo账号
      */
+
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+    @Bind(R.id.email)  AutoCompleteTextView mEmailView;
+    @Bind(R.id.password)  EditText mPasswordView;
+    @Bind(R.id.login_form)View mProgressView;
+    @Bind(R.id.login_progress) View mLoginFormView;
+
+    @Bind(R.id.email_sign_in_button) Button mEmailSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        ButterKnife.bind(this);
+
+        populateAutoComplete();//?
+
+        //键盘上点击登录的事件
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -74,18 +106,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
     }
 
+    /**
+     * 开启
+     */
     private void populateAutoComplete() {
         getLoaderManager().initLoader(0, null, this);
     }
@@ -112,23 +143,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        //检查密码不是空的并且长度符合要求
+        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
+        // 检查是否是空的
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
         }
+//        else if (!isEmailValid(email)) {
+//            mEmailView.setError(getString(R.string.error_invalid_email));
+//            focusView = mEmailView;
+//            cancel = true;
+//        }
+
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -138,16 +171,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
+
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
     }
 
+    /**
+     * 1-1：邮箱检测
+     * @param email
+     * @return
+     */
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
+    /**
+     * 1-2：密码长度检测
+     * @param password
+     * @return
+     */
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
@@ -259,44 +303,97 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+            boolean ifSuccess = false;
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+            FirstOpenAPP(mEmail, mPassword);
 
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
+            Log.d(TAG, "doInBackground: " + ifSuccess);
+            // 返回值为是否登录成功标识
+            return ifSuccess;
         }
 
         @Override
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+
+        boolean ifSuccess;
+
+        public void FirstOpenAPP(final String name, final String password) {
+
+
+            RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
+            String url = BlankAPI.Login_Url;
+
+            // Request a string response from the provided URL.
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    //成功时
+                    String finder_id = response.toString();//返回获得用户id
+                    if (finder_id.equals("0")) {
+                        Toast.makeText(LoginActivity.this, "没有此帐号", Toast.LENGTH_SHORT).show();
+                        ifSuccess = false;
+
+                        new AlertDialog.Builder(LoginActivity.this).setTitle("该账号无人使用 是否直接注册？")
+                                .setNegativeButton("取消", null)
+                                .setNeutralButton("注册", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        BlankNetMehod.Register(getApplicationContext(), name, password);
+                                    }
+                                }).show();
+
+                    } else if (finder_id.equals("-1")) {
+                        Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                        ifSuccess = false;
+                    }
+                    else if (!finder_id.equals("0") && !finder_id.equals("-1")) {
+
+                        ifSuccess = true;
+                        Toast.makeText(LoginActivity.this, "登录成功：finder:" + finder_id, Toast.LENGTH_SHORT).show();
+                        //保存信息
+                        FinderData.SetLoginData(LoginActivity.this, name, password, Integer.parseInt(finder_id));
+
+                        Toast.makeText(LoginActivity.this, "开始初始化用户信息", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "FirstOpenAPP: 1");
+                    }
+
+                    mAuthTask = null;
+
+                    if (ifSuccess) {
+                        showProgress(false);
+                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                        finish();
+                    } else {
+                        mProgressView.setVisibility(View.GONE);
+
+                        mPasswordView.setError(getString(R.string.error_incorrect_password));
+                        mPasswordView.requestFocus();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //失败时
+                    Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                    mAuthTask = null;
+                    showProgress(false);
+                }
+            }) {
+                @Override
+                protected Map getParams() throws AuthFailureError {
+                    Map map = new HashMap();
+                    map.put("username", name);
+                    map.put("password", password);
+                    return map;
+                }
+            };
+            //把StringRequest对象加到请求队列里来
+            requestQueue.add(stringRequest);
         }
     }
 }

@@ -23,13 +23,7 @@
             android:name=".view.Activity.HomeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".view.Activity.BrowseActivity"
             android:screenOrientation="portrait"
@@ -37,7 +31,13 @@
         <activity
             android:name=".view.Activity.WelcomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".view.Activity.ShareNewsActivity"
             android:screenOrientation="portrait">
@@ -76,9 +76,16 @@
         <activity android:name=".view.Activity.LikeActivity" />
         <activity android:name=".test.testUserActivity" />
         <activity android:name=".view.Activity.NewTagsActivity" />
+
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
+
+        <activity
+            android:name=".view.Activity.FullscreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_fullscreen"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

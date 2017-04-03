@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import orvnge.wwnje.com.fucknews.LoginActivity;
 import orvnge.wwnje.com.fucknews.R;
+import orvnge.wwnje.com.fucknews.data.FinderData;
 
+/**
+ * 启动界面
+ */
 public class WelcomeActivity extends Activity implements View.OnClickListener {
 
 
@@ -28,10 +33,20 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                goTo();
+                checkIfFirstIn();
             }
         });
         thread.start();
+    }
+
+    //是否第一次进入app
+    private void checkIfFirstIn() {
+        if(FinderData.IsNotFirstOpenAPP(WelcomeActivity.this)){
+            goTo();
+        }else {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
     }
 
     private void goTo() {
@@ -41,7 +56,6 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
 
     private void initView() {
         btn = (Button) findViewById(R.id.btn);
-
         btn.setOnClickListener(this);
     }
 

@@ -167,7 +167,7 @@ public class HomeActivity extends BaseActivity {
                                         String name = edit_name.getText().toString();
                                         String pwd = edit_password.getText().toString();
                                         if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10) && !name.isEmpty() && !pwd.isEmpty()) {
-                                            BlankNetMehod.Register(getApplicationContext(), show_if_success, name, pwd);
+                                            BlankNetMehod.Register(getApplicationContext(), name, pwd);
                                             Toast.makeText(mActivity, "正在注册,稍等", Toast.LENGTH_SHORT).show();
                                         } else {
                                             Toast.makeText(HomeActivity.this, "姓名和密码不能为空并且10位以内", Toast.LENGTH_SHORT).show();

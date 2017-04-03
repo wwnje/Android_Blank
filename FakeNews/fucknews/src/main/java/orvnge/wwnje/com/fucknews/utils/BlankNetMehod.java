@@ -32,6 +32,7 @@ import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
 import orvnge.wwnje.com.fucknews.data.SPData;
 import orvnge.wwnje.com.fucknews.view.Activity.NewTagsActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
+import orvnge.wwnje.com.fucknews.view.Activity.TagsActivity;
 
 /**
  * Created by Administrator on 2017/1/31.
@@ -42,6 +43,9 @@ public class BlankNetMehod {
 
     private static DatabaseHelper dbHelper;
     private static final String TAG = "BlankNetMehod";
+
+
+
 
 
     /**
@@ -98,11 +102,10 @@ public class BlankNetMehod {
     /**
      * 注册操作
      * @param context
-     * @param show_if_success
      * @param name
      * @param password
      */
-    public static void Register(final Context context, final TextView show_if_success, final String name, final String password) {
+    public static void Register(final Context context, final String name, final String password) {
         //判断注册信息是否正确
         // Instantiate the RequestQueue.
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -112,7 +115,7 @@ public class BlankNetMehod {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
+                context.startActivity(new Intent(context, TagsActivity.class));
             }
         }, new Response.ErrorListener() {
             @Override
