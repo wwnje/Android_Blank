@@ -80,6 +80,12 @@ public class Finder_List_Data {
 //        NEWS_MY_TAGS.remove(tags_name);
     }
 
+    /**
+     * 清除所有本地订阅信息
+     */
+    public static void REMOVE_ALL_MY_TAGS_AND_NEWS_TYPE(){
+
+    }
 
     /**
      * TODO

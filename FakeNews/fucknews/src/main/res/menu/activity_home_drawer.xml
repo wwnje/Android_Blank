@@ -58,6 +58,10 @@
             <item
                 android:id="@+id/v_login"
                 android:title="登录" />
+
+            <item
+                android:id="@+id/v_login_out"
+                android:title="注销" />
           <!--  <item
                 android:id="@+id/navigation_item_night"
                 android:icon="@drawable/abc_btn_radio_material"

@@ -40,19 +40,20 @@ public class FinderData {
     public FinderData(Context context){
 
         isLogin = (boolean) SPUtils.getParam("finder", context, "isLogin", false);
-   /*     TagsVersion = (int) SPUtils.getParam("finder", context, "TagsVersion", 0);
-        MyTagsVersion = (int) SPUtils.getParam("finder", context, "MyTagsVersion", 0);
-        BookVersion = (int) SPUtils.getParam("finder", context, "book_version", 0);*/
-
 
         FinderName = (String) SPUtils.getParam("finder", context, "name", "Finder未登录");
-        //Password = (String) SPUtils.getParam("finder", context, "password", "Finder未登录");
         FINDER_ID = (int) SPUtils.getParam("finder", context, "FINDER_ID", 0);
     }
 
     //第一次打开设置数据
-    public static void FirstSetData(){
+    public static void Finder_Login_Out(Context context){
+        SPUtils.setParam("finder", context, "name", "");
+        SPUtils.setParam("finder", context, "isLogin", false);
+        SPUtils.setParam("finder", context, "FINDER_ID", 0);
 
+        FinderName = "";
+        isLogin = false;
+        FINDER_ID = -1;
     }
 
     /**

@@ -13,7 +13,7 @@ import orvnge.wwnje.com.fucknews.data.FinderData;
 /**
  * 启动界面
  */
-public class WelcomeActivity extends Activity implements View.OnClickListener {
+public class WelcomeActivity extends Activity {
 
 
     private Button btn;
@@ -23,7 +23,6 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         View view = View.inflate(this, R.layout.activity_welcome, null);
         setContentView(view);
-        initView();
 
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -52,20 +51,6 @@ public class WelcomeActivity extends Activity implements View.OnClickListener {
     private void goTo() {
         startActivity(new Intent(this, HomeActivity.class));
         finish();
-    }
-
-    private void initView() {
-        btn = (Button) findViewById(R.id.btn);
-        btn.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn:
-                goTo();
-                break;
-        }
     }
 
     @Override

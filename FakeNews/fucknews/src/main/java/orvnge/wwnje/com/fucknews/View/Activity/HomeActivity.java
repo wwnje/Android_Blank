@@ -56,7 +56,7 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        context = getApplicationContext();
+        context = HomeActivity.this;
 
         initData();
 
@@ -228,7 +228,9 @@ public class HomeActivity extends BaseActivity {
                  * 查看我的tags
                  */
                 case R.id.nav_my_tags:
-                    startActivity(new Intent(HomeActivity.this, SubscribeTagsActivity.class));
+                    if (FinderData.isLogin) {
+                        startActivity(new Intent(HomeActivity.this, SubscribeTagsActivity.class));
+                    }
                     break;
 
                 /**
@@ -239,10 +241,14 @@ public class HomeActivity extends BaseActivity {
                     break;
 
                 case R.id.nav_bookmark://书签
-                    startActivity(new Intent(HomeActivity.this, BookMarkActivity.class));
+                    if (FinderData.isLogin) {
+                        startActivity(new Intent(HomeActivity.this, BookMarkActivity.class));
+                    }
                     break;
                 case R.id.nav_like://喜欢
-                    startActivity(new Intent(HomeActivity.this, LikeActivity.class));
+                    if (FinderData.isLogin) {
+                        startActivity(new Intent(HomeActivity.this, LikeActivity.class));
+                    }
                     break;
                 case R.id.v_score: //评分
                     try {
@@ -275,6 +281,13 @@ public class HomeActivity extends BaseActivity {
                     break;
                 case R.id.v_login:
                     startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                    break;
+
+                //注销用户
+                case R.id.v_login_out:
+                    FinderData.Finder_Login_Out(context);
+                    _menuItem_finder.setTitle("Finder Miss");
+                    Toast.makeText(context, "用户注销...", Toast.LENGTH_SHORT).show();
                     break;
 
              /*   case R.id.navigation_item_night:
