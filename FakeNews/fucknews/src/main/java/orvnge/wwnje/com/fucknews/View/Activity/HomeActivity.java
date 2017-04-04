@@ -75,9 +75,9 @@ public class HomeActivity extends BaseActivity {
         //TODO
         //Finder_List_Data.Finder_List_Get(context);//本地用户订阅数据
 
+        //初始化我订阅的标签
         BlankNetMehod.GetMyTags(getApplicationContext(), 0, 1000);
         BlankNetMehod.GetMyTypes(context);//网络获取订阅数据
-
 
     }
 

@@ -68,6 +68,18 @@ public class Finder_List_Data {
         NEWS_MY_TAGS.add(tags_name);
     }
 
+    public static void REMOVE_MY_TAGS(String tags_name, int tags_id){
+        for(int i = 0 ; i < NEWS_MY_TAGS_ID.size(); i++){
+            if(NEWS_MY_TAGS_ID.get(i) == tags_id){
+                NEWS_MY_TAGS_ID.remove(i);
+                NEWS_MY_TAGS.remove(i);
+                return;
+            }
+        }
+//        NEWS_MY_TAGS_ID.remove(tags_id);
+//        NEWS_MY_TAGS.remove(tags_name);
+    }
+
 
     /**
      * TODO

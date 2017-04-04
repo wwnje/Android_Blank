@@ -51,6 +51,7 @@ import butterknife.ButterKnife;
 import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
+import orvnge.wwnje.com.fucknews.utils.SPUtils;
 import orvnge.wwnje.com.fucknews.utils.myCheckTools;
 import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.WelcomeActivity;
@@ -304,6 +305,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
 
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             boolean ifSuccess = false;
 
             FirstOpenAPP(mEmail, mPassword);
@@ -342,7 +349,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 .setNeutralButton("注册", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        BlankNetMehod.Register(getApplicationContext(), name, password);
+                                        BlankNetMehod.Register(LoginActivity.this, name, password);
                                     }
                                 }).show();
 
@@ -373,6 +380,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         mPasswordView.setError(getString(R.string.error_incorrect_password));
                         mPasswordView.requestFocus();
                     }
+
+                    SPUtils.setParam("finder", LoginActivity.this, "isNotFirstOpenApp", true);
 
                 }
             }, new Response.ErrorListener() {

@@ -34,11 +34,13 @@ import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.adapter.BlankItemsBaseAdapter;
 import orvnge.wwnje.com.fucknews.bean.BlankBaseItemsBean;
 import orvnge.wwnje.com.fucknews.data.FinderData;
+import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
+import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
 import orvnge.wwnje.com.fucknews.utils.MyApplication;
 
 /**
- * 标签界面
+ * 选择标签界面
  */
 public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -89,13 +91,28 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
             public void onItemClick(View view, int position) {
                 //此处实现onItemClick的接口
                 TextView tvRecycleViewItemText = (TextView) view.findViewById(R.id.item_tags_name);
+
+                int tags_id = blankItemsBaseAdapter.blankBaseItemsBeanList.get(position).getItem_id();
+
+                String tags_name = blankItemsBaseAdapter.blankBaseItemsBeanList.get(position).getItem_name();
+
                 //如果字体本来是黑色就变成红色，反之就变为黑色
-//                if (tvRecycleViewItemText.getCurrentTextColor() == Color.BLACK) {
-//                    tvRecycleViewItemText.setTextColor(Color.RED);
-//                    //订阅
-//                } else {
-//                    tvRecycleViewItemText.setTextColor(Color.BLACK);
-//                }
+                if (tvRecycleViewItemText.getCurrentTextColor() == Color.BLACK) {
+
+                    BlankNetMehod.Subscribe(getApplicationContext(), tags_id, "tags", "true");
+
+                    Finder_List_Data.ADD_MY_TAGS(tags_name, tags_id);
+
+                    tvRecycleViewItemText.setTextColor(Color.RED);
+                    //订阅
+                } else {
+
+                    BlankNetMehod.Subscribe(getApplicationContext(), tags_id, "tags", "false");
+
+                    Finder_List_Data.REMOVE_MY_TAGS(tags_name, tags_id);
+
+                    tvRecycleViewItemText.setTextColor(Color.BLACK);
+                }
             }
         });
 
