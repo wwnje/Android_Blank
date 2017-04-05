@@ -49,7 +49,7 @@ public class ZhiHuActivity extends AppCompatActivity implements View.OnClickList
 
     private String slug;
     private String title;
-    int news_id;
+    int news_id, tags_id;
     boolean isLike;
     int position;
     int frag_id;
@@ -79,6 +79,9 @@ public class ZhiHuActivity extends AppCompatActivity implements View.OnClickList
         title = intent.getStringExtra("title");
         slug = intent.getStringExtra("slug");
         news_id = getIntent().getIntExtra("news_id", 0);
+        tags_id = getIntent().getIntExtra("tags_id", 0);
+
+
         isLike = getIntent().getBooleanExtra("is_like", false);
         position = getIntent().getIntExtra("position", 0);
         frag_id = getIntent().getIntExtra("frag_id", 0);
@@ -235,18 +238,18 @@ public class ZhiHuActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         String text;
         if(btn_like.getText() == VariateName.LIKED){
-            BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getApplicationContext(), news_id, VariateName.ADDLIKE,"false");
+            BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getApplicationContext(), news_id, tags_id, VariateName.ADDLIKE,"false");
             isLike = false;
             text = VariateName.LIKE;
         }else {
-            BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getApplicationContext(), news_id, VariateName.ADDLIKE,"true");
+            BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getApplicationContext(), news_id, tags_id, VariateName.ADDLIKE,"true");
             isLike = true;
             text = VariateName.LIKED;
         }
         Finder_List_Data.Fragments.get(frag_id).mNewsAdapter.newsBeen.get(position).setLike(isLike);
         Log.d(TAG, "onClick: " + Finder_List_Data.Fragments.get(frag_id).getArguments().getString("type"));
         btn_like.setText(text);
-        Toast.makeText(this, text + news_id + title, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, text + news_id + title + tags_id, Toast.LENGTH_SHORT).show();
         //对应Frag的bean更改 isLike
     }
 }

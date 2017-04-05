@@ -169,6 +169,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
                     intent.putExtra("title", newsBeen.get(position).getTitle());//参数给下一个activity
                     intent.putExtra("slug", BlankUtils.WhichUrl(newsBeen.get(position).getContent_url()));//参数给下一个activity
                     intent.putExtra("news_id", newsBeen.get(position).getNews_id());//参数给下一个activity
+                    intent.putExtra("tags_id", newsBeen.get(position).getTags_id());//参数给下一个activity
+
+
                     intent.putExtra("is_like", isLike);//参数给下一个activity
                     intent.putExtra("position", position);//参数给下一个activity
                     intent.putExtra("frag_id", frag_id);//参数给下一个activity
@@ -183,6 +186,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
                     intent.putExtra("img", newsBeen.get(position).getPic_url());//参数给下一个activity
                     intent.putExtra("title", newsBeen.get(position).getTitle());//参数给下一个activity
                     intent.putExtra("news_id", newsBeen.get(position).getNews_id());//参数给下一个activity
+                    intent.putExtra("tags_id", newsBeen.get(position).getTags_id());//参数给下一个activity
+
+
                     intent.putExtra("is_like", isLike);//参数给下一个activity
                     intent.putExtra("position", position);//参数给下一个activity
                     intent.putExtra("frag_id", frag_id);//参数给下一个activity

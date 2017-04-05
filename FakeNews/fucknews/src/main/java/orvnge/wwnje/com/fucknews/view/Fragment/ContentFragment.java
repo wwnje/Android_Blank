@@ -100,13 +100,14 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 Button btn_bookmark = (Button) view.findViewById(R.id.btn_bookmark);
                 String str_book = btn_bookmark.getText().toString();
                 int news_id = mNewsAdapter.newsBeen.get(position).getNews_id();
+                int tags_id = mNewsAdapter.newsBeen.get(position).getTags_id();
 
                 if (str_book.equals(VariateName.BookMark)) {
-                    BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getContext(), news_id, VariateName.ADDBOOKMARK, "true");
+                    BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getContext(), news_id,tags_id, VariateName.ADDBOOKMARK, "true");
                     bookmarkText = VariateName.BookMarked;
                     index = pressed;
                 } else {
-                    BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getContext(), news_id, VariateName.ADDBOOKMARK, "false");
+                    BlankNetMehod.NewsClick_LIKE_OR_BOOKMARK(getContext(), news_id,tags_id, VariateName.ADDBOOKMARK, "false");
                     bookmarkText = VariateName.BookMark;
                     index = unpressed;
                 }
@@ -114,7 +115,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 btn_bookmark.setBackgroundResource(pressed);
                 btn_bookmark.setText(bookmarkText);
 
-
+                Toast.makeText(getActivity(), "书签操作" + bookmarkText + news_id + tags_id, Toast.LENGTH_SHORT).show();
             }
         });
     }

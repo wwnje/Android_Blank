@@ -75,9 +75,12 @@ public class HomeActivity extends BaseActivity {
         //TODO
         //Finder_List_Data.Finder_List_Get(context);//本地用户订阅数据
 
-        //初始化我订阅的标签
-        BlankNetMehod.GetMyTags(getApplicationContext(), 0, 1000);
-        BlankNetMehod.GetMyTypes(context);//网络获取订阅数据
+        if(FinderData.isLogin){
+            //初始化我订阅的标签
+            BlankNetMehod.GetMyTags(getApplicationContext(), 0, 1000);
+            BlankNetMehod.GetMyTypes(context);//网络获取订阅数据
+        }
+
 
     }
 
@@ -167,7 +170,7 @@ public class HomeActivity extends BaseActivity {
                                         String name = edit_name.getText().toString();
                                         String pwd = edit_password.getText().toString();
                                         if (myCheckTools.CheckLength(name, 10) && myCheckTools.CheckLength(pwd, 10) && !name.isEmpty() && !pwd.isEmpty()) {
-                                            BlankNetMehod.Register(getApplicationContext(), name, pwd);
+                                            BlankNetMehod.Register(HomeActivity.this, name, pwd);
                                             Toast.makeText(mActivity, "正在注册,稍等", Toast.LENGTH_SHORT).show();
                                         } else {
                                             Toast.makeText(HomeActivity.this, "姓名和密码不能为空并且10位以内", Toast.LENGTH_SHORT).show();
