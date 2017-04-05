@@ -1,6 +1,6 @@
 <?php
 
-	$con = mysql_connect("www.wwnje.com", "root", "mysqladmin");
+	$con = mysql_connect("localhost", "root", "mysqladmin");
 	//设置字符集为utf8
 	mysql_query("SET NAMES 'utf8'");
 	mysql_query("SET CHARACTER SET utf8");

@@ -27,17 +27,20 @@ function Create_OR_UPDATE_SEED($subType, $finder_id, $tags_id){
     $r = mysql_fetch_row($q_seed);
     $r = $r[0];
 
-    $seed_type = 0;
+    $seed_type_like_count = 0;
+    $seed_type_bookmark_count = 0;
+
     $count = 0;
 
     if($r == 0){
         if($subType == "bookmark"){
-            $seed_type = 1;
+            $seed_type_bookmark_count ++;
         }else if($subType == "like"){
-            $seed_type = 2;
+            $seed_type_like_count ++;
         }
+
         $count++;
-        $sql_insert_seed = "insert into finder_seed (seed_type, tags_id, finder_id, count) values('$seed_type', '$tags_id', '$finder_id', '$count') ";
+        $sql_insert_seed = "insert into finder_seed (seed_type_like_count, tags_id, finder_id, count, seed_type_bookmark_count) values('$seed_type_like_count', '$tags_id', '$finder_id', '$count', '$seed_type_bookmark_count') ";
 
         if(!mysql_query($sql_insert_seed)){
             echo "插入种子失败！".mysql_error();
@@ -45,7 +48,33 @@ function Create_OR_UPDATE_SEED($subType, $finder_id, $tags_id){
             echo "插入种子成功！";
         }
     }else{
-        echo "已经存在";
+
+        echo "已经存在------";
+
+        $q_seed_update = mysql_query("select * from finder_seed where tags_id = '$tags_id' AND finder_id = '$finder_id'");
+
+        while ($row_seed = mysql_fetch_array($q_seed_update))
+        {
+
+            echo "进入 更新种子开始------";
+
+            $seed_type_bookmark_count = $row_seed["seed_type_bookmark_count"];
+            $seed_type_like_count = $row_seed["seed_type_like_count"];
+
+            $count = $row_seed["count"];
+            $count ++;
+
+            if($subType == "bookmark"){
+                $seed_type_bookmark_count ++;
+            }else if($subType == "like"){
+                $seed_type_like_count ++;
+            }
+            echo "更新种子开始------".$seed_type_bookmark_count.$seed_type_like_count;
+
+            mysql_query("UPDATE finder_seed SET count = '$count', seed_type_bookmark_count = '$seed_type_bookmark_count' , seed_type_like_count = '$seed_type_like_count' where tags_id = '$tags_id' AND finder_id = '$finder_id'");
+
+            echo "更新种子成功------";
+        }
     }
 }
 
