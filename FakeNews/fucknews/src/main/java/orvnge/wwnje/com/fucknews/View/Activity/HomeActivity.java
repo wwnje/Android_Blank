@@ -80,8 +80,6 @@ public class HomeActivity extends BaseActivity {
             BlankNetMehod.GetMyTags(getApplicationContext(), 0, 1000);
             BlankNetMehod.GetMyTypes(context);//网络获取订阅数据
         }
-
-
     }
 
     private void initFragment(Bundle savedInstanceState) {
