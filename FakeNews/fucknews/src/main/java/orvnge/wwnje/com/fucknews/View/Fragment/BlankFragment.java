@@ -34,6 +34,7 @@ import orvnge.wwnje.com.fucknews.LogUtil;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.TestActivity;
 import orvnge.wwnje.com.fucknews.data.CheckString;
+import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
 import orvnge.wwnje.com.fucknews.data.SPData;
 import orvnge.wwnje.com.fucknews.utils.BlankUtils;
@@ -332,6 +333,11 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
         Finder_List_Data.NEWS_TYPE_NAME.add("Blank");
         Finder_List_Data.NEWS_TYPE_ID.add(0);
 
+        //如果登陆了 有推荐项
+        if(FinderData.isLogin){
+            Finder_List_Data.NEWS_TYPE_NAME.add("Suggest");
+            Finder_List_Data.NEWS_TYPE_ID.add(-1);
+        }
 
         for(int i = 0; i < Finder_List_Data.NEWS_TYPE_NAME.size(); i++){
             ContentFragment newfragment = new ContentFragment();

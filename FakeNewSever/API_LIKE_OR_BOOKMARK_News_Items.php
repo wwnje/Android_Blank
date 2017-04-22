@@ -10,6 +10,9 @@
 
 require 'mysql_connect.php';
 
+date_default_timezone_set('PRC');//设置时间
+
+
 $items_id = $_POST['news_id'];
 $tags_id = $_POST['tags_id'];
 $finder_id = $_POST['finder_id'];
@@ -56,7 +59,10 @@ function Create_OR_UPDATE_SEED($subType, $finder_id, $tags_id){
         while ($row_seed = mysql_fetch_array($q_seed_update))
         {
 
-            echo "进入 更新种子开始------";
+            $date = date('Y-m-d H:i:s');
+
+            echo "进入 更新种子开始------当前时间";
+            echo $date;
 
             $seed_type_bookmark_count = $row_seed["seed_type_bookmark_count"];
             $seed_type_like_count = $row_seed["seed_type_like_count"];
@@ -71,7 +77,7 @@ function Create_OR_UPDATE_SEED($subType, $finder_id, $tags_id){
             }
             echo "更新种子开始------".$seed_type_bookmark_count.$seed_type_like_count;
 
-            mysql_query("UPDATE finder_seed SET count = '$count', seed_type_bookmark_count = '$seed_type_bookmark_count' , seed_type_like_count = '$seed_type_like_count' where tags_id = '$tags_id' AND finder_id = '$finder_id'");
+            mysql_query("UPDATE finder_seed SET time = '$date', count = '$count', seed_type_bookmark_count = '$seed_type_bookmark_count' , seed_type_like_count = '$seed_type_like_count' where tags_id = '$tags_id' AND finder_id = '$finder_id'");
 
             echo "更新种子成功------";
         }

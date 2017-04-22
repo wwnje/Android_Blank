@@ -237,6 +237,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         params.put("type_id", String.valueOf(type_id));
         params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
 
+        Log.d(TAG, "getNews: " + type_id + ":" + String.valueOf(FinderData.FINDER_ID));
         JSONObject paramJsonObject = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
@@ -268,6 +269,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getActivity(), "刷新出错" + error.toString(), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onErrorResponse: " +  error.toString());
             }
         }) {
             @Override
@@ -311,6 +313,13 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
             data.setTags_id(tags_id);
 
             newsNow.add(data);
+
+            Log.d(TAG, "onResponse: " + title);
+            Log.d(TAG, "onResponse: " + news_id);
+            Log.d(TAG, "onResponse: " + finder);
+            Log.d(TAG, "onResponse: " + content_url);
+
+
             //mNewsAdapter.add(data);
         } catch (JSONException e) {
             e.printStackTrace();
