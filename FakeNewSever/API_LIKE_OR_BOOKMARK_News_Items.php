@@ -43,6 +43,7 @@ function Create_OR_UPDATE_SEED($subType, $finder_id, $tags_id){
         }
 
         $count++;
+
         $sql_insert_seed = "insert into finder_seed (seed_type_like_count, tags_id, finder_id, count, seed_type_bookmark_count) values('$seed_type_like_count', '$tags_id', '$finder_id', '$count', '$seed_type_bookmark_count') ";
 
         if(!mysql_query($sql_insert_seed)){

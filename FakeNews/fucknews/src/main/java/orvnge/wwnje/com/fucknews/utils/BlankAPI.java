@@ -38,12 +38,12 @@ public class BlankAPI {
     public static  String GET_BOOKMARK_URL = "http://www.wwnje.com/FakeNews/API_GetBookMark.php";//获取所有书签
     public static  String GET_LIKELIST_URL = "http://www.wwnje.com/FakeNews/API_GetLikeList.php";//获取喜欢的列表
 
-    public static  String GET_MY_NEWS_URL = "http://www.wwnje.com/FakeNews/API_Get_My_Shared_News.php.php";//获取我所有发布的
+    public static  String GET_MY_SHARED_NEWS = "http://www.wwnje.com/FakeNews/API_GetMyNews.php";//获取我所有发布的
 
     /**
      * 获取新闻内容
      */
-    public static  String GET_NEWS_URL = "http://www.wwnje.com/FakeNews/APi_Get_NEWS.php";
+    public static  String GET_NEWS_URL = "http://www.wwnje.com/FakeNews/API_Get_NEWS.php";
 
     //知乎
     public static String BASE_URL = "https://zhuanlan.zhihu.com/api/columns/";
