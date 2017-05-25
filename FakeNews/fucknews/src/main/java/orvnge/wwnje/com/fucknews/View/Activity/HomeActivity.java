@@ -241,6 +241,11 @@ public class HomeActivity extends BaseActivity {
                     startActivity(new Intent(HomeActivity.this, BlankNewsTypeActivity.class));
                     break;
 
+                //观看历史
+                case R.id.nav_history:
+                    startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+                    break;
+
                 case R.id.nav_bookmark://书签
                     if (FinderData.isLogin) {
                         startActivity(new Intent(HomeActivity.this, BookMarkActivity.class));

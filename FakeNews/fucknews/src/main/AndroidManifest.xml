@@ -80,12 +80,15 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-
+        <activity
+            android:name=".view.Activity.HistoryActivity"
+            android:label="@string/title_activity_login" />
         <activity
             android:name=".view.Activity.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
             android:theme="@style/FullscreenTheme"></activity>
+
     </application>
 
 </manifest>

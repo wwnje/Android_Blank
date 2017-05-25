@@ -40,6 +40,8 @@ public class BlankAPI {
 
     public static  String GET_MY_SHARED_NEWS = "http://www.wwnje.com/FakeNews/API_GetMyNews.php";//获取我所有发布的
 
+    public static  String GET_HISTORY = "http://wwnje.com/FakeNews/API_GetHistory.php";//获取历史消息
+
     /**
      * 获取新闻内容
      */

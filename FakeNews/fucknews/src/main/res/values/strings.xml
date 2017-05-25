@@ -70,7 +70,9 @@
     <string name="nav_tags">所有标签:</string>
     <string name="nav_my_tags">我订阅的标签:</string>
     <string name="nav_types">类型:</string>
+    <string name="nav_history">查看历史:</string>
     <string name="title_activity_login">Sign in</string>
+
 
     <!-- Strings related to login -->
     <string name="prompt_email">Username</string>
