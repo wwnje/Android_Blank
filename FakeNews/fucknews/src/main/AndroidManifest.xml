@@ -78,10 +78,13 @@
         <activity android:name=".view.Activity.NewTagsActivity" />
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".view.Activity.LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
             android:name=".view.Activity.HistoryActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".view.Activity.FirstChooseTypeActivity"
             android:label="@string/title_activity_login" />
         <activity
             android:name=".view.Activity.FullscreenActivity"

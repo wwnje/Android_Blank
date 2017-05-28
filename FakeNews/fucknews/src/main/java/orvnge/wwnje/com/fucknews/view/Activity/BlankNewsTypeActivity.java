@@ -50,7 +50,7 @@ import static orvnge.wwnje.com.fucknews.data.Finder_List_Data.NEWS_TYPE_NAME;
 
 public class BlankNewsTypeActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, BlankItemsBaseAdapter.OnItemClickListener, BlankItemsBaseAdapter.OnLongItemClickListener {
 
-    private static final String TAG = "TagsActivity";
+    private static final String TAG = "BlankNewsTypeActivity";
     private DatabaseHelper dbHelper;
 
     @Bind(R.id.itemsbase_recycleview)

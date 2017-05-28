@@ -1,9 +1,8 @@
-package orvnge.wwnje.com.fucknews;
+package orvnge.wwnje.com.fucknews.view.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -40,7 +39,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,13 +46,11 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.utils.BlankAPI;
 import orvnge.wwnje.com.fucknews.utils.BlankNetMehod;
 import orvnge.wwnje.com.fucknews.utils.SPUtils;
-import orvnge.wwnje.com.fucknews.utils.myCheckTools;
-import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
-import orvnge.wwnje.com.fucknews.view.Activity.WelcomeActivity;
 
 
 /**
@@ -381,8 +377,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         mPasswordView.requestFocus();
                     }
 
+                    //设置成已经打开过第一次了
                     SPUtils.setParam("finder", LoginActivity.this, "isNotFirstOpenApp", true);
-
                 }
             }, new Response.ErrorListener() {
                 @Override

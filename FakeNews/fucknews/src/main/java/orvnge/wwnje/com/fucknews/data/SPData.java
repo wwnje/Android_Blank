@@ -30,4 +30,6 @@ public class SPData {
         SPUtils.setParam(SPData.ss_news_name, context, SPData.news_desc, "");
         SPUtils.setParam(SPData.ss_news_name, context, SPData.news_tags_name, "");
     }
+
+    //在登录到
 }

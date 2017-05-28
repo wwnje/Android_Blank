@@ -40,9 +40,11 @@ import orvnge.wwnje.com.fucknews.data.SPData;
 import orvnge.wwnje.com.fucknews.utils.BlankUtils;
 import orvnge.wwnje.com.fucknews.utils.CODE;
 import orvnge.wwnje.com.fucknews.utils.SPUtils;
+import orvnge.wwnje.com.fucknews.view.Activity.LoginActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.HomeActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.TwentyActivity;
+import orvnge.wwnje.com.fucknews.view.Activity.WelcomeActivity;
 
 
 /**

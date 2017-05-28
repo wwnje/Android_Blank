@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import orvnge.wwnje.com.fucknews.LoginActivity;
 import orvnge.wwnje.com.fucknews.R;
 import orvnge.wwnje.com.fucknews.data.FinderData;
 

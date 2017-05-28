@@ -314,12 +314,6 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
             newsNow.add(data);
 
-            Log.d(TAG, "onResponse: " + title);
-            Log.d(TAG, "onResponse: " + news_id);
-            Log.d(TAG, "onResponse: " + finder);
-            Log.d(TAG, "onResponse: " + content_url);
-
-
             //mNewsAdapter.add(data);
         } catch (JSONException e) {
             e.printStackTrace();

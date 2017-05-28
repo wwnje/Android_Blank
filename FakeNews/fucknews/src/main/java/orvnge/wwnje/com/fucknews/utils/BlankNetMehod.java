@@ -1,12 +1,9 @@
 package orvnge.wwnje.com.fucknews.utils;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -22,7 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,9 +26,9 @@ import orvnge.wwnje.com.fucknews.data.CheckString;
 import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.data.Finder_List_Data;
 import orvnge.wwnje.com.fucknews.data.SPData;
+import orvnge.wwnje.com.fucknews.view.Activity.BlankNewsTypeActivity;
+import orvnge.wwnje.com.fucknews.view.Activity.FirstChooseTypeActivity;
 import orvnge.wwnje.com.fucknews.view.Activity.NewTagsActivity;
-import orvnge.wwnje.com.fucknews.view.Activity.ShareNewsActivity;
-import orvnge.wwnje.com.fucknews.view.Activity.TagsActivity;
 
 /**
  * Created by Administrator on 2017/1/31.
@@ -115,13 +111,17 @@ public class BlankNetMehod {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //context.startActivity(new Intent(context, TagsActivity.class));
 
+                Log.d(TAG, "Register onResponse: " + response.toString());
+                String finder_id = response.toString();
 
-                Intent intent = new Intent(context, TagsActivity.class);
+                //保存信息
+                FinderData.SetLoginData(context, name, password, Integer.parseInt(finder_id));
+
+                //注册完进入选择类型界面
+                Intent intent = new Intent(context, FirstChooseTypeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
-
             }
         }, new Response.ErrorListener() {
             @Override

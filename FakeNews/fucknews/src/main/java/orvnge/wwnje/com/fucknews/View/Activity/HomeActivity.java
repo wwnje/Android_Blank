@@ -27,7 +27,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.orvnge.xutils.recyclevIew.RecycleViewActivity;
 
-import orvnge.wwnje.com.fucknews.LoginActivity;
 import orvnge.wwnje.com.fucknews.data.FinderData;
 import orvnge.wwnje.com.fucknews.other.AppConstants;
 import orvnge.wwnje.com.fucknews.LogUtil;
@@ -189,7 +188,6 @@ public class HomeActivity extends BaseActivity {
                                         }
                                     }
                                 }).show();
-
                     }
                     break;
 
