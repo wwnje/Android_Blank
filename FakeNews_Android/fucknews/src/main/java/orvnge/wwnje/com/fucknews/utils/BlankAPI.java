@@ -42,7 +42,7 @@ public class BlankAPI {
 
     public static  String GET_HISTORY = "http://wwnje.com/FakeNews/API_GetHistory.php";//获取历史消息
 
-    public static  String GET_SYS = "http://wwnje.com/FakeNews/API_GetHistory.php";//获取历史消息
+    public static  String GET_SYS = "http://wwnje.com/FakeNews/_SYS.php";//退出 执行推荐操作
 
     /**
      * 获取新闻内容

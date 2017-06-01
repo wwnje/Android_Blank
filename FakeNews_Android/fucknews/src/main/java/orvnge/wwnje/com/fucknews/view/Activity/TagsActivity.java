@@ -240,6 +240,4 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
             e.printStackTrace();
         }
     }
-
-
 }

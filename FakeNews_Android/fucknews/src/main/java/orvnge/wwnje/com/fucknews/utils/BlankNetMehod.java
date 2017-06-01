@@ -486,9 +486,43 @@ public class BlankNetMehod {
     }
 
     /**
-     * 获取我的新闻订阅标签
+     * 退出时执行 下次登录获得推荐信息
      * @param context
      */
+    public static void GET_SYS(final Context context) {//传递进来
+        Map<String, String> params = new HashMap<String, String>();
+
+        if(!FinderData.isLogin){
+            return;
+        }
+        params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
+
+        JSONObject paramJsonObject = new JSONObject(params);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                BlankAPI.GET_SYS,
+                paramJsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Toast.makeText(context, "SYS Success", Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "SYS Error" + error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        MyApplication.getRequestQueue().add(jsonObjectRequest);
+    }
+
     public static void GetMyTypes(final Context context) {//传递进来
         Map<String, String> params = new HashMap<String, String>();
 

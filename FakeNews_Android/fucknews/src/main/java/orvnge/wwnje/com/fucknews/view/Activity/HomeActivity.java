@@ -404,5 +404,6 @@ public class HomeActivity extends BaseActivity {
     public void finish() {
         super.finish();
         Log.d(TAG, "finish: 退出 准备开始推荐计算");
+        BlankNetMehod.GET_SYS(context);
     }
 }
