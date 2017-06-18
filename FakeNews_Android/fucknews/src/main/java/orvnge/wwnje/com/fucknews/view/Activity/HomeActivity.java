@@ -241,9 +241,9 @@ public class HomeActivity extends BaseActivity {
                     break;
 
                 //观看历史
-                case R.id.nav_history:
-                    startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
-                    break;
+//                case R.id.nav_history:
+//                    startActivity(new Intent(HomeActivity.this, HistoryActivity.class));
+//                    break;
 
                 case R.id.nav_bookmark://书签
                     if (FinderData.isLogin) {
@@ -266,24 +266,24 @@ public class HomeActivity extends BaseActivity {
                     }
                     break;
 
-                case R.id.v_t:
-                    Toast.makeText(mActivity, test.get("hello"), Toast.LENGTH_SHORT).show();
-                    //startActivity(new Intent(HomeActivity.this, GitHubActivity.class));
-                    startActivity(new Intent(HomeActivity.this, RecycleViewActivity.class));
-                    break;
+//                case R.id.v_t:
+//                    Toast.makeText(mActivity, test.get("hello"), Toast.LENGTH_SHORT).show();
+//                    //startActivity(new Intent(HomeActivity.this, GitHubActivity.class));
+//                    startActivity(new Intent(HomeActivity.this, RecycleViewActivity.class));
+//                    break;
 
                 case R.id.v_data:
                     startActivity(new Intent(HomeActivity.this, DataActivity.class));
                     break;
 
-                case R.id.v_add:
-                    startActivity(new Intent(HomeActivity.this, testUserActivity.class));
-                    //BlankFragment.AddNewItem("测试");
-                    break;
+//                case R.id.v_add:
+//                    startActivity(new Intent(HomeActivity.this, testUserActivity.class));
+//                    //BlankFragment.AddNewItem("测试");
+//                    break;
 
-                case R.id.v_remove:
-                    BlankFragment.removeCurrentItem();
-                    break;
+//                case R.id.v_remove:
+//                    BlankFragment.removeCurrentItem();
+//                    break;
                 case R.id.v_login:
                     startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                     break;

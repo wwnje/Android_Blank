@@ -27,7 +27,7 @@ public class DataActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         tv.setText(FinderData.GetALLData());
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item, Finder_List_Data.NEWS_TYPE_NAME);
-        test_spinner_select_tag.setAdapter(arrayAdapter);
+//        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item, Finder_List_Data.NEWS_TYPE_NAME);
+//        test_spinner_select_tag.setAdapter(arrayAdapter);
     }
 }

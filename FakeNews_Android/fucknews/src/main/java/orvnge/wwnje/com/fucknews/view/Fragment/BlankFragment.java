@@ -332,6 +332,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
         Finder_List_Data.NEWS_TYPE_NAME = new ArrayList<>();
 
         Bundle data;
+        Finder_List_Data.Init();//初始化
 
         //如果登陆了 有推荐项
         if(FinderData.isLogin){
@@ -370,7 +371,7 @@ public class BlankFragment extends BaseFragment  implements TextProvider, View.O
         data = new Bundle();
 
         data.putInt("id", Finder_List_Data.NEWS_TYPE_NAME.size());
-        data.putString("type", type_name);
+        data.putString("type", type_name + type_id);
         data.putInt("type_id", type_id);
 
         newfragment.setArguments(data);

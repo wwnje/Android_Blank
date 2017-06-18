@@ -24,9 +24,9 @@
             <item
                 android:id="@+id/nav_news_type"
                 android:title="@string/nav_types" />
-            <item
-                android:id="@+id/nav_history"
-                android:title="@string/nav_history" />
+            <!--<item-->
+                <!--android:id="@+id/nav_history"-->
+                <!--android:title="@string/nav_history" />-->
         </menu>
     </item>
 
@@ -45,18 +45,18 @@
     <item android:title="其他">
 
         <menu>
-            <item
-                android:id="@+id/v_t"
-                android:title="RecycleView测试" />
+            <!--<item-->
+                <!--android:id="@+id/v_t"-->
+                <!--android:title="RecycleView测试" />-->
             <item
                 android:id="@+id/v_data"
                 android:title="查看数据" />
-            <item
-                android:id="@+id/v_add"
-                android:title="模拟测试" />
-            <item
-                android:id="@+id/v_remove"
-                android:title="去除" />
+            <!--<item-->
+                <!--android:id="@+id/v_add"-->
+                <!--android:title="模拟测试" />-->
+            <!--<item-->
+                <!--android:id="@+id/v_remove"-->
+                <!--android:title="去除" />-->
 
             <item
                 android:id="@+id/v_login"

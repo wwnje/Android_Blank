@@ -163,12 +163,12 @@ public class BlankNetMehod {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
@@ -205,7 +205,7 @@ public class BlankNetMehod {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -258,12 +258,12 @@ public class BlankNetMehod {
                 if(r.equals(CheckString.NOT_FOUND_404)){
 
                     //没有进行添加
-                    Toast.makeText(context, CheckString.Share_6 + tags_name, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, CheckString.Share_6 + tags_name, Toast.LENGTH_SHORT).show();
                     context.startActivity(new Intent(context, NewTagsActivity.class));
 
                 }else{
                     //存在就直接分享和订阅
-                    Toast.makeText(context, CheckString.Share_5, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, CheckString.Share_5, Toast.LENGTH_SHORT).show();
 
                     Subscribe(context, Integer.parseInt(r), "tags", "true");
                     Share_NEWS(context);
@@ -319,10 +319,10 @@ public class BlankNetMehod {
                 String r = response.toString();
 
                 if(r.equals(CheckString.INSERT_ERROR_201)){
-                    Toast.makeText(context, "插入失败", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "插入失败", Toast.LENGTH_SHORT).show();
                     isAddTagYes = false;
                 }else{
-                    Toast.makeText(context, "插入成功, 准备直接上传", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "插入成功, 准备直接上传", Toast.LENGTH_SHORT).show();
                     isAddTagYes = true;
                     //顺便直接订阅了
                     Subscribe(context, Integer.parseInt(r), "tags", "true");
@@ -396,10 +396,10 @@ public class BlankNetMehod {
                 String tip = response.toString();
 
                 if(tip.equals("200")){
-                    Toast.makeText(context, CheckString.Share_7, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, CheckString.Share_7, Toast.LENGTH_SHORT).show();
                     SPData.Clear_SS_NEWS_NAME(context);
                 }else {
-                    Toast.makeText(context, tip, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(context, tip, Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -464,7 +464,7 @@ public class BlankNetMehod {
 
                                 //TODO 保存到数据库
                             }
-                            Toast.makeText(context, "获取订阅标签完成", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, "获取订阅标签完成", Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -505,7 +505,7 @@ public class BlankNetMehod {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(context, "SYS Success", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "SYS Success", Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -527,7 +527,7 @@ public class BlankNetMehod {
         Map<String, String> params = new HashMap<String, String>();
 
         params.put("finder_id", String.valueOf(FinderData.FINDER_ID));
-        Toast.makeText(context, "正在获取我的订阅新闻类型", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "正在获取我的订阅新闻类型", Toast.LENGTH_SHORT).show();
 
         JSONObject paramJsonObject = new JSONObject(params);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -556,7 +556,7 @@ public class BlankNetMehod {
                                 db.insert(DatabaseHelper.DB_TABLE_NEWSTYPE_LOCAL, null, values);//插入第一条数据
                                 values.clear();*/
                             }
-                            Toast.makeText(context, "获取新闻订阅标签完成", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, "获取新闻订阅标签完成", Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

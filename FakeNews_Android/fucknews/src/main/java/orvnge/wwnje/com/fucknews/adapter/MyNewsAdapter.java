@@ -79,11 +79,7 @@ public class MyNewsAdapter extends RecyclerView.Adapter<MyNewsAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
         holder.tags_name.setText(newsBeenList.get(position).getNews_id() +
-                newsBeenList.get(position).getTitle() +
-                newsBeenList.get(position).getTags_id() +
-                newsBeenList.get(position).getDesc() +
-                newsBeenList.get(position).getContent_url() +
-                newsBeenList.get(position).getType()
+                newsBeenList.get(position).getTitle()
         );
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {

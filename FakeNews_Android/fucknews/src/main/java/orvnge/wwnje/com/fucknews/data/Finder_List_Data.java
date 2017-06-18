@@ -33,6 +33,11 @@ public class Finder_List_Data {
     public static ArrayList<ContentFragment> Fragments = new ArrayList<>();
     public static List<Integer> NEWS_TYPE_ID = new ArrayList<>();
 
+    public static void Init(){
+        NEWS_TYPE_NAME = new ArrayList<>();
+        ArrayList<ContentFragment> Fragments = new ArrayList<>();
+        NEWS_TYPE_ID = new ArrayList<>();
+    }
 
     /**
      * 所有标签

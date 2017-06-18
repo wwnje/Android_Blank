@@ -3,6 +3,9 @@ package orvnge.wwnje.com.fucknews.data;
 import android.content.Context;
 
 import orvnge.wwnje.com.fucknews.utils.SPUtils;
+import orvnge.wwnje.com.fucknews.view.Fragment.BlankFragment;
+
+import static orvnge.wwnje.com.fucknews.data.Finder_List_Data.NEWS_TYPE_NAME;
 
 /**
  * Created by wwnje on 2017/2/20.
@@ -54,6 +57,17 @@ public class FinderData {
         FinderName = "";
         isLogin = false;
         FINDER_ID = -1;
+
+        for (int i= 0;i < NEWS_TYPE_NAME.size(); i++){
+            String check = NEWS_TYPE_NAME.get(i);
+            if(check.equals("Blank") ||check.equals("今日推荐") )
+            {
+                continue;
+            }else {
+                BlankFragment.DeleteItem(i);
+                break;
+            }
+        }
     }
 
     /**
@@ -77,8 +91,7 @@ public class FinderData {
                 "id:" + FINDER_ID +
                 "\nisLogin:" + isLogin +
                 "\nTagsVersion:" + TagsVersion +
-                "\nMyTagsVersion: " + MyTagsVersion +
-                "\nPassword:" + Password
+                "\nMyTagsVersion: " + MyTagsVersion
                 ;
     }
 }

@@ -152,7 +152,7 @@ public class TagsActivity extends AppCompatActivity implements SwipeRefreshLayou
         protected Long doInBackground(String... params) {
             // TODO Auto-generated method stub
             Log.d(TAG, "doInBackground params[0]=" + params[0]);
-            getALLTags(0, 20);//请求
+            getALLTags(0, 1000);//请求
             //publishProgress(10);
             return 100L;
         }
